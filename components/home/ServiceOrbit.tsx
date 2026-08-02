@@ -23,6 +23,7 @@ import {
   TargetIcon,
   BulbIcon,
 } from "./orbit-icons";
+import { SERVICE_ENVIRONMENTS } from "./orbit-environment-icons";
 
 const ICON_BY_SERVICE: Record<string, (props: { className?: string }) => React.JSX.Element> = {
   strategy: TargetIcon,
@@ -108,6 +109,107 @@ function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number
           hidden, so screen-reader/keyboard behaviour is unchanged. */}
       <span className="sr-only">{service.title}</span>
     </NextLink>
+  );
+}
+
+/**
+ * Environmental storytelling around the orbit — a service-specific
+ * constellation of faint background icons (Film & Production's studio
+ * gear, Media Buying's charts, and so on) arranged in three rings
+ * tethered to the orbit's own centre, never brighter than 35% opacity,
+ * never touching the centre content or the orbit itself. Only ever one
+ * service's ecosystem is mounted — the crossfade below swaps the icon set
+ * on a single wrapper rather than keeping all six mounted, so this never
+ * carries six ecosystems' worth of always-running animations at once — a
+ * dozen or so CSS loops at rest, not six dozen.
+ *
+ * Position/size/opacity/animation-variant per icon is generated once at
+ * module load from a small (ring, angle) table (`buildEnvironment`,
+ * orbit-environment-icons.tsx), not computed at render time or from
+ * `Math.random()` — deterministic layout, no hydration mismatch risk, and
+ * the same "shape" of constellation every time keeps the composition
+ * consistent as the active service changes; only the icons filling it
+ * differ. The `orbit-env-*` keyframes (globals.css) are shared across
+ * every icon regardless of service — adding icons never adds new
+ * animation definitions.
+ *
+ * Gated to `xl:` (1280px+) — the fixed-size constellation box below needs
+ * genuine room around the orbit to read as atmosphere rather than
+ * clutter; showing it on a cramped viewport would just crowd the orbit
+ * it's meant to support.
+ */
+function OrbitEnvironment() {
+  const { activeServiceId } = useActiveService();
+  const [displayedId, setDisplayedId] = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
+  const fadeTimer = useRef<number | undefined>(undefined);
+
+  // Manual crossfade rather than AnimatePresence — one CSS opacity
+  // transition on a single wrapper, no mount/unmount machinery to manage.
+  // First paint has nothing to fade out (displayedId is still null), so it
+  // fades straight in; every change after that fades the current
+  // ecosystem out first, swaps the icon set, then fades the new one in.
+  //
+  // Split across two effects rather than one — the same fix as
+  // Preloader.tsx's stale-transition bug earlier in this project.
+  // `setDisplayedId` and `setVisible(true)` both landing in the *same*
+  // React commit meant the browser never actually painted the
+  // opacity:0 frame in between, so the CSS transition had nothing to
+  // interpolate from and the icons just... never visibly appeared.
+  // Two separate effects guarantees a real paint happens between the two
+  // state changes, same as the Preloader fix.
+  useEffect(() => {
+    if (!activeServiceId || activeServiceId === displayedId) return;
+
+    if (displayedId === null) {
+      setDisplayedId(activeServiceId);
+      return;
+    }
+
+    setVisible(false);
+    window.clearTimeout(fadeTimer.current);
+    fadeTimer.current = window.setTimeout(() => {
+      setDisplayedId(activeServiceId);
+    }, 700);
+    return () => window.clearTimeout(fadeTimer.current);
+  }, [activeServiceId, displayedId]);
+
+  useEffect(() => {
+    if (displayedId !== null) setVisible(true);
+  }, [displayedId]);
+
+  const items = (displayedId && SERVICE_ENVIRONMENTS[displayedId]) || [];
+
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute top-1/2 left-1/2 hidden h-[580px] w-[1180px] -translate-x-1/2 -translate-y-1/2 xl:block"
+    >
+      <div
+        className="ease-signature absolute inset-0 transition-opacity duration-700"
+        style={{ opacity: visible ? 1 : 0 }}
+      >
+        {items.map((item, i) => {
+          const Icon = item.Icon;
+          return (
+            <span
+              key={i}
+              className="env-icon text-teal absolute"
+              style={{
+                left: `${item.leftPct}%`,
+                top: `${item.topPct}%`,
+                transform: "translate(-50%, -50%)",
+                ["--env-o" as string]: item.opacity,
+                animation: `orbit-env-${item.variant} ${item.durationS}s ease-in-out infinite`,
+                animationDelay: `${item.delayS}s`,
+              }}
+            >
+              <Icon style={{ width: item.size, height: item.size }} />
+            </span>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
@@ -364,6 +466,7 @@ export function ServiceOrbit() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.09] [background:radial-gradient(50%_120%_at_50%_45%,var(--color-teal),transparent_70%)]"
       />
+      <OrbitEnvironment />
       <Reveal>
         <motion.div
           onHoverStart={slowDown}
