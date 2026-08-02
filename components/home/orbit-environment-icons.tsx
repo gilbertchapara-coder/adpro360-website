@@ -7,13 +7,13 @@ import type { SVGProps } from "react";
  * internal-animation complexity that earns its keep at hero scale would
  * just be wasted rendering cost out here.
  *
- * Positioned in three rings tethered to the orbit's own centre (see
- * `buildEnvironment` below) rather than scattered toward the page edges —
- * a constellation around the orbit, not decoration in the margins. Every
- * service reuses several of these icons (Target, Megaphone, Bars, Users)
- * rather than each getting 13 entirely bespoke shapes — keeps the palette
- * to ~35 icons total instead of ~78, without the six environments reading
- * as identical.
+ * Distributed across the full canvas outside a safe zone around the
+ * orbit (see `buildEnvironment` below) — a night sky, not a halo hugging
+ * the orbit or a scatter dumped at the page edges. Every service reuses
+ * several of these icons across its own list (Target, Megaphone, Globe,
+ * Bell) rather than each getting 24 entirely bespoke shapes — keeps the
+ * palette to ~48 icons total instead of ~144, without the six
+ * environments reading as identical.
  */
 
 type IconProps = SVGProps<SVGSVGElement>;
@@ -413,176 +413,322 @@ function IconStickyNoteRef(p: IconProps) {
   );
 }
 
+// ---- Added for the second composition pass — full-canvas density, more
+// service concepts requested (storyboard, briefcase, chess piece, TV,
+// press badge, etc.) ----
+function IconVideoPlay(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M10 8.5v7l6-3.5Z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function IconStoryboard(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="2.5" y="6" width="7" height="6" rx="1" />
+      <rect x="14.5" y="6" width="7" height="6" rx="1" />
+      <path d="M9.5 9h5M12 6.5l2-2M12 15v4M8 20h8" />
+    </svg>
+  );
+}
+function IconClipboard(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="5" y="4" width="14" height="17" rx="1.3" />
+      <rect x="9" y="2.3" width="6" height="3" rx="1" />
+      <path d="M8.5 11h7M8.5 15h7" />
+    </svg>
+  );
+}
+function IconCursorClick(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M6 3 6 15 9.5 12.5 12 18 14 17 11.5 11.5 16 11Z" />
+    </svg>
+  );
+}
+function IconChessPawn(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="12" cy="6" r="2.3" />
+      <path d="M9 12h6l1.5 6h-9Z" />
+      <path d="M8 20h8" />
+    </svg>
+  );
+}
+function IconBriefcase(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="3" y="8" width="18" height="12" rx="1.3" />
+      <path d="M8.5 8V6a1.5 1.5 0 0 1 1.5-1.5h4A1.5 1.5 0 0 1 15.5 6v2" />
+      <path d="M3 13h18" />
+    </svg>
+  );
+}
+function IconPuzzle(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M9 4h4v2.2a1.6 1.6 0 0 0 3 0V4h4v4h-2.2a1.6 1.6 0 0 0 0 3H20v4h-4v-2.2a1.6 1.6 0 0 0-3 0V15H9v-4H6.8a1.6 1.6 0 0 1 0-3H9Z" />
+    </svg>
+  );
+}
+function IconDirectionArrow(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M3 12h15M12 5l7 7-7 7" />
+    </svg>
+  );
+}
+function IconPressBadge(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="4" y="3" width="16" height="12" rx="1.3" />
+      <path d="M9 20l3-3 3 3M8 7.5h8M8 10.5h5" />
+    </svg>
+  );
+}
+function IconPodium(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M5 21h14M7 21V9h10v12M9 9V5h6v4" />
+    </svg>
+  );
+}
+function IconTV(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="2.5" y="5" width="19" height="13" rx="1.3" />
+      <path d="M9 21h6M8 2.5 12 5l4-2.5" />
+    </svg>
+  );
+}
+function IconBillboard(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="3" y="4" width="18" height="10" rx="1" />
+      <path d="M8 14v6M16 14v6M6 20h4M14 20h4" />
+    </svg>
+  );
+}
+function IconDataFlow(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <circle cx="5" cy="6" r="2" />
+      <circle cx="19" cy="6" r="2" />
+      <circle cx="12" cy="18" r="2" />
+      <path d="M6.7 7.3 10.5 16.3M17.3 7.3 13.5 16.3" />
+    </svg>
+  );
+}
+function IconCloud(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <path d="M7 18a4.5 4.5 0 0 1-.5-9 5.5 5.5 0 0 1 10.6-1.8A4 4 0 0 1 17 18Z" />
+    </svg>
+  );
+}
+function IconSocialFeed(p: IconProps) {
+  return (
+    <svg {...base} {...p}>
+      <rect x="4" y="4" width="16" height="16" rx="2" />
+      <path d="M8 9h8M8 12.5h8M8 16h5" />
+    </svg>
+  );
+}
+
 /**
- * Placement + micro-animation for one background icon — rebalanced from
- * edge-scattered to orbit-tethered: every icon's position is now a
- * (ring, angle) pair around the orbit's own centre rather than a raw
- * percentage of the full section, so the whole ecosystem reads as one
- * connected constellation instead of decoration near the page edges.
+ * Placement + micro-animation for one background icon — second pass:
+ * full-canvas distribution rather than a tight ring around the orbit.
+ * Every icon gets a polar position (angle + radius) outside a fixed "safe
+ * zone" that keeps the orbit and CentreStage clear, with radius *biased
+ * toward the outer edge* of the canvas (`Math.pow(t, DENSITY_BIAS)` below)
+ * so density genuinely increases outward — "stars surrounding a planet",
+ * not a halo hugging it.
  *
- * Three rings, each a fixed set of angles reused across every service —
- * same "shape" of constellation every time, just different icons filling
- * it, which keeps the composition consistent as the active service
- * changes rather than reshuffling. `RING` carries each tier's radius (as
- * a fraction of ORBIT_ENV_HALF_W/H below), size, and base opacity —
- * opacity stays inside the original 10/18/25/35% ceiling from the first
- * pass ("never brighter than the active orbit icon"); this pass's
- * "100/70/35%" depth request is implemented as relative tiers *within*
- * that ceiling (inner = the full 35%, middle ≈70% of it, outer ≈35% of
- * it) rather than literal 100% opacity, which would compete with the
- * orbit itself.
+ * Every numeric property (angle, radius, size, opacity, animation variant,
+ * duration, delay, drift distance, rotation) is drawn from a small
+ * deterministic pseudo-random function (`hashRand`), not `Math.random()`
+ * — a real `Math.random()` call here would produce a *different* layout
+ * on the server render than on the client's hydration pass, which React
+ * treats as a hydration mismatch. `hashRand` is a pure function of its
+ * seed, so server and client always agree, while still looking
+ * "generated" rather than hand-placed — which is exactly what this pass
+ * asked for.
  */
-type Ring = "inner" | "middle" | "outer";
-type Variant = "float" | "drift" | "rotate" | "glow" | "pulse" | "orbit";
+type Variant = "up" | "down" | "left" | "right" | "rotate" | "scale" | "opacity" | "orbit";
 
-const RING: Record<Ring, { radiusFrac: number; size: number; opacity: 0.12 | 0.25 | 0.35 }> = {
-  inner: { radiusFrac: 0.58, size: 34, opacity: 0.35 },
-  middle: { radiusFrac: 0.78, size: 27, opacity: 0.25 },
-  outer: { radiusFrac: 0.97, size: 21, opacity: 0.12 },
-};
+const VARIANTS: Variant[] = ["up", "down", "left", "right", "rotate", "scale", "opacity"];
 
-/** Angles in degrees, standard screen convention (0 = right, 90 = down,
- * 270/-90 = up — matching ServiceOrbit's own FEATURED_ANGLE). Same four
- * angles repeat across all three rings' worth of slots, offset from the
- * cardinal points so nothing lines up in a grid, and spread so every
- * quadrant gets 3+ icons (13 total: 4 inner + 5 middle + 4 outer). The
- * inner-ring slot at 290° sits nearest the orbit's own top/featured
- * position — that's the one icon per service that gets the "orbit"
- * highlight variant (see `.orbit-env-orbit` in globals.css). */
-const ANGLES: Record<Ring, number[]> = {
-  inner: [40, 130, 220, 290],
-  middle: [15, 95, 165, 245, 320],
-  outer: [55, 145, 235, 325],
-};
+/** Fraction of the container's half-extent, below which nothing is
+ * placed — keeps the orbit (rx 320 / ry 132 at its widest) and
+ * CentreStage clear. The container is sized in ServiceOrbit.tsx
+ * (1600×760), so 0.40 ≈ 320px×152px either side of centre — closely
+ * matching the orbit's own real extent with a small margin. */
+const SAFE_ZONE_FRAC = 0.4;
+/** How close to the container's own edge icons are allowed — kept just
+ * under 1.0 so nothing sits flush against the section's clip, avoiding a
+ * few very outer icons ever "shows a sliver". */
+const MAX_REACH_FRAC = 0.94;
+/** <1 biases the radius toward MAX_REACH_FRAC — density increases outward
+ * without a hard boundary between "sparse" and "dense". */
+const DENSITY_BIAS = 0.55;
+
+const ICONS_PER_SERVICE = 24;
+
+/** Deterministic 0..1 pseudo-random from a numeric seed — same output on
+ * server and client for the same seed, unlike Math.random(). */
+function hashRand(seed: number): number {
+  const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
 
 export type EnvIconPlacement = {
   Icon: (props: IconProps) => React.JSX.Element;
   leftPct: number;
   topPct: number;
   size: number;
-  opacity: 0.12 | 0.25 | 0.35;
+  opacity: number;
   variant: Variant;
   durationS: number;
   delayS: number;
+  driftPx: number;
+  rotateDeg: number;
 };
 
-/** Icons in ring/angle order — index 0..3 = inner (40/130/220/290°),
- * 4..8 = middle, 9..12 = outer. Index 3 (angle 290, inner ring) is the
- * "nearest the orbit's featured position" slot. */
-function buildEnvironment(icons: EnvIconPlacement["Icon"][]): EnvIconPlacement[] {
-  const slots: { ring: Ring; angle: number }[] = [
-    ...ANGLES.inner.map((angle) => ({ ring: "inner" as const, angle })),
-    ...ANGLES.middle.map((angle) => ({ ring: "middle" as const, angle })),
-    ...ANGLES.outer.map((angle) => ({ ring: "outer" as const, angle })),
-  ];
-  const variants: Variant[] = ["float", "drift", "rotate", "glow", "pulse"];
+/** `seed` is a per-service offset so each of the six ecosystems gets a
+ * genuinely different scatter pattern, not the same 24 positions with
+ * different icons dropped in. Icon 0 (the one nearest the orbit's own
+ * featured/top position, angle closest to 270°) is nudged just outside
+ * the safe zone and gets the "orbit" highlight variant — same "it
+ * noticed" pop as the previous pass, adapted to the new layout. */
+function buildEnvironment(icons: EnvIconPlacement["Icon"][], seed: number): EnvIconPlacement[] {
+  return Array.from({ length: ICONS_PER_SERVICE }, (_, i) => {
+    const s = seed + i * 97.13;
+    const angleDeg = hashRand(s + 1) * 360;
+    const rad = (angleDeg * Math.PI) / 180;
+    const radiusFrac =
+      SAFE_ZONE_FRAC + (MAX_REACH_FRAC - SAFE_ZONE_FRAC) * Math.pow(hashRand(s + 2), DENSITY_BIAS);
 
-  return slots.map((slot, i) => {
-    const rad = (slot.angle * Math.PI) / 180;
-    const { radiusFrac, size, opacity } = RING[slot.ring];
-    const isFeaturedNeighbour = slot.ring === "inner" && slot.angle === 290;
+    const isFeaturedNeighbour = i === 0;
+    const opacityBase = 0.35 + hashRand(s + 3) * 0.25; // 0.35–0.60
+
     return {
       Icon: icons[i % icons.length],
       leftPct: 50 + radiusFrac * 50 * Math.cos(rad),
       topPct: 50 + radiusFrac * 50 * Math.sin(rad),
-      size,
-      opacity,
-      variant: isFeaturedNeighbour ? "orbit" : variants[i % variants.length],
-      durationS: 8 + ((i * 1.7) % 7), // 8–15s, per-icon spread without a random source
-      delayS: (i * 0.6) % 3,
+      size: Math.round(16 + hashRand(s + 4) * 8), // 16–24px
+      opacity: isFeaturedNeighbour ? 0.6 : opacityBase,
+      variant: isFeaturedNeighbour ? "orbit" : VARIANTS[Math.floor(hashRand(s + 5) * VARIANTS.length)],
+      durationS: 8 + hashRand(s + 6) * 12, // 8–20s
+      delayS: hashRand(s + 7) * 4,
+      driftPx: 3 + hashRand(s + 8) * 3, // 3–6px
+      rotateDeg: 3 + hashRand(s + 9) * 3, // 3–6deg
     };
   });
 }
 
 export const SERVICE_ENVIRONMENTS: Record<string, EnvIconPlacement[]> = {
-  production: buildEnvironment([
-    IconCamera,
-    IconDirectorChair,
-    IconScript,
-    IconFilmReel,
-    IconStudioLight,
-    IconBoomMic,
-    IconTripod,
-    IconLens,
-    IconTimeline,
-    IconMonitor,
-    IconBattery,
-    IconSDCard,
-    IconClapper,
-  ]),
-  creative: buildEnvironment([
-    IconSparkSimple,
-    IconWand,
-    IconBulbSimple,
-    IconPenNib,
-    IconPalette,
-    IconMoodboard,
-    IconStickyNoteRef,
-    IconTargetSimple,
-    IconSparkSimple,
-    IconWand,
-    IconBulbSimple,
-    IconPalette,
-    IconPenNib,
-  ]),
-  digital: buildEnvironment([
-    IconMegaphoneSimple,
-    IconChatBubbleSimple,
-    IconSmartphone,
-    IconBell,
-    IconHashtag,
-    IconWifi,
-    IconShare,
-    IconUsers,
-    IconMegaphoneSimple,
-    IconChatBubbleSimple,
-    IconBell,
-    IconHashtag,
-    IconSmartphone,
-  ]),
-  media: buildEnvironment([
-    IconBarsSimple,
-    IconPieChart,
-    IconArrowGrowth,
-    IconDollar,
-    IconGauge,
-    IconTargetSimple,
-    IconPercent,
-    IconBarsSimple,
-    IconPieChart,
-    IconDollar,
-    IconArrowGrowth,
-    IconTargetSimple,
-    IconGauge,
-  ]),
-  strategy: buildEnvironment([
-    IconCompassSimple,
-    IconFlag,
-    IconMap,
-    IconDiamond,
-    IconCrown,
-    IconEye,
-    IconTargetSimple,
-    IconCompassSimple,
-    IconFlag,
-    IconDiamond,
-    IconMap,
-    IconCrown,
-    IconEye,
-  ]),
-  comms: buildEnvironment([
-    IconNewspaper,
-    IconBroadcast,
-    IconGlobe,
-    IconMail,
-    IconUsers,
-    IconMegaphoneSimple,
-    IconNewspaper,
-    IconBroadcast,
-    IconGlobe,
-    IconMail,
-    IconUsers,
-    IconMegaphoneSimple,
-    IconNewspaper,
-  ]),
+  production: buildEnvironment(
+    [
+      IconCamera,
+      IconDirectorChair,
+      IconScript,
+      IconFilmReel,
+      IconStudioLight,
+      IconBoomMic,
+      IconTripod,
+      IconLens,
+      IconTimeline,
+      IconMonitor,
+      IconBattery,
+      IconSDCard,
+      IconClapper,
+      IconVideoPlay,
+    ],
+    100
+  ),
+  creative: buildEnvironment(
+    [
+      IconSparkSimple,
+      IconWand,
+      IconBulbSimple,
+      IconPenNib,
+      IconPalette,
+      IconMoodboard,
+      IconStickyNoteRef,
+      IconTargetSimple,
+      IconStoryboard,
+      IconClipboard,
+      IconMegaphoneSimple,
+      IconHashtag,
+    ],
+    200
+  ),
+  digital: buildEnvironment(
+    [
+      IconMegaphoneSimple,
+      IconChatBubbleSimple,
+      IconSmartphone,
+      IconBell,
+      IconHashtag,
+      IconWifi,
+      IconShare,
+      IconUsers,
+      IconGlobe,
+      IconSocialFeed,
+      IconCloud,
+      IconCursorClick,
+      IconVideoPlay,
+    ],
+    300
+  ),
+  media: buildEnvironment(
+    [
+      IconBarsSimple,
+      IconPieChart,
+      IconArrowGrowth,
+      IconDollar,
+      IconGauge,
+      IconTargetSimple,
+      IconPercent,
+      IconTV,
+      IconBillboard,
+      IconCursorClick,
+      IconDataFlow,
+      IconMonitor,
+    ],
+    400
+  ),
+  strategy: buildEnvironment(
+    [
+      IconCompassSimple,
+      IconFlag,
+      IconMap,
+      IconDiamond,
+      IconCrown,
+      IconEye,
+      IconTargetSimple,
+      IconChessPawn,
+      IconBriefcase,
+      IconPuzzle,
+      IconDirectionArrow,
+    ],
+    500
+  ),
+  comms: buildEnvironment(
+    [
+      IconNewspaper,
+      IconBroadcast,
+      IconGlobe,
+      IconMail,
+      IconUsers,
+      IconMegaphoneSimple,
+      IconBell,
+      IconPressBadge,
+      IconPodium,
+    ],
+    600
+  ),
 };

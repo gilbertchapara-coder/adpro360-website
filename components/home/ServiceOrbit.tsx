@@ -183,7 +183,7 @@ function OrbitEnvironment() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute top-1/2 left-1/2 hidden h-[580px] w-[1180px] -translate-x-1/2 -translate-y-1/2 xl:block"
+      className="pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[1600px] -translate-x-1/2 -translate-y-1/2 xl:block"
     >
       <div
         className="ease-signature absolute inset-0 transition-opacity duration-700"
@@ -200,6 +200,9 @@ function OrbitEnvironment() {
                 top: `${item.topPct}%`,
                 transform: "translate(-50%, -50%)",
                 ["--env-o" as string]: item.opacity,
+                ["--env-dx" as string]: item.driftPx,
+                ["--env-dy" as string]: item.driftPx,
+                ["--env-rot" as string]: item.rotateDeg,
                 animation: `orbit-env-${item.variant} ${item.durationS}s ease-in-out infinite`,
                 animationDelay: `${item.delayS}s`,
               }}
@@ -292,6 +295,10 @@ function AmbientParticles() {
     { left: "90%", top: "70%", size: 3, floatS: 14, pulseS: 5.8, delay: 0.6 },
     { left: "50%", top: "10%", size: 2, floatS: 12, pulseS: 9, delay: 3.1 },
     { left: "6%", top: "52%", size: 2.5, floatS: 10.5, pulseS: 6, delay: 1.8 },
+    { left: "35%", top: "88%", size: 2, floatS: 12.5, pulseS: 7, delay: 0.9 },
+    { left: "68%", top: "40%", size: 2.5, floatS: 9, pulseS: 8.5, delay: 2.7 },
+    { left: "44%", top: "6%", size: 2, floatS: 13, pulseS: 6.2, delay: 1.5 },
+    { left: "97%", top: "45%", size: 2.5, floatS: 10, pulseS: 7.8, delay: 3.6 },
   ];
 
   return (
@@ -466,7 +473,6 @@ export function ServiceOrbit() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.09] [background:radial-gradient(50%_120%_at_50%_45%,var(--color-teal),transparent_70%)]"
       />
-      <OrbitEnvironment />
       <Reveal>
         <motion.div
           onHoverStart={slowDown}
@@ -481,6 +487,7 @@ export function ServiceOrbit() {
           className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px]"
         >
           <AmbientParticles />
+          <OrbitEnvironment />
           <OrbitPath />
           <OrbitPulses />
           <CentreStage service={services[activeIndex]} />

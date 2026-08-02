@@ -737,98 +737,115 @@
    across every background icon in every service's ecosystem — "don't
    create dozens of independent animation loops" — rather than one bespoke
    animation per icon. Each icon carries its own base opacity as `--env-o`
-   (12/25/35%, ring-tiered — orbit-environment-icons.tsx) and every
-   keyframe here modulates relative to that variable rather than an
-   absolute value, so the ceiling holds regardless of which variant an
-   icon uses — even at each variant's peak multiplier, the result stays
-   well under the active orbit icon's own brightness. Every icon also gets
-   a small baseline glow via `.env-icon` below (not just the "glow"
-   variant) — "current glow is good, increase only slightly" reads as
-   *all* of them should glow a little, not that only some should. Drift
-   distances are 2–6px per icon, matching "almost invisible... suspended
-   in space" rather than a visible bob. */
-@keyframes orbit-env-float {
+   (0.35-0.60, per-icon randomised — orbit-environment-icons.tsx) and its
+   own drift distance/rotation as `--env-dx`/`--env-dy`/`--env-rot`; every
+   keyframe here reads those instead of a fixed value, so "no two icons
+   behave exactly the same" comes from the per-icon custom properties, not
+   from needing 24 separate keyframe definitions. Even at each variant's
+   peak multiplier the result stays under the active orbit icon's own
+   brightness (100%). Every icon also gets a small baseline glow via
+   `.env-icon` below, not just the ones using a glow-adjacent variant. */
+@keyframes orbit-env-up {
   0%,
   100% {
     transform: translateY(0);
     opacity: var(--env-o);
   }
   50% {
-    transform: translateY(-5px);
-    opacity: calc(var(--env-o) * 1.2);
+    transform: translateY(calc(var(--env-dy) * -1px));
+    opacity: calc(var(--env-o) * 1.15);
   }
 }
-@keyframes orbit-env-drift {
+@keyframes orbit-env-down {
   0%,
   100% {
-    transform: translate(0, 0);
+    transform: translateY(0);
     opacity: var(--env-o);
   }
   50% {
-    transform: translate(4px, -5px);
-    opacity: calc(var(--env-o) * 0.8);
+    transform: translateY(calc(var(--env-dy) * 1px));
+    opacity: calc(var(--env-o) * 1.15);
+  }
+}
+@keyframes orbit-env-left {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: var(--env-o);
+  }
+  50% {
+    transform: translateX(calc(var(--env-dx) * -1px));
+    opacity: calc(var(--env-o) * 0.85);
+  }
+}
+@keyframes orbit-env-right {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: var(--env-o);
+  }
+  50% {
+    transform: translateX(calc(var(--env-dx) * 1px));
+    opacity: calc(var(--env-o) * 0.85);
   }
 }
 @keyframes orbit-env-rotate {
   0%,
   100% {
-    transform: rotate(-5deg) translate(0, 0);
+    transform: rotate(calc(var(--env-rot) * -1deg));
     opacity: var(--env-o);
   }
   50% {
-    transform: rotate(5deg) translate(2px, -2px);
+    transform: rotate(calc(var(--env-rot) * 1deg));
     opacity: calc(var(--env-o) * 1.1);
   }
 }
-@keyframes orbit-env-glow {
+@keyframes orbit-env-scale {
   0%,
   100% {
+    transform: scale(1);
     opacity: var(--env-o);
-    filter: drop-shadow(0 0 3px rgba(35, 174, 192, 0.25));
   }
   50% {
-    opacity: calc(var(--env-o) * 1.3);
-    filter: drop-shadow(0 0 5.75px rgba(35, 174, 192, 0.65));
+    transform: scale(1.12);
+    opacity: calc(var(--env-o) * 1.2);
   }
 }
-@keyframes orbit-env-pulse {
+@keyframes orbit-env-opacity {
   0%,
   100% {
-    opacity: calc(var(--env-o) * 0.65);
-    transform: translateY(0);
+    opacity: calc(var(--env-o) * 0.5);
   }
   50% {
     opacity: var(--env-o);
-    transform: translateY(-3px);
   }
 }
-/* The one inner-ring icon nearest the orbit's own featured/top position
-   (angle 290° — see orbit-environment-icons.tsx) — a brief, occasional
-   "it noticed" pop rather than the other variants' continuous drift.
-   Peak window is short relative to the full cycle (~10% of it) so the
-   scale/glow bump itself reads as roughly the requested 600ms even though
-   CSS keyframes only express it as a percentage of the loop. */
+/* The one icon per service nearest the orbit's own featured/top position
+   — a brief, occasional "it noticed" pop rather than the other variants'
+   continuous drift. Peak window is short relative to the full cycle
+   (~10%) so the scale/glow bump reads as roughly the requested 600ms even
+   though CSS keyframes only express it as a percentage of the loop. */
 @keyframes orbit-env-orbit {
   0%,
   40%,
   100% {
     transform: scale(1);
     opacity: var(--env-o);
-    filter: drop-shadow(0 0 3px rgba(35, 174, 192, 0.25));
+    filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.3));
   }
   50% {
-    transform: scale(1.08);
-    opacity: calc(var(--env-o) * 1.4);
-    filter: drop-shadow(0 0 8px rgba(35, 174, 192, 0.75));
+    transform: scale(1.1);
+    opacity: calc(var(--env-o) * 1.35);
+    filter: drop-shadow(0 0 9px rgba(35, 174, 192, 0.8));
   }
   60% {
     transform: scale(1);
     opacity: var(--env-o);
-    filter: drop-shadow(0 0 3px rgba(35, 174, 192, 0.25));
+    filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.3));
   }
 }
 .env-icon {
-  filter: drop-shadow(0 0 3px rgba(35, 174, 192, 0.25));
+  filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.28));
 }
 
 /* Idle ring: very faint, slow breathing — "8-12% opacity... very faint
