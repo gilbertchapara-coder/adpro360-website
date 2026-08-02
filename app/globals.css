@@ -1,0 +1,1067 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   AdPro 360 Design System — tokens extracted verbatim from the approved
+   `AdPro 360 Experience v2.dc.html` design source (Claude Design MCP
+   project). Every value below traces to a real, in-use declaration in that
+   file — nothing here is invented or rounded for tidiness.
+
+   Two honest exceptions, both disclosed in the migration summary:
+   1. Colour alpha variants (rgba(ink,.62) etc.) are NOT tokenised
+      individually — Tailwind's opacity modifier (`bg-ink/62`) reproduces any
+      alpha on top of the ~10 base colours below, so no rgba() token
+      proliferation is needed.
+   2. The source uses ~99 distinct bespoke `clamp()` signatures for font-size
+      and spacing rather than a strict step scale — this is how the design
+      was actually built (hand-tuned fluid values per element). Every one of
+      them is still tokenised below (nothing is left as a raw magic number
+      in component code), just organised as a long tail under the values
+      used 2+ times, rather than forced into a smaller invented scale that
+      would drift from the source.
+   ========================================================================== */
+
+@theme {
+  /* -------------------------------------------------------------------- */
+  /* Colour — the 8 tokens documented on the source's own System page,     */
+  /* plus 2 added during the accessibility/error-state passes.             */
+  /* -------------------------------------------------------------------- */
+  --color-ink: #0c1119; /* primary text, dark surfaces, primary button */
+  --color-midnight: #08131f; /* cinematic sections — hero, contact, careers */
+  --color-navy: #22336f; /* gradient anchor, from the mark */
+  --color-azure: #2589ce; /* gradient mid, from the mark */
+  --color-link: #1e7fb8; /* links, eyebrow accents */
+  --color-teal: #23aec0; /* accent, active state, focus ring */
+  --color-ivory: #f5f4f1; /* page canvas */
+  --color-card: #fbfaf8; /* card / row surface */
+  --color-card-alt: #e7e5e0; /* secondary placeholder surface (image slots) */
+  --color-surface-dark: #111a24; /* dark media surface (hero/case-study frames) */
+  --color-teal-bright: #6bd6e4; /* italic accent on dark sections */
+  --color-teal-pale: #9ee7f0; /* active-state text on dark chips */
+  --color-link-deep: #16708f; /* discipline-tag text on teal-tinted chip */
+  --color-error: #c44f3f; /* form error state (added in the a11y pass) */
+  --color-error-fg: #ffd3cb; /* error banner text on dark form surface */
+
+  /* -------------------------------------------------------------------- */
+  /* Typography — families                                                */
+  /* -------------------------------------------------------------------- */
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
+  /* Font weights actually used: 200/300/400/600/700/800. Not re-declared —
+     Tailwind's own default scale already names these exactly
+     (font-extralight/light/normal/semibold/bold/extrabold), confirmed by
+     inspecting the compiled output rather than assumed. */
+
+  /* Fixed (non-fluid) font sizes — labels, chips, body copy, buttons */
+  --text-2xs: 9px;
+  --text-3xs: 10px;
+  --text-eyebrow: 10.5px;
+  --text-xs: 11px;
+  --text-xs-plus: 11.5px;
+  --text-sm-minus: 12px;
+  --text-sm: 12.5px;
+  --text-sm-plus: 13px;
+  --text-base-minus: 13.5px;
+  --text-base: 14px;
+  --text-base-plus: 14.5px;
+  --text-md: 15px;
+  --text-md-plus: 15.5px;
+  --text-lg: 16px;
+  --text-lg-plus: 17px;
+  --text-xl: 19px;
+  --text-2xl: 22px;
+  --text-3xl: 26px;
+  --text-6xl: 52px;
+
+  /* Fluid font sizes used 2+ times — named to their semantic role         */
+  /* (matches the System page's documented type scale exactly)            */
+  --text-display-hero: clamp(52px, 9.2vw, 164px); /* home H1 only */
+  --text-display: clamp(40px, 7vw, 116px); /* every sub-page H1 (5 uses) */
+  --text-h2: clamp(30px, 4.2vw, 64px); /* section head (3 uses) */
+  --text-h3-a: clamp(19px, 1.7vw, 24px); /* card title variant A (3 uses) */
+  --text-h3-b: clamp(18px, 1.7vw, 24px); /* card title variant B (3 uses) */
+  --text-h3-c: clamp(21px, 1.9vw, 27px); /* card title variant C (2 uses) */
+  --text-h3-d: clamp(18px, 1.7vw, 23px); /* card title variant D (2 uses) */
+  --text-body-lg: clamp(15px, 1.25vw, 18px); /* lead paragraph (3 uses) */
+  --text-body-md: clamp(16px, 1.35vw, 20px); /* lead paragraph, denser (2 uses) */
+  --text-stat-a: clamp(26px, 3vw, 40px); /* stat / proof-point figure (2 uses) */
+  --text-lede: clamp(16px, 2vw, 28px); /* section intro line (3 uses) */
+
+  /* Fluid font sizes used exactly once — still named, never inlined raw   */
+  --text-fluid-01: clamp(28px, 3.4vw, 46px); /* home stats */
+  --text-fluid-02: clamp(20px, 2.6vw, 34px); /* home lede stat */
+  --text-fluid-03: clamp(32px, 4.6vw, 74px); /* who-we-are H2 */
+  --text-fluid-04: clamp(20px, 2vw, 28px); /* belief title */
+  --text-fluid-05: clamp(22px, 2.2vw, 30px); /* capability card title */
+  --text-fluid-06: clamp(23px, 2.9vw, 40px); /* testimonial quote */
+  --text-fluid-07: clamp(34px, 5.6vw, 86px); /* case-study H1 */
+  --text-fluid-08: clamp(15px, 1.2vw, 17.5px); /* case-study block body */
+  --text-fluid-09: clamp(38px, 5vw, 68px); /* case-study result figure */
+  --text-fluid-10: clamp(20px, 2.4vw, 32px); /* next-case-study label */
+  --text-fluid-11: clamp(24px, 3.2vw, 44px); /* services accordion title */
+  --text-fluid-12: clamp(26px, 2.4vw, 38px); /* services accordion numeral */
+  --text-fluid-13: clamp(15px, 1.3vw, 19px); /* services accordion detail copy */
+  --text-fluid-14: clamp(24px, 2.8vw, 40px); /* studio process step title */
+  --text-fluid-15: clamp(18px, 1.7vw, 23px); /* studio mission/vision line */
+  --text-fluid-16: clamp(28px, 4.4vw, 60px); /* studio pull-quote */
+  --text-fluid-17: clamp(22px, 2.8vw, 38px); /* team accordion name */
+  --text-fluid-18: clamp(16px, 1.3vw, 19px); /* team accordion lede */
+  --text-fluid-19: clamp(18px, 1.7vw, 24px); /* insight article title (grid) */
+  --text-fluid-20: clamp(32px, 4.6vw, 58px); /* insight article title (detail) */
+  --text-fluid-21: clamp(19px, 2vw, 28px); /* next-article label */
+  --text-fluid-22: clamp(21px, 1.9vw, 27px); /* result block figure label */
+  --text-fluid-23: clamp(15px, 1.3vw, 18.5px); /* CTA band lead paragraph */
+  --text-fluid-24: clamp(16px, 1.3vw, 19px); /* who-we-are lead paragraph */
+  --text-fluid-25: clamp(15px, 1.3vw, 19px); /* services hero lead paragraph */
+
+  /* -------------------------------------------------------------------- */
+  /* Line height — every distinct value in use                            */
+  /* -------------------------------------------------------------------- */
+  --leading-hero: 0.88;
+  --leading-tightest: 0.95;
+  --leading-tighter-2: 0.96;
+  --leading-tighter-3: 0.98;
+  --leading-none: 1;
+  --leading-display: 1.02;
+  --leading-h2: 1.04;
+  --leading-snug-1: 1.05;
+  --leading-snug-2: 1.08;
+  --leading-snug-3: 1.12;
+  --leading-snug-4: 1.15;
+  --leading-snug-5: 1.16;
+  --leading-h3: 1.2;
+  --leading-relaxed-1: 1.22;
+  --leading-relaxed-2: 1.24;
+  --leading-relaxed-3: 1.25;
+  --leading-relaxed-4: 1.35;
+  --leading-relaxed-5: 1.45;
+  --leading-body-tight: 1.5;
+  --leading-eyebrow: 1.55;
+  --leading-body: 1.6;
+  --leading-body-loose: 1.65;
+  --leading-body-loose-2: 1.68;
+  --leading-body-loose-3: 1.7;
+
+  /* -------------------------------------------------------------------- */
+  /* Letter spacing — every distinct value in use                         */
+  /* -------------------------------------------------------------------- */
+  --tracking-tightest: -0.05em;
+  --tracking-tighter-1: -0.045em;
+  --tracking-tighter-2: -0.04em;
+  --tracking-tighter-3: -0.035em;
+  --tracking-tight-1: -0.03em;
+  --tracking-tight-2: -0.02em;
+  --tracking-tight-3: -0.01em;
+  --tracking-wide-1: 0.02em;
+  --tracking-wide-2: 0.04em;
+  --tracking-wide-3: 0.06em;
+  --tracking-eyebrow-1: 0.1em;
+  --tracking-eyebrow-2: 0.14em;
+  --tracking-eyebrow-3: 0.16em;
+  --tracking-eyebrow-4: 0.18em;
+  --tracking-eyebrow-5: 0.2em;
+  --tracking-eyebrow-6: 0.22em;
+
+  /* -------------------------------------------------------------------- */
+  /* Spacing — the two high-frequency layout constants first, then the    */
+  /* full fluid long tail. Generates p-*, gap-*, m-*, w-* utilities.      */
+  /* -------------------------------------------------------------------- */
+  --spacing-gutter-x: clamp(20px, 4vw, 56px); /* 41 uses — section side padding */
+  /* Consolidated to a 160/120 two-tier rhythm (CD review: section padding
+     was drifting across near-duplicate tokens — 180/170/160/150/140 —
+     which read as uneven/stacked rather than intentional). alt-1/alt-2
+     stay as separate tokens for call-site clarity but now share one value. */
+  --spacing-section-y: clamp(90px, 12vw, 160px); /* primary section vertical rhythm */
+  --spacing-section-y-alt-1: clamp(90px, 12vw, 160px);
+  --spacing-section-y-alt-2: clamp(90px, 12vw, 160px);
+  --spacing-section-y-lg: clamp(80px, 10vw, 150px);
+  --spacing-section-y-lg-alt: clamp(80px, 10vw, 140px);
+  --spacing-section-y-md: clamp(60px, 8vw, 110px);
+  --spacing-section-y-md-alt: clamp(60px, 8vw, 120px);
+  --spacing-section-y-sm: clamp(50px, 6vw, 80px);
+  --spacing-section-y-sm-alt: clamp(50px, 7vw, 90px);
+  --spacing-section-y-xs: clamp(70px, 9vw, 130px);
+  --spacing-section-y-xs-alt: clamp(70px, 9vw, 120px);
+  --spacing-block-lg: clamp(24px, 4vw, 56px);
+  --spacing-block-md: clamp(16px, 2vw, 28px);
+  --spacing-block-sm: clamp(18px, 3vw, 40px);
+  --spacing-block-xs: clamp(22px, 3vw, 40px);
+  --spacing-block-menu: clamp(20px, 5vw, 40px); /* mobile menu horizontal padding */
+  --spacing-inset-pill-x: clamp(16px, 3vw, 32px); /* booking pill offset from viewport edge */
+  --spacing-inset-pill-y: clamp(16px, 3vw, 28px);
+  --spacing-cta-y: clamp(44px, 7vw, 110px); /* CTA band inner padding */
+  --spacing-cta-x: clamp(28px, 5vw, 80px);
+  --spacing-cta-gap: clamp(30px, 5vw, 72px);
+  --spacing-footer-pt: clamp(40px, 5vw, 64px);
+  --spacing-footer-gap: clamp(28px, 4vw, 56px);
+  --spacing-footer-mt: clamp(36px, 4vw, 56px);
+  --spacing-hero-pt: 140px; /* fixed top padding under the hero's own content, above the fold */
+  --spacing-hero-content-gap: clamp(24px, 5vw, 80px);
+  --spacing-hero-content-mt: clamp(36px, 5vw, 64px);
+  --spacing-testimonial-band-y: clamp(40px, 6vw, 80px);
+  --spacing-testimonial-gap: clamp(32px, 5vw, 72px);
+  --spacing-services-pt: clamp(40px, 6vw, 90px); /* services accordion section top padding */
+  --spacing-acc-btn-y: clamp(28px, 3.2vw, 44px); /* accordion row button padding */
+  --spacing-acc-btn-x: clamp(24px, 3vw, 44px);
+  --spacing-acc-gap: clamp(16px, 3vw, 44px); /* accordion row internal grid gap */
+  --spacing-acc-panel-pb: clamp(34px, 4vw, 52px); /* accordion open-panel bottom padding */
+  --spacing-split-gap: clamp(40px, 7vw, 120px); /* who-we-are two-column grid gap */
+  --spacing-whoweare-pb: 52px; /* who-we-are lead paragraph bottom margin */
+
+  /* Fixed spacing scale (paddings/gaps that aren't fluid) — every distinct
+     pixel value used across the source, ordered ascending. Named `s01..s30`
+     rather than by pixel value on purpose: Tailwind v4's spacing utilities
+     resolve any bare integer dynamically (`p-15` => `calc(var(--spacing)*15)`
+     = 60px, NOT 15px) — a named token that happened to be numeric would
+     silently collide with that. `s01` etc. can't be mistaken for the
+     dynamic multiplier, so every one of these is safe to use directly. */
+  --spacing-s01: 2px;
+  --spacing-s02: 4px;
+  --spacing-s03: 6px;
+  --spacing-s04: 7px;
+  --spacing-s05: 8px;
+  --spacing-s06: 9px;
+  --spacing-s07: 10px;
+  --spacing-s08: 11px;
+  --spacing-s09: 12px;
+  --spacing-s10: 13px;
+  --spacing-s11: 14px;
+  --spacing-s12: 15px;
+  --spacing-s13: 16px;
+  --spacing-s14: 17px;
+  --spacing-s15: 18px;
+  --spacing-s16: 20px;
+  --spacing-s17: 22px;
+  --spacing-s18: 24px;
+  --spacing-s19: 25px;
+  --spacing-s20: 26px;
+  --spacing-s21: 28px;
+  --spacing-s22: 30px;
+  --spacing-s23: 32px;
+  --spacing-s24: 34px;
+  --spacing-s25: 40px;
+  --spacing-s26: 44px;
+  --spacing-s27: 56px;
+  --spacing-s28: 80px;
+  --spacing-s29: 120px;
+  --spacing-s30: 170px;
+  --spacing-s31: 46px; /* icon-wrapper diameter */
+  --spacing-s32: 48px; /* icon-wrapper diameter */
+
+  /* -------------------------------------------------------------------- */
+  /* Radius — every distinct value in use                                 */
+  /* -------------------------------------------------------------------- */
+  --radius-2xs: 4px;
+  --radius-xs: 10px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px; /* card, floor of the documented 16–20 range */
+  --radius-xl: 18px;
+  --radius-2xl: 20px; /* card, ceiling of the documented range */
+  --radius-3xl: 22px; /* panel, floor of the documented 22–26 range */
+  --radius-4xl: 24px;
+  --radius-5xl: 26px; /* panel, ceiling of the documented range */
+  --radius-pill: 999px; /* chip / button */
+
+  /* -------------------------------------------------------------------- */
+  /* Shadow — every distinct value in use                                 */
+  /* -------------------------------------------------------------------- */
+  --shadow-lift: 0 30px 60px -34px rgba(12, 17, 25, 0.45); /* the documented --shadow-lift */
+  --shadow-glow: 0 20px 46px -22px rgba(35, 174, 192, 0.9); /* hero CTA at rest */
+  --shadow-glow-hover: 0 26px 56px -20px rgba(35, 174, 192, 1); /* hero CTA on hover */
+  --shadow-pill: 0 20px 44px -20px rgba(8, 19, 31, 0.8); /* booking pill */
+
+  /* -------------------------------------------------------------------- */
+  /* Container widths — maps to max-w-* utilities                         */
+  /* -------------------------------------------------------------------- */
+  --container-content: 1360px; /* the one true content width */
+  --container-article: 1100px;
+  --container-article-alt: 1080px;
+  --container-article-narrow: 1050px;
+  --container-article-narrow-alt: 1000px;
+  --container-reading: 860px;
+  --container-reading-md: 720px;
+  --container-reading-sm: 700px;
+  --container-copy-lg: 680px;
+  --container-copy: 620px;
+  --container-copy-sm: 580px;
+  --container-copy-xs: 560px;
+  --container-card: 520px;
+  --container-narrow: 460px;
+  --container-xs: 340px;
+  --container-2xs: 260px;
+
+  /* -------------------------------------------------------------------- */
+  /* Breakpoints — reconciles the documented CSS breakpoint table         */
+  /* (≥1600 / 1200–1599 / 900–1199 / 640–899 / <640) with the JS-driven    */
+  /* grid switches the component actually used (700 / 900 / 980)          */
+  /* -------------------------------------------------------------------- */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 700px;
+  --breakpoint-nav: 900px; /* header's own wide/narrow-nav cutoff — distinct from lg */
+  --breakpoint-lg: 980px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-2xl: 1600px;
+
+  /* -------------------------------------------------------------------- */
+  /* Motion — one signature easing curve used everywhere, plus every      */
+  /* distinct duration in use                                             */
+  /* -------------------------------------------------------------------- */
+  --ease-signature: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Tailwind v4 has no themeable duration namespace (verified against the
+     compiled output — a bare `duration-slow` class generates nothing).
+     These are still real tokens; consume them as
+     `duration-[var(--duration-slow)]` so no component ever hardcodes a raw
+     millisecond value. */
+  --duration-fast: 200ms;
+  --duration-base: 300ms;
+  --duration-base-plus: 350ms;
+  --duration-moderate: 400ms;
+  --duration-moderate-plus: 450ms;
+  --duration-slow: 500ms;
+  --duration-slow-plus: 550ms;
+  --duration-slower: 600ms;
+  --duration-slowest: 700ms;
+  --duration-reveal: 950ms;
+  --duration-zoom: 1000ms; /* image scale-on-hover across every card with a photo */
+  --duration-stagger-unit: 90ms; /* per-item / per-letter stagger increment */
+
+  /* -------------------------------------------------------------------- */
+  /* Blur — backdrop-filter blur radii + the paired glass saturation      */
+  /* -------------------------------------------------------------------- */
+  --blur-xs: 10px;
+  --blur-sm: 12px;
+  --blur-md: 14px;
+  --blur-lg: 16px;
+  --blur-xl: 18px; /* paired with --saturate-glass on nav/glass surfaces */
+  --blur-2xl: 20px;
+}
+
+/* ==========================================================================
+   Tokens with no Tailwind auto-utility namespace (z-index, opacity,
+   glass saturation) — plain custom properties, consumed via Tailwind's
+   arbitrary-value syntax, e.g. `z-[var(--z-nav)]`.
+   ========================================================================== */
+:root {
+  /* Z-index scale — every distinct layer in use, ordered low to high */
+  --z-raised: 1;
+  --z-decoration: 2;
+  --z-card-accent: 3;
+  --z-booking-pill: 95;
+  --z-nav: 100;
+  --z-mobile-menu: 110;
+  --z-progress-rail: 120;
+  --z-skip-link: 200;
+  --z-cursor: 210;
+  --z-preloader: 220;
+
+  /* Named effect opacities (not a scale — each is a specific constant) */
+  --opacity-grain: 0.05;
+  --opacity-hero-ambient: 0.34;
+  --opacity-marquee-dim: 0.35;
+  --opacity-hover-dim-1: 0.8;
+  --opacity-hover-dim-2: 0.9;
+
+  /* Paired with --blur-xl on glass/nav surfaces */
+  --saturate-glass: 160%;
+
+  /* The brand gradient — no themeable Tailwind namespace for gradient
+     images, consumed as `bg-[image:var(--gradient-brand)]`. */
+  --gradient-brand: linear-gradient(100deg, #23aec0, #2589ce 60%, #22336f);
+}
+
+/* ==========================================================================
+   Base layer — explicitly placed in Tailwind's `base` cascade layer.
+   Unlayered CSS always beats `@layer`-wrapped rules regardless of source
+   order or specificity, so an un-layered `a { color }` here would silently
+   win over every `text-*` utility on a link (found this the hard way —
+   capability card titles were rendering link-blue instead of ink until
+   this was wrapped).
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    color: var(--color-link);
+  }
+
+  a:hover {
+    color: var(--color-teal);
+  }
+
+  ::selection {
+    background: var(--color-teal);
+    color: var(--color-midnight);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@keyframes ap-marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes ap-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ServiceOrbit.tsx icon micro-animations — each targets one sub-part of its
+   own hand-authored icon (components/home/orbit-icons.tsx), independent of
+   the orbit's own motion. Constant, ambient loops — not gated to the
+   featured position, so every icon reads as alive at rest, matching the
+   brief's per-service description (slate/bars/waves/rings/needle/spark).
+   All covered by the sitewide prefers-reduced-motion override further down
+   this file, same as every other animate-[...] here. */
+@keyframes icon-slate {
+  0%,
+  58%,
+  100% {
+    transform: rotate(0deg);
+  }
+  16%,
+  42% {
+    transform: rotate(-22deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+.icon-slate-flap {
+  animation: icon-slate 4.5s ease-in-out infinite;
+}
+
+@keyframes icon-bar {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+  }
+  40% {
+    transform: scaleY(1.08);
+  }
+  70% {
+    transform: scaleY(0.65);
+  }
+}
+.icon-bar {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: icon-bar 2.4s ease-in-out infinite;
+}
+.icon-bar-2 {
+  animation-delay: 0.25s;
+}
+.icon-bar-3 {
+  animation-delay: 0.5s;
+}
+
+/* Creative Campaigns — rays fade in around the bulb in sequence, filament
+   brightens with them: "glows when an idea appears", not a constant
+   twinkle. */
+@keyframes icon-bulb-ray {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.icon-bulb-ray {
+  animation: icon-bulb-ray 3s ease-in-out infinite;
+}
+.icon-bulb-ray-2 {
+  animation-delay: 0.12s;
+}
+.icon-bulb-ray-3 {
+  animation-delay: 0.12s;
+}
+.icon-bulb-ray-4 {
+  animation-delay: 0.24s;
+}
+.icon-bulb-ray-5 {
+  animation-delay: 0.24s;
+}
+@keyframes icon-bulb-filament {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+.icon-bulb-filament {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: icon-bulb-filament 3s ease-in-out infinite;
+}
+
+/* Digital & Social — a typing indicator in the front bubble, the three
+   dots lifting in sequence: reads as an active conversation, not a static
+   glyph. */
+@keyframes icon-chat-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-1.5px);
+  }
+}
+.icon-chat-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: icon-chat-dot 1.6s ease-in-out infinite;
+}
+.icon-chat-dot-2 {
+  animation-delay: 0.18s;
+}
+.icon-chat-dot-3 {
+  animation-delay: 0.36s;
+}
+
+/* Corporate Communications — a small signal pulses outward from the
+   centre node to each connected stakeholder along its own line, staggered
+   so they read as a message reaching people in turn rather than one flash. */
+@keyframes icon-signal-1 {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+@keyframes icon-signal-2 {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-2px, -1px);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  90% {
+    opacity: 0;
+    transform: translate(3px, 1.5px);
+  }
+}
+@keyframes icon-signal-3 {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(2px, -1px);
+  }
+  40% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  90% {
+    opacity: 0;
+    transform: translate(-3px, 1.5px);
+  }
+}
+.icon-signal {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.icon-signal-1 {
+  animation: icon-signal-1 2.4s ease-in-out infinite;
+}
+.icon-signal-2 {
+  animation: icon-signal-2 2.4s ease-in-out infinite 0.3s;
+}
+.icon-signal-3 {
+  animation: icon-signal-3 2.4s ease-in-out infinite 0.6s;
+}
+
+/* Brand Strategy — the centre holds still, then gives one small, deliberate
+   settle — "gently locks onto its centre" rather than a constant pulse,
+   the pause between locks is the point. */
+@keyframes icon-target-core {
+  0%,
+  70%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(0.6);
+  }
+  90% {
+    transform: scale(1.15);
+  }
+}
+.icon-target-core {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: icon-target-core 4s ease-in-out infinite;
+}
+
+/* Hover/focus: every icon's own micro-animation runs slightly faster, on
+   top of the orbit-level crest boost below — "micro animation becomes
+   slightly faster" without touching the base durations everything else
+   still uses at rest. */
+.orbit-item:hover .icon-slate-flap,
+.orbit-item:focus-visible .icon-slate-flap {
+  animation-duration: 3.2s;
+}
+.orbit-item:hover .icon-bar,
+.orbit-item:focus-visible .icon-bar {
+  animation-duration: 1.7s;
+}
+.orbit-item:hover .icon-bulb-ray,
+.orbit-item:focus-visible .icon-bulb-ray {
+  animation-duration: 1.8s;
+}
+.orbit-item:hover .icon-bulb-filament,
+.orbit-item:focus-visible .icon-bulb-filament {
+  animation-duration: 1.8s;
+}
+.orbit-item:hover .icon-chat-dot,
+.orbit-item:focus-visible .icon-chat-dot {
+  animation-duration: 1s;
+}
+.orbit-item:hover .icon-signal-1,
+.orbit-item:focus-visible .icon-signal-1,
+.orbit-item:hover .icon-signal-2,
+.orbit-item:focus-visible .icon-signal-2,
+.orbit-item:hover .icon-signal-3,
+.orbit-item:focus-visible .icon-signal-3 {
+  animation-duration: 1.5s;
+}
+.orbit-item:hover .icon-target-core,
+.orbit-item:focus-visible .icon-target-core {
+  animation-duration: 2.4s;
+}
+
+/* ServiceOrbit.tsx: a true ellipse, not a clipped linear track — every item
+   is always somewhere on the closed path, so there's no "gap" state to
+   engineer. `--orbit-angle` is the only value ServiceOrbit.tsx writes per
+   frame (one motion value, on the container); every item's position falls
+   out of plain CSS trig reading that one custom property, so a 6-item
+   orbit costs one JS write per frame, not six. `--item-t` (how close an
+   item is to the featured angle, 0..1) drives scale/opacity/glow the same
+   way — continuous and differentiable, which is what makes it read as
+   organic motion rather than a state machine snapping between two looks. */
+.orbit-item {
+  --item-t: max(0, cos((var(--orbit-angle) + var(--item-offset) - var(--orbit-featured-angle)) * 1deg));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+    translate(
+      calc(var(--orbit-rx) * cos((var(--orbit-angle) + var(--item-offset)) * 1deg)),
+      calc(var(--orbit-ry) * sin((var(--orbit-angle) + var(--item-offset)) * 1deg))
+    )
+    scale(calc(1 + var(--item-t) * 0.42));
+  opacity: calc(0.4 + var(--item-t) * 0.6);
+}
+
+.orbit-item:hover,
+.orbit-item:focus-visible {
+  transform: translate(-50%, -50%)
+    translate(
+      calc(var(--orbit-rx) * cos((var(--orbit-angle) + var(--item-offset)) * 1deg)),
+      calc(var(--orbit-ry) * sin((var(--orbit-angle) + var(--item-offset)) * 1deg) - 16px)
+    )
+    scale(1.5);
+  opacity: 1;
+}
+
+/* The icon's own colour, not just its glow, blends teal -> white as it
+   nears the featured angle — same `color-mix()` the orbit pulse dots use
+   (OrbitPulses, above), applied to `currentColor` itself this time so the
+   stroke/fill genuinely turns white at the crest, not just brighter teal.
+   Two drop-shadow layers underneath — a tight bright core plus a much
+   wider, softer bloom — so the featured icon reads as genuinely lit
+   rather than just outlined. Everything scales off the same `--item-t`. */
+.orbit-icon {
+  color: color-mix(in srgb, var(--color-teal-bright) 100%, white calc(var(--item-t) * 100%));
+  filter: grayscale(calc(1 - var(--item-t)))
+    brightness(calc(1 + var(--item-t) * 0.35))
+    drop-shadow(0 0 calc(var(--item-t) * 10px) rgba(35, 174, 192, calc(var(--item-t) * 0.8)))
+    drop-shadow(0 0 calc(var(--item-t) * 34px) rgba(35, 174, 192, calc(var(--item-t) * 0.45)));
+}
+
+.orbit-item:hover .orbit-icon,
+.orbit-item:focus-visible .orbit-icon {
+  color: white;
+  filter: grayscale(0) brightness(1.4) drop-shadow(0 0 14px rgba(35, 174, 192, 0.85))
+    drop-shadow(0 0 40px rgba(35, 174, 192, 0.55));
+}
+
+/* Idle ring: very faint, slow breathing — "8-12% opacity... very faint
+   glow" — the travelling energy itself lives entirely in `.orbit-pulse`
+   below; this is only ever the quiet resting state underneath it. */
+@keyframes orbit-ring-breathe {
+  0%,
+  100% {
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.13;
+  }
+}
+.orbit-ring-breathe {
+  animation: orbit-ring-breathe 7s ease-in-out infinite;
+}
+
+/* OrbitPulses (ServiceOrbit.tsx): six lead/echo dot pairs riding the same
+   path as the icons, same `--item-t` cosine falloff as `.orbit-item` — so
+   each one is "cyan" at rest, blends toward white as its icon nears the
+   featured angle, and eases back to cyan just after. `color-mix()` does
+   the literal cyan->white blend off the same continuous value driving
+   everything else, rather than a second, separate animation. Only ever a
+   handful of small blurred dots are lit at once — never the full ring. */
+.orbit-pulse {
+  --item-t: max(0, cos((var(--orbit-angle) + var(--item-offset) - var(--orbit-featured-angle)) * 1deg));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  pointer-events: none;
+  transform: translate(-50%, -50%)
+    translate(
+      calc(var(--orbit-rx) * cos((var(--orbit-angle) + var(--item-offset)) * 1deg)),
+      calc(var(--orbit-ry) * sin((var(--orbit-angle) + var(--item-offset)) * 1deg))
+    );
+  background: color-mix(in srgb, var(--color-teal) 100%, white calc(var(--item-t) * 100%));
+  opacity: calc(0.12 + var(--item-t) * 0.34);
+  filter: blur(9px)
+    drop-shadow(
+      0 0 calc(6px + var(--item-t) * 16px)
+        color-mix(in srgb, var(--color-teal) 55%, white calc(var(--item-t) * 100%))
+    );
+}
+
+/* The trailing echo: smaller, dimmer, a few degrees behind — reads as a
+   short tail on the lead pulse rather than a second light. */
+.orbit-pulse--trail {
+  width: 12px;
+  height: 12px;
+  opacity: calc(0.08 + var(--item-t) * 0.22);
+  filter: blur(5px)
+    drop-shadow(
+      0 0 calc(3px + var(--item-t) * 9px)
+        color-mix(in srgb, var(--color-teal) 55%, white calc(var(--item-t) * 100%))
+    );
+}
+
+
+@keyframes ap-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -3%, 0) scale(1.06);
+  }
+}
+
+@keyframes ap-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Nav logo mark: a 1s sideways (Y-axis, coin-flip — not the flat Z-axis
+   clockface spin) rotation, then holds upright for 3s before repeating —
+   4s total loop, so `animation: ap-logo-spin 4s linear infinite` gets both
+   halves from percentages alone. `perspective()` folded into the same
+   transform gives the turn actual depth instead of a flat horizontal
+   squash. Reduced-motion users get this stripped by the animation-duration
+   override below, same as every other animate-[...] in the file. */
+@keyframes ap-logo-spin {
+  0% {
+    transform: perspective(600px) rotateY(0deg);
+  }
+  25% {
+    transform: perspective(600px) rotateY(360deg);
+  }
+  100% {
+    transform: perspective(600px) rotateY(360deg);
+  }
+}
+
+/* Barely-there float for the client logo cards — reduced-motion users get
+   this stripped by the animation-duration override below, same as every
+   other animate-[...] in the file. */
+@keyframes ap-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ==========================================================================
+   Chrome that isn't expressible as plain utility classes: the skip link's
+   focus-reveal, the grain texture, the custom cursor, and the glare-card
+   spotlight (driven by useGlare's --mx/--my custom properties).
+   ========================================================================== */
+@layer components {
+  .skip-link {
+    position: fixed;
+    top: -60px;
+    left: 12px;
+    z-index: var(--z-skip-link);
+    transition: top 0.25s ease;
+  }
+
+  .skip-link:focus {
+    top: 12px;
+  }
+
+  .grain-overlay {
+    position: fixed;
+    inset: -100px;
+    z-index: var(--z-raised);
+    pointer-events: none;
+    opacity: var(--opacity-grain);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* One consistent grade across every team portrait, real photo or
+     placeholder alike — CD review: "standardise the portrait treatment
+     (one grade/duotone) for a cohesive, owned look." */
+  .team-portrait-grade {
+    filter: grayscale(45%) contrast(1.06) saturate(1.05);
+  }
+
+  .team-portrait-grade::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(34, 51, 111, 0.22), rgba(35, 174, 192, 0.14));
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .grain-overlay {
+      display: none;
+    }
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-cursor);
+    pointer-events: none;
+    border-radius: 999px;
+    will-change: transform;
+  }
+
+  .cursor-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--color-teal);
+    transition:
+      opacity 0.2s ease,
+      width 0.3s var(--ease-signature),
+      height 0.3s var(--ease-signature),
+      background 0.3s ease;
+  }
+
+  .cursor-ring {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(35, 174, 192, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      width 0.35s var(--ease-signature),
+      height 0.35s var(--ease-signature),
+      border-color 0.3s ease,
+      opacity 0.2s ease;
+  }
+
+  .cursor-ring span {
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-ivory);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    white-space: nowrap;
+  }
+
+  html.cursor-active,
+  html.cursor-active a,
+  html.cursor-active button,
+  html.cursor-active [data-magnetic] {
+    cursor: none !important;
+  }
+
+  @media (pointer: coarse) {
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+    }
+  }
+
+  .glare-layer {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: var(--z-raised);
+    pointer-events: none;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    background: radial-gradient(
+      420px circle at var(--mx, 50%) var(--my, 50%),
+      rgba(255, 255, 255, 0.14),
+      transparent 62%
+    );
+  }
+
+  [data-glare]:hover .glare-layer {
+    opacity: 1;
+  }
+
+  /* Animated underline for Link's `underline` variant. Plain CSS, not a
+     Tailwind arbitrary value — `bg-[image:linear-gradient(...),linear-gradient(...)]`
+     silently compiled to no rule at all (Tailwind's bracket parser doesn't
+     survive the nested comma between two gradient layers), so this lives
+     here instead, same as glare/sheen below it. */
+  .link-underline {
+    background-image:
+      linear-gradient(rgba(12, 17, 25, 0.25), rgba(12, 17, 25, 0.25)),
+      linear-gradient(var(--color-teal), var(--color-teal));
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 100% 1px, 0% 1px;
+    transition:
+      background-size 0.35s var(--ease-signature),
+      color var(--duration-base) var(--ease-signature);
+  }
+
+  .link-underline:hover {
+    background-size: 100% 1px, 100% 1px;
+  }
+
+  /* One-shot diagonal light sweep on glare-card media — the "soft reflection"
+     companion to the hover zoom below. Fires once per hover, not a loop. */
+  .sheen-layer {
+    position: absolute;
+    inset: -20%;
+    z-index: var(--z-raised);
+    pointer-events: none;
+    background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.16) 50%, transparent 58%);
+    transform: translateX(-45%);
+    transition: transform 0.9s var(--ease-signature);
+    mix-blend-mode: soft-light;
+  }
+
+  [data-glare]:hover .sheen-layer {
+    transform: translateX(45%);
+  }
+
+  /* Subtle editorial zoom on glare-card media — nested inside the card's own
+     tilt layer so the two transforms animate independently (tilt keeps its
+     --duration-slower; this stays a quick, understated 1 -> 1.03). */
+  .media-zoom {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transition: transform var(--duration-moderate-plus) ease-out;
+  }
+
+  [data-glare]:hover .media-zoom {
+    transform: scale(1.03);
+  }
+
+  /* Ambient shimmer for the empty MediaSlot state only — a considered void
+     rather than a dead placeholder. Real photography (once supplied via
+     `src`) never gets this. */
+  .media-placeholder {
+    background-image: linear-gradient(
+      100deg,
+      transparent 30%,
+      rgba(12, 17, 25, 0.05) 50%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: ap-shimmer 7s ease-in-out infinite;
+  }
+
+  @keyframes ap-shimmer {
+    0%,
+    100% {
+      background-position: 130% 0;
+    }
+    50% {
+      background-position: -30% 0;
+    }
+  }
+}

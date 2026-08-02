@@ -1,0 +1,21 @@
+# This directory also holds unrelated projects/assets alongside the actual
+# Next.js app (a separate Remotion video project, raw asset dumps, zips) —
+# excluded here so the deploy upload stays scoped to the site itself. Every
+# entry is anchored to the repo root (`/`) — unanchored `IMAGES/` also
+# matched `public/images/` and silently dropped every real site photo from
+# the deploy (confirmed live: /images/*.jpeg 404'd).
+/idea-hunter-film/
+/hero-film/
+/hero film/
+/IMAGES/
+/LOGOS/
+/clips/
+/*.zip
+/young-businesswoman-boardroom-portrait.png
+/ADPRO360_HANDOFF.md
+
+# Standard excludes
+node_modules
+.next
+.env*
+.git
