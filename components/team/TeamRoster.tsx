@@ -12,7 +12,7 @@ export function TeamRoster() {
       <Container>
         <Reveal>
           <Heading variant="eyebrow" as="div" className="mb-s26">
-            01 — The people
+            02 — The people
           </Heading>
         </Reveal>
 

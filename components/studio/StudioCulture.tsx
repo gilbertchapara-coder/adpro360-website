@@ -32,7 +32,7 @@ export function StudioCulture() {
       <Container width="content">
         <Reveal>
           <Heading variant="eyebrow" as="div" className="mb-s21 text-ivory/58">
-            03 — By the numbers
+            04 — By the numbers
           </Heading>
         </Reveal>
         <Reveal delay={80}>

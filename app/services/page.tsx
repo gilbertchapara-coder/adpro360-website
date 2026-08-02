@@ -1,5 +1,6 @@
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ServicesAccordion } from "@/components/services/ServicesAccordion";
+import { ClientWall } from "@/components/home/ClientWall";
 import { buildPageMetadata } from "@/lib/utils/pageMetadata";
 
 export const metadata = buildPageMetadata({
@@ -13,6 +14,7 @@ export default function ServicesPage() {
   return (
     <>
       <ServicesHero />
+      <ClientWall eyebrow="Clients we've worked with" />
       <ServicesAccordion />
     </>
   );

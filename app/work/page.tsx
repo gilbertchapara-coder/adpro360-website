@@ -3,8 +3,7 @@ import { WorkGrid } from "@/components/work/WorkGrid";
 import { WorkCredibility } from "@/components/work/WorkCredibility";
 import { WorkProcess } from "@/components/work/WorkProcess";
 import { WorkResults } from "@/components/work/WorkResults";
-import { Marquee } from "@/components/home/Marquee";
-import { projects } from "@/lib/content";
+import { ClientWall } from "@/components/home/ClientWall";
 import { buildPageMetadata } from "@/lib/utils/pageMetadata";
 
 export const metadata = buildPageMetadata({
@@ -14,13 +13,11 @@ export const metadata = buildPageMetadata({
   path: "/work",
 });
 
-const categories = Array.from(new Set(projects.map((p) => p.category)));
-
 export default function WorkPage() {
   return (
     <>
       <WorkHero />
-      <Marquee words={categories} />
+      <ClientWall eyebrow="01 — Clients we've worked with" />
       <WorkGrid />
       <WorkCredibility />
       <WorkProcess />

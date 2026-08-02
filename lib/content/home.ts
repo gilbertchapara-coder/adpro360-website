@@ -45,18 +45,6 @@ export const heroRotatorWords = [
   "broadcast grade",
 ];
 
-export const marqueeWords = [
-  "Brand Strategy",
-  "Media Buying",
-  "Creative Campaigns",
-  "Film Production",
-  "TV Commercials",
-  "Digital Marketing",
-  "Social Media",
-  "Events",
-  "Corporate Communications",
-  "Corporate Video",
-];
 
 export const beliefs: Belief[] = [
   {

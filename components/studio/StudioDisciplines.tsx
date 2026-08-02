@@ -11,7 +11,7 @@ export function StudioDisciplines() {
     <Section tone="ivory" paddingY="none" className="pb-section-y-alt-1 pt-0">
       <Container>
         <SectionIntro
-          eyebrow="02 — What we do"
+          eyebrow="03 — What we do"
           action={{ label: "Full service list", href: "/services" }}
           className="mb-s24"
         >

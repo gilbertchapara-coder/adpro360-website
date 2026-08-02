@@ -52,7 +52,7 @@ export function WorkGrid() {
   return (
     <Section tone="ivory" paddingY="lg">
       <Container>
-        <SectionIntro eyebrow="01 — Selected work" className="mb-s24">
+        <SectionIntro eyebrow="02 — Selected work" className="mb-s24">
           Case studies, not a showreel.
         </SectionIntro>
 

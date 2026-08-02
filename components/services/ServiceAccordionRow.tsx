@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import NextLink from "next/link";
 import { IconWrapper } from "@/components/primitives";
 import { MediaSlot } from "@/components/shared/MediaSlot";
+import { FeatureChip } from "./FeatureChip";
 import { cn } from "@/lib/utils/cn";
 import type { Service } from "@/lib/content";
 
@@ -69,12 +70,12 @@ export function ServiceAccordionRow({
           >
             {service.title}
           </span>
-          <span className="max-w-copy text-md leading-eyebrow text-ink/72 line-clamp-2">
-            {service.lede}
-          </span>
-          <span className="mt-s03 text-sm-plus tracking-tight-2 text-ink/78 font-semibold">
-            {service.outcome}
-          </span>
+          <span className="max-w-copy text-md leading-eyebrow text-ink/72">{service.oneLiner}</span>
+          <div className="mt-s05 flex flex-wrap gap-[6px]">
+            {service.tags.map((tag) => (
+              <FeatureChip key={tag} label={tag} />
+            ))}
+          </div>
         </span>
         <IconWrapper size="md" tone="outline" className="text-link overflow-hidden text-xl font-light">
           <AnimatePresence mode="wait" initial={false}>

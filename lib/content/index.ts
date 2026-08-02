@@ -8,7 +8,6 @@ export { testimonials, type Testimonial } from "./testimonials";
 export {
   heroStats,
   heroRotatorWords,
-  marqueeWords,
   beliefs,
   proofPoints,
   clients,

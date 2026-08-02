@@ -21,7 +21,7 @@ export function StudioStory() {
       <Container>
         <Reveal>
           <Heading variant="eyebrow" as="div" className="mb-s21">
-            01 — Where we started
+            02 — Where we started
           </Heading>
         </Reveal>
         {/* CD review: "long copy with no focal statement — pull one manifesto

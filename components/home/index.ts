@@ -1,5 +1,4 @@
 export { Hero } from "./Hero";
-export { Marquee } from "./Marquee";
 export { ServiceOrbit } from "./ServiceOrbit";
 export { ActiveServiceProvider } from "./active-service-context";
 export { WhoWeAre } from "./WhoWeAre";

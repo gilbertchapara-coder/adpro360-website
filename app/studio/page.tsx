@@ -2,6 +2,7 @@ import { StudioHero } from "@/components/studio/StudioHero";
 import { StudioStory } from "@/components/studio/StudioStory";
 import { StudioDisciplines } from "@/components/studio/StudioDisciplines";
 import { StudioCulture } from "@/components/studio/StudioCulture";
+import { ClientWall } from "@/components/home/ClientWall";
 import { buildPageMetadata } from "@/lib/utils/pageMetadata";
 
 export const metadata = buildPageMetadata({
@@ -15,6 +16,7 @@ export default function StudioPage() {
   return (
     <>
       <StudioHero />
+      <ClientWall eyebrow="01 — Clients we've worked with" />
       <StudioStory />
       <StudioDisciplines />
       <StudioCulture />

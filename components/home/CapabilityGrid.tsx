@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { Container, Section } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionIntro } from "@/components/shared/SectionIntro";
+import { FeatureChip } from "@/components/services/FeatureChip";
 import { useGlare } from "@/lib/hooks/useGlare";
 import { services } from "@/lib/content";
 
@@ -58,15 +59,12 @@ function CapabilityCard({ service }: { service: (typeof services)[number] }) {
         <h3 className="mb-s11 text-fluid-05 leading-snug-3 tracking-tight-1 font-normal">
           {service.title}
         </h3>
-        <p className="mb-s17 text-base-plus leading-body text-ink/58 max-w-xs">{service.lede}</p>
+        <p className="mb-s15 text-base-plus leading-body text-ink/58 max-w-xs">
+          {service.oneLiner}
+        </p>
         <div className="flex flex-wrap gap-[7px]">
           {service.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-pill bg-teal/10 px-s09 py-s03 tracking-wide-1 text-link-deep text-xs font-semibold"
-            >
-              {tag}
-            </span>
+            <FeatureChip key={tag} label={tag} />
           ))}
         </div>
       </div>

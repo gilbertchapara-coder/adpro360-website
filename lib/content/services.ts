@@ -3,11 +3,10 @@ export type Service = {
   num: string;
   title: string;
   lede: string;
-  /** One-line before→after framing for the collapsed row — CD review:
-   * "services are labelled, not sold." Not a per-client claim (no real
-   * campaign to cite here), just the general shape of value each
-   * discipline argues for. */
-  outcome: string;
+  /** The single-sentence statement shown on the card/accordion surface —
+   * `lede` stays the longer form used where more room exists (Studio's
+   * discipline list, metadata). */
+  oneLiner: string;
   photo: string;
   tags: string[];
   detail: string;
@@ -21,7 +20,7 @@ export const services: Service[] = [
     num: "01",
     title: "Brand Strategy",
     lede: "Clarity before creativity — the positioning and architecture a brand needs before it spends a kwacha on media.",
-    outcome: "From category noise to a position competitors can't copy.",
+    oneLiner: "Clarity before creativity.",
     photo: "/images/service-brand-strategy.jpg",
     tags: ["Positioning", "Naming", "Brand architecture"],
     detail:
@@ -39,7 +38,7 @@ export const services: Service[] = [
     num: "02",
     title: "Creative Campaigns",
     lede: "Ideas built to survive contact with every channel — screen, street, radio and retail, without losing their edge.",
-    outcome: "From a single ad to a platform that still runs in year two.",
+    oneLiner: "Impossible to ignore.",
     photo: "/images/service-creative-campaigns.jpg",
     tags: ["Campaign platforms", "Art direction", "Copy"],
     detail:
@@ -57,7 +56,7 @@ export const services: Service[] = [
     num: "03",
     title: "Film & Production",
     lede: "Stories engineered to move audiences — TVCs, corporate film and long-form content, produced by people who have shipped broadcast work.",
-    outcome: "From a brief on paper to a broadcast-grade film on air.",
+    oneLiner: "Stories that move.",
     photo: "/images/service-film-production.jpg",
     tags: ["TVC", "Corporate film", "Post"],
     detail:
@@ -75,7 +74,7 @@ export const services: Service[] = [
     num: "04",
     title: "Media Buying",
     lede: "Spend that reports back, not spend that hopes — planning and placement across TV, radio, outdoor, print and digital, bought on evidence.",
-    outcome: "From spend that hopes to work to spend that reports back.",
+    oneLiner: "Every kwacha accountable.",
     photo: "/images/service-media-buying.jpg",
     tags: ["Planning", "Buying", "Outdoor"],
     detail:
@@ -93,7 +92,7 @@ export const services: Service[] = [
     num: "05",
     title: "Digital & Social",
     lede: "A feed the audience learns to expect — always-on content systems, paid social and performance work tied to commercial outcomes.",
-    outcome: "From sporadic posting to a feed the audience expects.",
+    oneLiner: "Content engineered for growth.",
     photo: "/images/service-digital-social.jpg",
     tags: ["Social", "Performance", "Content"],
     detail:
@@ -111,7 +110,7 @@ export const services: Service[] = [
     num: "06",
     title: "Corporate Communications",
     lede: "Your message, delivered on your terms — reputation, internal comms and events for institutions that cannot afford to be misread.",
-    outcome: "From a message at risk of leaking to one delivered on your terms.",
+    oneLiner: "Protect. Inform. Influence.",
     photo: "/images/service-corporate-communications.jpg",
     tags: ["Reputation", "Events", "Internal comms"],
     detail:
