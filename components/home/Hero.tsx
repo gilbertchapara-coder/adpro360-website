@@ -53,20 +53,21 @@ export function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
+  /* `playing` is set from the video's own `onPlay`/`onPause` events below,
+   * not from this function or the play() promise — confirmed live that
+   * play() can genuinely succeed (video.paused === false) while a
+   * `.then(() => setPlaying(true))` chain here still hadn't fired, leaving
+   * the ▶ overlay stuck on screen over an actually-playing video. The
+   * native events are the one source of truth the browser guarantees. */
   const toggleShowreel = () => {
     const video = videoRef.current;
     if (!video) return;
     if (video.paused) {
-      video
-        .play()
-        .then(() => setPlaying(true))
-        .catch((error) => {
-          console.error("Showreel play() rejected", error);
-          setPlaying(false);
-        });
+      video.play().catch((error) => {
+        console.error("Showreel play() rejected", error);
+      });
     } else {
       video.pause();
-      setPlaying(false);
     }
   };
 
@@ -123,6 +124,7 @@ export function Hero() {
             playsInline
             muted
             loop
+            onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onError={(event) => {
               console.error("Showreel failed to load", event.currentTarget.error);
@@ -141,10 +143,10 @@ export function Hero() {
           </span>
         </div>
         <div className="mb-s05 text-3xs tracking-eyebrow-4 text-teal font-bold uppercase">
-          Showreel · 90 sec
+          Showreel · 30 sec
         </div>
         <div className="text-md-plus leading-relaxed-4 tracking-tight-2">
-          Two minutes of proof, {rotatorWord}.
+          Thirty seconds of proof, {rotatorWord}.
         </div>
       </div>
 
