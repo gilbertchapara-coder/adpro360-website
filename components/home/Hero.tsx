@@ -175,7 +175,17 @@ export function Hero() {
           flow (own existing mobile sizing, untouched); at `nav` and up it
           becomes a third floating element alongside the text and the
           showreel card, positioned in the gap between them. */}
-      <div className="relative order-2 mt-s24 w-full nav:absolute nav:top-[16vh] nav:order-none nav:mt-0 nav:w-auto nav:right-[calc(var(--spacing-gutter-x)+268px+8px)] xl:right-[calc(var(--spacing-gutter-x)+268px+24px)]">
+      {/* Explicit `nav:w-[...]`/`xl:w-[...]` here matching ServiceOrbit's own
+          track max-width, NOT `w-auto` — the track inside is `w-full`
+          (100% of this wrapper), so an auto-width absolutely-positioned
+          parent around a 100%-width child is a circular sizing reference
+          that several browsers resolve by collapsing to 0. Confirmed via
+          a real bounding-box measurement (`trackWidth: 0`) after the
+          first version of this shipped and an orbit icon rotated directly
+          into the showreel card live — the track's --orbit-rx/ry were
+          still being applied at full size around a collapsed, effectively
+          mispositioned anchor point. */}
+      <div className="relative order-2 mt-s24 w-full nav:absolute nav:top-[16vh] nav:order-none nav:mt-0 nav:w-[300px] xl:w-[420px] nav:right-[calc(var(--spacing-gutter-x)+268px+70px)] xl:right-[calc(var(--spacing-gutter-x)+268px+90px)]">
         <ServiceOrbit />
       </div>
 

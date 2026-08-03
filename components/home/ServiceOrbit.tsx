@@ -494,7 +494,7 @@ export function ServiceOrbit() {
             ["--orbit-angle" as string]: angle,
             ["--orbit-featured-angle" as string]: FEATURED_ANGLE,
           }}
-          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[230px] nav:max-w-[250px] nav:[--orbit-rx:110px] nav:[--orbit-ry:85px] xl:h-[340px] xl:max-w-[370px] xl:[--orbit-rx:165px] xl:[--orbit-ry:125px]"
+          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[220px] nav:max-w-[300px] nav:[--orbit-rx:75px] nav:[--orbit-ry:60px] xl:h-[300px] xl:max-w-[420px] xl:[--orbit-rx:110px] xl:[--orbit-ry:85px]"
         >
           <AmbientParticles />
           <OrbitEnvironment />
