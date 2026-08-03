@@ -36,7 +36,7 @@ export function InsightsList() {
           </Reveal>
         )}
 
-        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))]">
+        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))]">
           {rest.map((post) => (
             <Reveal key={post.id} as="div">
               <InsightCard post={post} />

@@ -23,7 +23,7 @@ export function TestimonialCarousel() {
   return (
     <Section tone="ivory" paddingY="none" className="pb-section-y-alt-1 pt-0">
       <Reveal>
-        <Container className="gap-testimonial-gap rounded-5xl grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center overflow-hidden bg-[linear-gradient(140deg,#22336F_0%,#1E7FB8_55%,#23AEC0_100%)] p-[var(--spacing-testimonial-band-y)] text-white">
+        <Container className="gap-testimonial-gap rounded-5xl grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] items-center overflow-hidden bg-[linear-gradient(140deg,#22336F_0%,#1E7FB8_55%,#23AEC0_100%)] p-[var(--spacing-testimonial-band-y)] text-white">
           <div>
             <Heading variant="eyebrow" as="div" className="mb-s18 text-white/62">
               05 — In their words

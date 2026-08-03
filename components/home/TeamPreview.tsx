@@ -19,7 +19,7 @@ export function TeamPreview() {
           Senior hands on every brief.
         </SectionIntro>
 
-        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))]">
+        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))]">
           {team.map((member, index) => {
             const featured = index === 0;
             return (
@@ -48,8 +48,11 @@ export function TeamPreview() {
                     </div>
                     {/* Hover reveal — CD review: "add a hover reveal... or a
                         short personal line." Reuses the member's own real
-                        `lede` credit, nothing invented. */}
-                    <div className="from-ink/92 ease-signature p-s16 absolute inset-x-0 bottom-0 translate-y-2 bg-gradient-to-t via-transparent to-transparent opacity-0 transition-[opacity,transform] duration-[var(--duration-moderate)] group-hover:translate-y-0 group-hover:opacity-100">
+                        `lede` credit, nothing invented. Always shown below
+                        `nav` — there's no hover on touch, so gating this
+                        behind group-hover there left the line permanently
+                        unreachable rather than just less discoverable. */}
+                    <div className="from-ink/92 ease-signature p-s16 absolute inset-x-0 bottom-0 bg-gradient-to-t via-transparent to-transparent opacity-100 transition-[opacity,transform] duration-[var(--duration-moderate)] nav:translate-y-2 nav:opacity-0 nav:group-hover:translate-y-0 nav:group-hover:opacity-100">
                       <p className="text-ivory/92 text-sm leading-snug-2 text-pretty">
                         {member.lede}
                       </p>

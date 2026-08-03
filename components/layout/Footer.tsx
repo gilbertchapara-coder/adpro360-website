@@ -25,12 +25,15 @@ export function Footer() {
           <div className="mb-s15 text-eyebrow tracking-eyebrow-4 text-ink/62 font-bold uppercase">
             Navigate
           </div>
+          {/* -my/py expands the tap target ~20px without moving the
+              visible text or the gap between rows — same invisible-padding
+              trick already used on the filter chips and carousel dots. */}
           <div className="gap-s07 grid">
             {fullNav.map((item) => (
               <NextLink
                 key={item.href}
                 href={item.href}
-                className="text-ink/72 ease-signature hover:text-link text-base transition-colors duration-[var(--duration-base)]"
+                className="text-ink/72 ease-signature hover:text-link -my-[10px] block py-[10px] text-base transition-colors duration-[var(--duration-base)]"
               >
                 {item.label}
               </NextLink>
@@ -43,8 +46,12 @@ export function Footer() {
             Contact
           </div>
           <div className="gap-s07 text-ink/72 grid text-base">
-            <a href={site.emailHref}>{site.email}</a>
-            <a href={site.phoneHref}>{site.phone}</a>
+            <a href={site.emailHref} className="-my-[10px] block py-[10px]">
+              {site.email}
+            </a>
+            <a href={site.phoneHref} className="-my-[10px] block py-[10px]">
+              {site.phone}
+            </a>
             <span className="leading-snug-4">
               {site.address.line1}
               <br />
@@ -59,7 +66,13 @@ export function Footer() {
           </div>
           <div className="gap-s07 grid text-base">
             {socialLinks.map((link) => (
-              <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="-my-[10px] block py-[10px]"
+              >
                 {link.label}
               </a>
             ))}

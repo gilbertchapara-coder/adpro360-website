@@ -50,7 +50,7 @@ export function FeaturedWork() {
           Campaigns that moved something measurable.
         </SectionIntro>
 
-        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(340px,1fr))]">
+        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(min(340px,100%),1fr))]">
           <FeaturedCard project={lead} featured />
           {rest.map((project) => (
             <FeaturedCard key={project.id} project={project} />

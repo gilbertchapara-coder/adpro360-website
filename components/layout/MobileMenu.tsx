@@ -32,6 +32,28 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     }
   }, [isOpen]);
 
+  // Lock background scroll while open. `overflow:hidden` alone doesn't stop
+  // iOS Safari's rubber-band scroll from bleeding the page behind this
+  // full-screen overlay into view at the top/bottom edges — pinning body to
+  // `position:fixed` at the current scroll offset is the standard fix, so
+  // we restore the exact scroll position on close instead of jumping to 0.
+  useEffect(() => {
+    if (!isOpen) return;
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.left = "0";
+    style.right = "0";
+    return () => {
+      style.position = "";
+      style.top = "";
+      style.left = "";
+      style.right = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, [isOpen]);
+
   // Escape closes; Tab is trapped inside the menu while it's open, matching
   // expected `role="dialog"` + `aria-modal` behaviour.
   useEffect(() => {

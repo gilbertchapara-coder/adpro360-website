@@ -10,7 +10,9 @@ export const Textarea = forwardRef<
     <textarea
       ref={ref}
       className={cn(
-        "border-ivory/18 bg-midnight/50 px-s15 py-s10 text-md text-ivory ease-signature w-full resize-y rounded-sm border font-sans outline-none transition-[border-color,box-shadow] duration-[var(--duration-base)]",
+        // text-[16px] below `sm` — iOS Safari auto-zooms the viewport on
+        // focus for any input under 16px, and this is the contact form.
+        "border-ivory/18 bg-midnight/50 px-s15 py-s10 text-[16px] sm:text-md text-ivory ease-signature w-full resize-y rounded-sm border font-sans outline-none transition-[border-color,box-shadow] duration-[var(--duration-base)]",
         "focus:border-teal focus:shadow-[0_0_0_3px_rgba(35,174,192,0.28)]",
         className
       )}

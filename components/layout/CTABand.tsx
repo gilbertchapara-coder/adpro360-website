@@ -20,7 +20,7 @@ export function CTABand() {
             className="rounded-pill pointer-events-none absolute -right-[10%] -bottom-[40%] size-[60vw] bg-[radial-gradient(circle,rgba(35,174,192,.24),transparent_65%)]"
             aria-hidden="true"
           />
-          <div className="gap-cta-gap relative grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-end">
+          <div className="gap-cta-gap relative grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] items-end">
             <Heading
               as="h2"
               variant="h2"

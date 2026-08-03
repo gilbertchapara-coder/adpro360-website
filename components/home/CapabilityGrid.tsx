@@ -21,7 +21,7 @@ export function CapabilityGrid() {
           Six disciplines. One brief. No handoffs between agencies.
         </SectionIntro>
 
-        <div className="border-ink/10 bg-ink/10 perspective-[1400px] grid grid-cols-[repeat(auto-fit,minmax(320px,1fr))] gap-px overflow-hidden rounded-3xl border">
+        <div className="border-ink/10 bg-ink/10 perspective-[1400px] grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-px overflow-hidden rounded-3xl border">
           {services.map((service) => (
             <Reveal key={service.id} as="div">
               <CapabilityCard service={service} />
