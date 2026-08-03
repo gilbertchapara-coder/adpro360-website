@@ -356,7 +356,7 @@
 
   /* Named effect opacities (not a scale — each is a specific constant) */
   --opacity-grain: 0.05;
-  --opacity-hero-ambient: 0.34;
+  --opacity-hero-ambient: 0.22;
   --opacity-marquee-dim: 0.35;
   --opacity-hover-dim-1: 0.8;
   --opacity-hover-dim-2: 0.9;
@@ -853,10 +853,10 @@
 @keyframes orbit-ring-breathe {
   0%,
   100% {
-    opacity: 0.18;
+    opacity: 0.1;
   }
   50% {
-    opacity: 0.26;
+    opacity: 0.14;
   }
 }
 .orbit-ring-breathe {

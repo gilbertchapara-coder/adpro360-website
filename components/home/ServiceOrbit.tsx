@@ -351,7 +351,7 @@ function CentreStage({ service }: { service: Service }) {
           <motion.div
             variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="nav:text-sm-plus xl:text-h3-a text-fluid-11 tracking-eyebrow-1 text-ivory leading-none font-bold uppercase text-balance"
+            className="nav:text-3xs xl:text-xs text-fluid-11 tracking-eyebrow-1 text-ivory/85 leading-none font-semibold uppercase text-balance"
           >
             {service.title}
           </motion.div>
@@ -369,7 +369,7 @@ function CentreStage({ service }: { service: Service }) {
           <motion.p
             variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.28 }}
-            className="nav:text-xs xl:text-sm-plus text-ivory/42 leading-snug font-light text-balance"
+            className="nav:text-3xs xl:text-xs text-ivory/42 leading-snug font-light text-balance"
           >
             {TAGLINE_BY_SERVICE[service.id]}
           </motion.p>
@@ -494,7 +494,7 @@ export function ServiceOrbit() {
             ["--orbit-angle" as string]: angle,
             ["--orbit-featured-angle" as string]: FEATURED_ANGLE,
           }}
-          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[320px] nav:max-w-[350px] nav:[--orbit-rx:135px] nav:[--orbit-ry:105px] xl:h-[440px] xl:max-w-[520px] xl:[--orbit-rx:200px] xl:[--orbit-ry:155px]"
+          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[210px] nav:max-w-[350px] nav:[--orbit-rx:135px] nav:[--orbit-ry:60px] xl:h-[280px] xl:max-w-[520px] xl:[--orbit-rx:200px] xl:[--orbit-ry:88px]"
         >
           <AmbientParticles />
           <OrbitEnvironment />

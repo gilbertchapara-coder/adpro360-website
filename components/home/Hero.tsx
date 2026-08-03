@@ -94,7 +94,10 @@ export function Hero() {
           />
         </div>
       </motion.div>
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,19,31,.92)_0%,rgba(8,19,31,.55)_40%,rgba(8,19,31,.96)_100%)]" />
+      {/* Deepened from .55 mid-stop — the ambient still photo reads as
+          atmosphere/texture behind the type and orbit now, not a
+          competing image in its own right. */}
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,19,31,.94)_0%,rgba(8,19,31,.74)_40%,rgba(8,19,31,.97)_100%)]" />
       <div className="rounded-pill absolute -top-[20%] -right-[10%] size-[60vw] bg-[radial-gradient(circle,rgba(35,174,192,.28),rgba(37,137,206,.06)_55%,transparent_70%)] blur-2xl" />
 
       {/* The real showreel, in the slot the card's own design already
@@ -185,7 +188,15 @@ export function Hero() {
           into the showreel card live — the track's --orbit-rx/ry were
           still being applied at full size around a collapsed, effectively
           mispositioned anchor point. */}
-      <div className="relative order-2 mt-s24 w-full nav:absolute nav:top-[16vh] nav:order-none nav:mt-0 nav:w-[350px] xl:w-[520px] nav:right-[calc(var(--spacing-gutter-x)+268px+20px)] xl:right-[calc(var(--spacing-gutter-x)+268px+25px)]">
+      {/* `bottom`-anchored, not `top:Xvh` — the heading uses a fluid clamp()
+          size, so the text block's total height (and therefore where the
+          stats row/CTA row actually land) shifts with viewport width, not
+          just viewport height. A fixed vh top drifted in and out of the
+          stats grid across ordinary laptop widths (1280-1440) depending on
+          how tall the heading happened to render. Anchoring to the
+          section's own bottom edge — the same reference the text block's
+          `pb-s25` already uses — keeps the two moving together. */}
+      <div className="relative order-2 mt-s24 w-full nav:absolute nav:bottom-[430px] nav:order-none nav:mt-0 nav:w-[350px] xl:w-[520px] nav:right-[calc(var(--spacing-gutter-x)+268px+25px)] xl:right-[calc(var(--spacing-gutter-x)+268px+30px)] xl:bottom-[480px]">
         <ServiceOrbit />
       </div>
 
@@ -196,7 +207,10 @@ export function Hero() {
         </Reveal>
 
         <Heading as="h1" variant="display-hero">
-          <span aria-hidden="true">
+          {/* Deliberately near-invisible (6% opacity) — "Never reactive."
+              below is the one dominant message this hero makes; this line
+              is a lead-in, not competing typography. */}
+          <span aria-hidden="true" className="text-ivory/[0.06]">
             {HERO_WORD.split("").map((char, i) => (
               <Reveal key={i} as="span" delay={i * 16} className="inline-block">
                 {char}
@@ -217,7 +231,7 @@ export function Hero() {
             one scroll further down, so keeping both was two agencies' worth
             of self-introduction stacked on one screen. */}
         <Reveal delay={340}>
-          <p className="mt-s17 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance">
+          <p className="mt-s22 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance">
             Media, creative and production for Zambia&rsquo;s most ambitious brands — strategy to
             broadcast, under one roof.
           </p>
