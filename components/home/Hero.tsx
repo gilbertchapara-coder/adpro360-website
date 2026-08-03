@@ -45,7 +45,15 @@ function HeroStat({ value, label }: { value: string; label: string }) {
 export function Hero() {
   const rotatorWord = useRotator(heroRotatorWords);
   const magnetic = useMagnetic<HTMLAnchorElement>();
-  const glareRef = useGlare<HTMLDivElement>();
+  /* maxTiltDeg=0 — this card is a primary click target (play/pause), not a
+   * passive link like the tilt cards elsewhere. The mouse-tracked rotateX/
+   * rotateY was shifting the card's rendered position as the cursor moved
+   * toward its lower half (small, off-center element under a section-wide
+   * `perspective`, so the tilt isn't centred on the card itself) — the
+   * element visually receded from under the cursor exactly where a user
+   * was trying to click. Keeps the glare/sheen mouse-follow sheen (--mx/
+   * --my), only the rotation is disabled. */
+  const glareRef = useGlare<HTMLDivElement>(0);
   const { scrollY } = useScroll();
   const parallaxY = useTransform(scrollY, [0, 1000], [0, 180]);
   const parallaxOpacity = useTransform(scrollY, [0, 1000], [1, 0.5]);
@@ -111,7 +119,7 @@ export function Hero() {
         }}
         data-glare=""
         data-cursor={playing ? "Pause" : "Watch"}
-        className="ease-signature z-card-accent right-gutter-x border-ivory/18 bg-ivory/7 p-s17 text-ivory rotate-x-[var(--rx,0deg)] rotate-y-[var(--ry,0deg)] hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 nav:block absolute top-[22vh] hidden w-[268px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)]"
+        className="ease-signature z-card-accent right-gutter-x border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 nav:block absolute top-[22vh] hidden w-[268px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)]"
       >
         <div className="glare-layer" />
         <div className="mb-s15 bg-surface-dark relative aspect-[16/10] overflow-hidden rounded-sm">
