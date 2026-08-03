@@ -31,7 +31,7 @@ export function TeamPreview() {
                 >
                   <div
                     className={cn(
-                      "mb-s16 bg-card-alt relative overflow-hidden rounded-xl",
+                      "mb-s16 bg-card-alt relative overflow-hidden rounded-2xl",
                       featured ? "aspect-[16/9] sm:aspect-[21/9]" : "aspect-[3/4]"
                     )}
                   >

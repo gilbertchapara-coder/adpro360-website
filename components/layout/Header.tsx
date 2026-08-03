@@ -57,7 +57,7 @@ export function Header({ menuOpen, onToggleMenu }: HeaderProps) {
         ))}
         <NextLink
           href="/contact"
-          className="ml-s07 gap-s06 rounded-pill px-s17 py-s09 text-base-minus shadow-glow hover:shadow-glow-hover ease-signature inline-flex items-center bg-[image:var(--gradient-brand)] font-bold text-white transition-[transform,box-shadow] duration-[var(--duration-moderate)] hover:-translate-y-px"
+          className="ml-s07 gap-s06 rounded-pill px-s17 py-s09 text-base-minus shadow-glow hover:shadow-glow-hover ease-signature inline-flex items-center bg-[image:var(--gradient-brand)] font-bold text-white transition-[transform,box-shadow] duration-[var(--duration-moderate)] hover:-translate-y-0.5"
         >
           Start a project
           <span className="rounded-pill bg-white size-[5px]" aria-hidden="true" />

@@ -17,7 +17,7 @@ export function InsightCard({ post, featured = false }: InsightCardProps) {
     <NextLink
       href={`/insights/${post.id}`}
       className={cn(
-        "ease-signature border-ink/10 bg-card text-ink hover:-translate-y-s03 hover:border-teal/55 flex h-full flex-col overflow-hidden rounded-xl border transition-[transform,border-color] duration-[var(--duration-slow)]",
+        "ease-signature border-ink/10 bg-card text-ink hover:-translate-y-s03 hover:border-teal/55 flex h-full flex-col overflow-hidden rounded-2xl border transition-[transform,border-color] duration-[var(--duration-slower)]",
         featured && "sm:flex-row"
       )}
     >

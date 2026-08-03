@@ -323,7 +323,6 @@
   --duration-slower: 600ms;
   --duration-slowest: 700ms;
   --duration-reveal: 950ms;
-  --duration-zoom: 1000ms; /* image scale-on-hover across every card with a photo */
   --duration-stagger-unit: 90ms; /* per-item / per-letter stagger increment */
 
   /* -------------------------------------------------------------------- */

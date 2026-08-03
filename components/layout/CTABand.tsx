@@ -42,7 +42,7 @@ export function CTABand() {
                   ref={magnetic.ref}
                   href="/contact"
                   data-magnetic=""
-                  className="gap-s07 rounded-pill bg-ivory px-s22 py-s14 text-midnight ease-signature inline-flex items-center text-base font-bold transition-transform duration-[var(--duration-moderate)] hover:-translate-y-0.5 active:scale-[0.97]"
+                  className="gap-s07 rounded-pill bg-ivory px-s23 py-s15 text-midnight ease-signature inline-flex items-center text-base-plus font-bold transition-transform duration-[var(--duration-moderate)] hover:-translate-y-0.5 active:scale-[0.97]"
                 >
                   <motion.span
                     style={{ x: magnetic.x, y: magnetic.y }}
@@ -55,7 +55,7 @@ export function CTABand() {
                   href={site.whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-pill border-ivory/30 px-s21 py-s13 text-ivory ease-signature hover:border-teal hover:text-teal active:scale-[0.97] border text-base font-bold transition-[color,border-color,transform] duration-[var(--duration-base)]"
+                  className="rounded-pill border-ivory/30 px-s21 py-s14 text-ivory ease-signature hover:border-teal hover:text-teal active:scale-[0.97] border text-base font-bold transition-[color,border-color,transform] duration-[var(--duration-moderate)]"
                 >
                   WhatsApp us
                 </a>
