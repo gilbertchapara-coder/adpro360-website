@@ -97,11 +97,11 @@ function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number
     <NextLink
       href={`/services#${service.id}`}
       data-cursor="Explore"
-      className="orbit-item gap-s09 nav:w-[56px] xl:w-[68px] flex w-[112px] flex-col items-center text-center sm:w-[144px]"
+      className="orbit-item gap-s09 2xl:w-[18px] flex w-[112px] flex-col items-center text-center sm:w-[144px]"
       style={{ ["--item-offset" as string]: offsetDeg }}
     >
       <span className="orbit-icon flex items-center justify-center">
-        <Icon className="nav:size-[24px] xl:size-[30px] size-[28px] sm:size-[38px]" />
+        <Icon className="2xl:size-[13px] size-[28px] sm:size-[38px]" />
       </span>
       {/* The name lives once, in CentreStage — showing it here too was the
           exact repetition an earlier brief asked to remove, and tried
@@ -186,7 +186,7 @@ function OrbitEnvironment() {
   return (
     <div
       aria-hidden="true"
-      className="nav:block pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[1600px] -translate-x-1/2 -translate-y-1/2 nav:scale-[0.28] xl:scale-[0.42]"
+      className="2xl:block pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[1600px] -translate-x-1/2 -translate-y-1/2 2xl:scale-[0.15]"
     >
       <div
         className="ease-signature absolute inset-0 transition-opacity duration-700"
@@ -340,7 +340,7 @@ function CentreStage({ service }: { service: Service }) {
   const EASE = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <div className="nav:w-[200px] xl:w-[260px] pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px]">
+    <div className="2xl:w-[78px] pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={service.id}
@@ -351,25 +351,29 @@ function CentreStage({ service }: { service: Service }) {
           <motion.div
             variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="nav:text-3xs xl:text-xs text-fluid-11 tracking-eyebrow-1 text-ivory/85 leading-none font-semibold uppercase text-balance"
+            className="2xl:text-[9px] text-fluid-11 tracking-eyebrow-1 text-ivory/85 leading-none font-semibold uppercase text-balance"
           >
             {service.title}
           </motion.div>
 
           {/* A soft beam, not a rule — grows outward from the centre then
               the same parent exit fades it with everything else, so it
-              recedes before the next service's beam grows in. */}
+              recedes before the next service's beam grows in. Extra
+              vertical margin at 2xl (my-s16 -> my-s18 equivalent gap on
+              both the beam and the tagline below it) — the compact orbit
+              size at this breakpoint means title/beam/tagline sat closer
+              together than the "increase spacing" ask wants. */}
           <motion.div
             variants={{ hidden: { scaleX: 0, opacity: 0 }, visible: { scaleX: 1, opacity: 1 } }}
             transition={{ duration: 0.5, ease: EASE, delay: 0.15 }}
             style={{ transformOrigin: "center" }}
-            className="nav:my-s09 mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[0_0_12px_4px_rgba(35,174,192,0.4)]"
+            className="2xl:my-s18 mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[0_0_12px_4px_rgba(35,174,192,0.4)]"
           />
 
           <motion.p
             variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.28 }}
-            className="nav:text-3xs xl:text-xs text-ivory/42 leading-snug font-light text-balance"
+            className="2xl:text-[9px] text-ivory/42 leading-snug font-light text-balance"
           >
             {TAGLINE_BY_SERVICE[service.id]}
           </motion.p>
@@ -494,7 +498,7 @@ export function ServiceOrbit() {
             ["--orbit-angle" as string]: angle,
             ["--orbit-featured-angle" as string]: FEATURED_ANGLE,
           }}
-          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[210px] nav:max-w-[350px] nav:[--orbit-rx:135px] nav:[--orbit-ry:60px] xl:h-[280px] xl:max-w-[520px] xl:[--orbit-rx:200px] xl:[--orbit-ry:88px]"
+          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] 2xl:h-[64px] 2xl:max-w-[90px] 2xl:[--orbit-rx:24px] 2xl:[--orbit-ry:19px]"
         >
           <AmbientParticles />
           <OrbitEnvironment />

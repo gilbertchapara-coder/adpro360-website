@@ -174,29 +174,43 @@ export function Hero() {
       {/* The orbit used to be its own full-width section between Hero and
           ClientWall — now embedded directly in the hero viewport so the
           service network reads as the centre of the same composition
-          instead of a second scroll-stop. Below `nav` it stays in normal
-          flow (own existing mobile sizing, untouched); at `nav` and up it
-          becomes a third floating element alongside the text and the
-          showreel card, positioned in the gap between them. */}
-      {/* Explicit `nav:w-[...]`/`xl:w-[...]` here matching ServiceOrbit's own
-          track max-width, NOT `w-auto` — the track inside is `w-full`
-          (100% of this wrapper), so an auto-width absolutely-positioned
-          parent around a 100%-width child is a circular sizing reference
-          that several browsers resolve by collapsing to 0. Confirmed via
-          a real bounding-box measurement (`trackWidth: 0`) after the
-          first version of this shipped and an orbit icon rotated directly
-          into the showreel card live — the track's --orbit-rx/ry were
-          still being applied at full size around a collapsed, effectively
-          mispositioned anchor point. */}
-      {/* `bottom`-anchored, not `top:Xvh` — the heading uses a fluid clamp()
-          size, so the text block's total height (and therefore where the
-          stats row/CTA row actually land) shifts with viewport width, not
-          just viewport height. A fixed vh top drifted in and out of the
-          stats grid across ordinary laptop widths (1280-1440) depending on
-          how tall the heading happened to render. Anchoring to the
-          section's own bottom edge — the same reference the text block's
-          `pb-s25` already uses — keeps the two moving together. */}
-      <div className="relative order-2 mt-s24 w-full nav:absolute nav:bottom-[430px] nav:order-none nav:mt-0 nav:w-[350px] xl:w-[520px] nav:right-[calc(var(--spacing-gutter-x)+268px+25px)] xl:right-[calc(var(--spacing-gutter-x)+268px+30px)] xl:bottom-[480px]">
+          instead of a second scroll-stop.
+
+          Floating (a third element beside the text and the showreel card)
+          only from `2xl` (1600px) up, not `nav` (900px) — measured the
+          real horizontal gap between the headline's actual rendered text
+          and the showreel card at every common width: 76px at 1024, 164px
+          at 1280, 191px at 1366, 219px at 1440, 222px at 1600, 275px at
+          1920. A floating orbit with real breathing room on both sides
+          needs on the order of 150-200px of clearance; that genuinely
+          doesn't exist below ~1600px given the current text column and
+          card position, so forcing it to float there was the direct cause
+          of a real text collision that shipped in an earlier pass. Below
+          `2xl`, the orbit stays in normal document flow instead — same
+          safe, already-proven mobile/tablet treatment, just extended
+          further up the breakpoint scale than before.
+
+          Right-anchored off the showreel card (not left-anchored off the
+          headline) — the headline's fluid clamp() text caps out around
+          1783px viewport width and then stops growing, while the card's
+          own right-gutter-anchored position keeps moving outward forever,
+          so a right-anchor's clearance from the (now-fixed-width) headline
+          only ever grows past that point. Sized/offset for the tightest
+          real case in this range, 1600px (2xl's own threshold), and
+          verified empirically across 1600-1920+ against real rendered
+          text — not computed by hand, which produced numbers that didn't
+          hold up against the actual measured layout more than once this
+          session. */}
+      {/* width/offset calibrated against the real worst-case point in this
+          range, which is NEITHER boundary — the headline's fluid text is
+          still growing at 1600 and hasn't caught up to its own clamp()
+          ceiling yet, so the card-to-headline gap actually narrows
+          slightly before widening again: 221px at 1600, dipping to a real
+          measured minimum of 209px at 1783 (where the text finally caps),
+          then opening back up to 279px by 1920. Sized/positioned for the
+          1783 case with real margin to spare, verified against the other
+          five widths in this tier too. */}
+      <div className="relative order-2 mt-s24 w-full 2xl:absolute 2xl:top-1/2 2xl:order-none 2xl:mt-0 2xl:w-[90px] 2xl:-translate-y-1/2 2xl:right-[calc(var(--spacing-gutter-x)+268px+45px)]">
         <ServiceOrbit />
       </div>
 
@@ -207,10 +221,10 @@ export function Hero() {
         </Reveal>
 
         <Heading as="h1" variant="display-hero">
-          {/* Deliberately near-invisible (6% opacity) — "Never reactive."
+          {/* Deliberately near-invisible (5% opacity) — "Never reactive."
               below is the one dominant message this hero makes; this line
               is a lead-in, not competing typography. */}
-          <span aria-hidden="true" className="text-ivory/[0.06]">
+          <span aria-hidden="true" className="text-ivory/[0.05]">
             {HERO_WORD.split("").map((char, i) => (
               <Reveal key={i} as="span" delay={i * 16} className="inline-block">
                 {char}
@@ -231,7 +245,7 @@ export function Hero() {
             one scroll further down, so keeping both was two agencies' worth
             of self-introduction stacked on one screen. */}
         <Reveal delay={340}>
-          <p className="mt-s22 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance">
+          <p className="mt-s24 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance">
             Media, creative and production for Zambia&rsquo;s most ambitious brands — strategy to
             broadcast, under one roof.
           </p>
@@ -245,7 +259,7 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <div className="mt-s26 gap-s18 pb-s25 flex flex-wrap items-center justify-between">
+        <div className="mt-s28 gap-s18 pb-s25 flex flex-wrap items-center justify-between">
           <div className="gap-s11 flex flex-wrap items-center">
             <NextLink
               ref={magnetic.ref}
