@@ -104,7 +104,16 @@ export function Hero() {
           negligible, but having the browser resolve the resource ahead of
           the click made programmatic `.play()` fire reliably; with "none"
           it silently never progressed past readyState 0. "See the work"
-          below still covers the /work navigation this used to do. */}
+          below still covers the /work navigation this used to do.
+
+          Below `nav` (900px) this was `hidden` outright — the card only
+          made sense as a floating aside next to desktop's side-by-side
+          text, and nothing replaced it, so mobile visitors had no reel at
+          all. Same single video element, same click target; only the
+          positioning is responsive — in-flow, full-width, ordered after
+          the CTA row (`order-2` — `section` is `flex flex-col`, so this
+          purely visual reorder needs no DOM move) below `nav`, then back
+          to the absolute floating card at `nav` and up. */}
       <div
         ref={glareRef}
         role="button"
@@ -119,7 +128,7 @@ export function Hero() {
         }}
         data-glare=""
         data-cursor={playing ? "Pause" : "Watch"}
-        className="ease-signature z-card-accent right-gutter-x border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 nav:block absolute top-[22vh] hidden w-[268px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)]"
+        className="ease-signature z-card-accent border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 relative order-2 mx-auto mt-s20 w-full max-w-[380px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)] nav:absolute nav:top-[22vh] nav:right-gutter-x nav:mx-0 nav:mt-0 nav:w-[268px] nav:max-w-none"
       >
         <div className="glare-layer" />
         <div className="mb-s15 bg-surface-dark relative aspect-[16/10] overflow-hidden rounded-sm">
