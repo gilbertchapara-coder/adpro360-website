@@ -21,7 +21,13 @@ export function CapabilityGrid() {
           Six disciplines. One brief. No handoffs between agencies.
         </SectionIntro>
 
-        <div className="border-ink/10 bg-ink/10 perspective-[1400px] grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-px overflow-hidden rounded-3xl border">
+        {/* Fixed set of exactly 6 services, always meant to read as a clean
+            3x2 matrix — `auto-fit` doesn't know the count is fixed and adds
+            a 4th column once the viewport is wide enough (confirmed at
+            1920px), leaving a blank trailing cell where a non-existent 7th
+            card would go. An explicit, capped column count can't do that
+            at any width. */}
+        <div className="border-ink/10 bg-ink/10 perspective-[1400px] grid grid-cols-1 gap-px overflow-hidden rounded-3xl border sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
             <Reveal key={service.id} as="div">
               <CapabilityCard service={service} />
