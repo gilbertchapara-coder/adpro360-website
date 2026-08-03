@@ -853,10 +853,10 @@
 @keyframes orbit-ring-breathe {
   0%,
   100% {
-    opacity: 0.08;
+    opacity: 0.18;
   }
   50% {
-    opacity: 0.13;
+    opacity: 0.26;
   }
 }
 .orbit-ring-breathe {

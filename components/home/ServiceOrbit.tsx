@@ -97,11 +97,11 @@ function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number
     <NextLink
       href={`/services#${service.id}`}
       data-cursor="Explore"
-      className="orbit-item gap-s09 nav:w-[44px] xl:w-[54px] flex w-[112px] flex-col items-center text-center sm:w-[144px]"
+      className="orbit-item gap-s09 nav:w-[56px] xl:w-[68px] flex w-[112px] flex-col items-center text-center sm:w-[144px]"
       style={{ ["--item-offset" as string]: offsetDeg }}
     >
       <span className="orbit-icon flex items-center justify-center">
-        <Icon className="nav:size-[20px] xl:size-[26px] size-[28px] sm:size-[38px]" />
+        <Icon className="nav:size-[24px] xl:size-[30px] size-[28px] sm:size-[38px]" />
       </span>
       {/* The name lives once, in CentreStage — showing it here too was the
           exact repetition an earlier brief asked to remove, and tried
@@ -340,7 +340,7 @@ function CentreStage({ service }: { service: Service }) {
   const EASE = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <div className="nav:w-[150px] xl:w-[190px] pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px]">
+    <div className="nav:w-[200px] xl:w-[260px] pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={service.id}
@@ -351,7 +351,7 @@ function CentreStage({ service }: { service: Service }) {
           <motion.div
             variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="nav:text-xs xl:text-sm-plus text-fluid-11 tracking-eyebrow-1 text-ivory leading-none font-bold uppercase text-balance"
+            className="nav:text-sm-plus xl:text-h3-a text-fluid-11 tracking-eyebrow-1 text-ivory leading-none font-bold uppercase text-balance"
           >
             {service.title}
           </motion.div>
@@ -369,7 +369,7 @@ function CentreStage({ service }: { service: Service }) {
           <motion.p
             variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.28 }}
-            className="nav:hidden xl:block text-ivory/42 text-sm-plus leading-snug font-light text-balance"
+            className="nav:text-xs xl:text-sm-plus text-ivory/42 leading-snug font-light text-balance"
           >
             {TAGLINE_BY_SERVICE[service.id]}
           </motion.p>
@@ -494,7 +494,7 @@ export function ServiceOrbit() {
             ["--orbit-angle" as string]: angle,
             ["--orbit-featured-angle" as string]: FEATURED_ANGLE,
           }}
-          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[220px] nav:max-w-[300px] nav:[--orbit-rx:75px] nav:[--orbit-ry:60px] xl:h-[300px] xl:max-w-[420px] xl:[--orbit-rx:110px] xl:[--orbit-ry:85px]"
+          className="relative mx-auto h-[420px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[640px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] nav:h-[320px] nav:max-w-[350px] nav:[--orbit-rx:135px] nav:[--orbit-ry:105px] xl:h-[440px] xl:max-w-[520px] xl:[--orbit-rx:200px] xl:[--orbit-ry:155px]"
         >
           <AmbientParticles />
           <OrbitEnvironment />
