@@ -8,6 +8,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { MediaSlot } from "@/components/shared/MediaSlot";
 import { SignatureAccent } from "@/components/shared/SignatureAccent";
 import { FrameCorners } from "@/components/shared/FrameCorners";
+import { ServiceOrbit } from "./ServiceOrbit";
 import { useMagnetic } from "@/lib/hooks/useMagnetic";
 import { useGlare } from "@/lib/hooks/useGlare";
 import { useCountUp } from "@/lib/hooks/useCountUp";
@@ -128,7 +129,7 @@ export function Hero() {
         }}
         data-glare=""
         data-cursor={playing ? "Pause" : "Watch"}
-        className="ease-signature z-card-accent border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 relative order-2 mx-auto mt-s20 w-full max-w-[380px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-teal nav:absolute nav:top-[22vh] nav:right-gutter-x nav:mx-0 nav:mt-0 nav:w-[268px] nav:max-w-none"
+        className="ease-signature z-card-accent border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 relative order-3 mx-auto mt-s20 w-full max-w-[380px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-teal nav:absolute nav:top-[22vh] nav:right-gutter-x nav:mx-0 nav:mt-0 nav:w-[268px] nav:max-w-none"
       >
         <div className="glare-layer" />
         <div className="mb-s15 bg-surface-dark relative aspect-[16/10] overflow-hidden rounded-sm">
@@ -165,6 +166,17 @@ export function Hero() {
         <div className="text-md-plus leading-relaxed-4 tracking-tight-2">
           Thirty seconds of proof, {rotatorWord}.
         </div>
+      </div>
+
+      {/* The orbit used to be its own full-width section between Hero and
+          ClientWall — now embedded directly in the hero viewport so the
+          service network reads as the centre of the same composition
+          instead of a second scroll-stop. Below `nav` it stays in normal
+          flow (own existing mobile sizing, untouched); at `nav` and up it
+          becomes a third floating element alongside the text and the
+          showreel card, positioned in the gap between them. */}
+      <div className="relative order-2 mt-s24 w-full nav:absolute nav:top-[16vh] nav:order-none nav:mt-0 nav:w-auto nav:right-[calc(var(--spacing-gutter-x)+268px+8px)] xl:right-[calc(var(--spacing-gutter-x)+268px+24px)]">
+        <ServiceOrbit />
       </div>
 
       <div className="max-w-content pb-s27 relative mx-auto w-full">

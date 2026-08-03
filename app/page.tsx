@@ -1,6 +1,5 @@
 import {
   Hero,
-  ServiceOrbit,
   ActiveServiceProvider,
   WhoWeAre,
   CapabilityGrid,
@@ -14,13 +13,12 @@ import {
 export default function Home() {
   return (
     <>
-      <Hero />
-      {/* Orbit writes the currently-featured service into context, ClientWall
-          reads it to highlight the relevant logos — see
-          active-service-context.tsx. Provider is scoped to just these two
-          sections, not the whole page. */}
+      {/* Orbit (now embedded inside Hero, see Hero.tsx) writes the
+          currently-featured service into context; ClientWall reads it to
+          highlight the relevant logos — see active-service-context.tsx.
+          Provider now wraps Hero too, since that's where the orbit lives. */}
       <ActiveServiceProvider>
-        <ServiceOrbit />
+        <Hero />
         <ClientWall />
       </ActiveServiceProvider>
       <WhoWeAre />
