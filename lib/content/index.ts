@@ -8,6 +8,7 @@ export { testimonials, type Testimonial } from "./testimonials";
 export {
   heroStats,
   heroRotatorWords,
+  heroObjects,
   beliefs,
   proofPoints,
   clients,
@@ -15,5 +16,6 @@ export {
   type Belief,
   type ProofPoint,
   type Client,
+  type HeroObject,
 } from "./home";
 export { processSteps, type ProcessStep } from "./work";

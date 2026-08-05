@@ -5,10 +5,10 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import NextLink from "next/link";
 import { Heading } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
-import { MediaSlot } from "@/components/shared/MediaSlot";
 import { SignatureAccent } from "@/components/shared/SignatureAccent";
 import { FrameCorners } from "@/components/shared/FrameCorners";
 import { ServiceOrbit } from "./ServiceOrbit";
+import { HeroObjectSequence } from "./HeroObjectSequence";
 import { useMagnetic } from "@/lib/hooks/useMagnetic";
 import { useGlare } from "@/lib/hooks/useGlare";
 import { useCountUp } from "@/lib/hooks/useCountUp";
@@ -86,12 +86,17 @@ export function Hero() {
         style={{ y: parallaxY, opacity: parallaxOpacity }}
         className="absolute -inset-[6%]"
       >
-        <div className="absolute inset-0 animate-[ap-drift_26s_ease-in-out_infinite] opacity-[var(--opacity-hero-ambient)]">
-          <MediaSlot
-            src="/images/hero-showreel-ambient-drone.jpg"
-            alt="AdPro 360 showreel — production still"
-            priority
-          />
+        {/* 4 textless cinematic object loops replacing the former still-photo
+            ambient background — see HeroObjectSequence for the crossfade/
+            reduced-motion logic and lib/content/home.ts's heroObjects for
+            the per-object brief. Dropped the old ap-drift pan/zoom that
+            wrapped the still photo: that animation existed to keep an
+            otherwise-static image from feeling dead, which doesn't apply to
+            footage that's already deliberately, slowly in motion — layering
+            an independent zoom/pan on top of it would fight the object's
+            own choreography rather than support it. */}
+        <div className="absolute inset-0 opacity-[var(--opacity-hero-ambient)]">
+          <HeroObjectSequence />
         </div>
       </motion.div>
       {/* Deepened from .55 mid-stop — the ambient still photo reads as

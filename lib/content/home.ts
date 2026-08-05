@@ -1,6 +1,7 @@
 export type HeroStat = { value: string; label: string };
 export type Belief = { num: string; title: string; body: string };
 export type ProofPoint = { value: string; label: string };
+export type HeroObject = { id: string; video: string; poster: string; alt: string };
 
 /**
  * The client wall moved from a card grid to a floating monochrome marquee —
@@ -43,6 +44,42 @@ export const heroRotatorWords = [
   "shot in Zambia",
   "strategy first",
   "broadcast grade",
+];
+
+/**
+ * The hero's ambient background — 4 premium cinematic loops (real client
+ * footage, no baked-in text), each standing in for one layer of the agency:
+ * strategy, film/production, ideas, and media/distribution. Cycled by
+ * `HeroObjectSequence`, one at a time, crossfaded — order here is playback
+ * order. Not service icons and not literal — see each video's own creative
+ * brief for the intended read (compass = strategy/direction, lens =
+ * film/production, crystal = ideas, ring = media/reach).
+ */
+export const heroObjects: HeroObject[] = [
+  {
+    id: "strategy-compass",
+    video: "/videos/strategy-compass.mp4",
+    poster: "/videos/strategy-compass.jpg",
+    alt: "A precision compass, its needle slowly correcting itself — strategy and direction.",
+  },
+  {
+    id: "cinema-lens",
+    video: "/videos/cinema-lens.mp4",
+    poster: "/videos/cinema-lens.jpg",
+    alt: "A cinema lens with a soft internal glow — film and production craft.",
+  },
+  {
+    id: "creative-catalyst",
+    video: "/videos/creative-catalyst.mp4",
+    poster: "/videos/creative-catalyst.jpg",
+    alt: "A faceted crystal catching and refracting light — ideas and creative thinking.",
+  },
+  {
+    id: "orbital-media-ring",
+    video: "/videos/orbital-media-ring.mp4",
+    poster: "/videos/orbital-media-ring.jpg",
+    alt: "A layered ring with a counter-rotating core — media buying and distribution.",
+  },
 ];
 
 
