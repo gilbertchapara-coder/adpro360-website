@@ -1042,9 +1042,21 @@
 
   /* One consistent grade across every team portrait, real photo or
      placeholder alike — CD review: "standardise the portrait treatment
-     (one grade/duotone) for a cohesive, owned look." */
+     (one grade/duotone) for a cohesive, owned look."
+
+     Recalibrated: 45% grayscale left 55% of each source photo's own
+     saturation intact, so two portraits shot under different lighting
+     (one warm/gold-toned backdrop, one cool blue-gray) still visibly read
+     as two different treatments side by side — confirmed on the live
+     Team page. `saturate(1.05)` was actively working against
+     unification, boosting whatever colour survived the grayscale step.
+     Now: grayscale pushed hard enough that the underlying photo's own
+     colour cast stops dominating, saturate pulls down (not up) whatever
+     remains, and the duotone overlay below is strengthened so it reads
+     as the one deliberate signature colour instead of a faint tint on
+     top of two different photos. */
   .team-portrait-grade {
-    filter: grayscale(45%) contrast(1.06) saturate(1.05);
+    filter: grayscale(85%) contrast(1.08) saturate(0.9);
   }
 
   .team-portrait-grade::after {
@@ -1053,8 +1065,8 @@
     inset: 0;
     background: linear-gradient(
       160deg,
-      color-mix(in srgb, var(--color-navy) 22%, transparent),
-      color-mix(in srgb, var(--color-teal) 14%, transparent)
+      color-mix(in srgb, var(--color-navy) 32%, transparent),
+      color-mix(in srgb, var(--color-teal) 22%, transparent)
     );
     mix-blend-mode: multiply;
     pointer-events: none;
