@@ -99,10 +99,16 @@ export function Hero() {
           <HeroObjectSequence />
         </div>
       </motion.div>
-      {/* Deepened from .55 mid-stop — the ambient still photo reads as
-          atmosphere/texture behind the type and orbit now, not a
-          competing image in its own right. */}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-midnight)_94%,transparent)_0%,color-mix(in_srgb,var(--color-midnight)_74%,transparent)_40%,color-mix(in_srgb,var(--color-midnight)_97%,transparent)_100%)]" />
+      {/* Lightened from 94/74/97% — that depth was tuned so a bright still
+          photo read as atmosphere/texture, not a competing image. The
+          cinematic loops here are already dark/moody by nature (near-black
+          backdrops, a single glowing accent per object), so the same heavy
+          wash was mostly hiding them rather than protecting legibility —
+          confirmed live, the loop was barely visible. Kept the same
+          heavier-top/bottom, lighter-middle shape (header/CTA zones still
+          get more cover than the headline band) at meaningfully lower
+          opacity throughout. */}
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-midnight)_75%,transparent)_0%,color-mix(in_srgb,var(--color-midnight)_48%,transparent)_40%,color-mix(in_srgb,var(--color-midnight)_80%,transparent)_100%)]" />
       <div className="rounded-pill absolute -top-[20%] -right-[10%] size-[60vw] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-teal)_28%,transparent),color-mix(in_srgb,var(--color-azure)_6%,transparent)_55%,transparent_70%)] blur-2xl" />
 
       {/* The real showreel, in the slot the card's own design already
