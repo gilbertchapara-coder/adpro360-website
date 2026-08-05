@@ -5,10 +5,11 @@ import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion
 import NextLink from "next/link";
 import { Heading } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
-import { SignatureAccent } from "@/components/shared/SignatureAccent";
 import { FrameCorners } from "@/components/shared/FrameCorners";
 import { ServiceOrbit } from "./ServiceOrbit";
 import { HeroObjectSequence } from "./HeroObjectSequence";
+import { HeroSequenceProvider } from "./hero-sequence-context";
+import { HeroHeadline, HeroBody } from "./HeroSequenceText";
 import { useMagnetic } from "@/lib/hooks/useMagnetic";
 import { useGlare } from "@/lib/hooks/useGlare";
 import { useCountUp } from "@/lib/hooks/useCountUp";
@@ -81,6 +82,7 @@ export function Hero() {
   };
 
   return (
+    <HeroSequenceProvider>
     <section className="bg-midnight px-gutter-x pt-hero-pt text-ivory perspective-[1000px] relative flex min-h-screen flex-col justify-end overflow-hidden">
       <motion.div
         style={{ y: parallaxY, opacity: parallaxOpacity }}
@@ -246,21 +248,20 @@ export function Hero() {
             Proactive.
           </span>
           <br />
-          <Reveal as="span" delay={260} className="inline-block">
-            <SignatureAccent dot>Never reactive.</SignatureAccent>
-          </Reveal>
+          <HeroHeadline className="inline-block" />
         </Heading>
 
-        {/* Single support line — the "AdPro 360 is a full-service..." paragraph
-            that used to sit here was cut; WhoWeAre already covers that ground
-            one scroll further down, so keeping both was two agencies' worth
-            of self-introduction stacked on one screen. */}
-        <Reveal delay={340}>
-          <p className="mt-s24 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance">
-            Media, creative and production for Zambia&rsquo;s most ambitious brands — strategy to
-            broadcast, under one roof.
-          </p>
-        </Reveal>
+        {/* Headline + body both now come from the active chapter
+            (HeroSequenceProvider) instead of static copy — see
+            HeroSequenceText for the per-object reveal effects and
+            lib/content/home.ts's heroObjects for the copy itself. The old
+            on-scroll Reveal wrapper is gone here on purpose: Reveal only
+            ever fires once per element (`viewport:{once:true}`), so it
+            would have played for chapter 1 and then silently never
+            animated again for chapters 2-4 — the chapter-beat-driven
+            animation inside HeroHeadline/HeroBody replaces it entirely for
+            this one spot. */}
+        <HeroBody className="mt-s24 max-w-copy-xs text-lede leading-snug-2 tracking-tight-2 text-ivory/86 text-balance" />
 
         <Reveal delay={420}>
           <div className="mt-hero-content-mt gap-s16 border-ivory/14 pt-s23 grid max-w-copy grid-cols-2 border-t md:grid-cols-3">
@@ -305,5 +306,6 @@ export function Hero() {
         </div>
       </div>
     </section>
+    </HeroSequenceProvider>
   );
 }

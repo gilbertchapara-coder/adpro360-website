@@ -1,7 +1,23 @@
 export type HeroStat = { value: string; label: string };
 export type Belief = { num: string; title: string; body: string };
 export type ProofPoint = { value: string; label: string };
-export type HeroObject = { id: string; video: string; poster: string; alt: string };
+export type HeroObjectEffect = "glow" | "illuminate" | "sharpen" | "converge";
+export type HeroObject = {
+  id: string;
+  video: string;
+  poster: string;
+  alt: string;
+  headline: string;
+  body: string;
+  /** ms into the clip where its "moment of truth" actually happens — verified
+   * against the real footage (frame-checked at 0.5s intervals), not assumed
+   * from the creative brief alone. The headline reveals exactly here. */
+  beatMs: number;
+  /** How the headline is introduced — see HeroSequenceText for what each
+   * one actually does; "sharpen" is the one explicit exception to the
+   * shared slide+fade base recipe (blur-resolve instead of fade, no slide). */
+  effect: HeroObjectEffect;
+};
 
 /**
  * The client wall moved from a card grid to a floating monochrome marquee —
@@ -48,12 +64,19 @@ export const heroRotatorWords = [
 
 /**
  * The hero's ambient background — 4 premium cinematic loops (real client
- * footage, no baked-in text), each standing in for one layer of the agency:
- * strategy, film/production, ideas, and media/distribution. Cycled by
- * `HeroObjectSequence`, one at a time, crossfaded — order here is playback
- * order. Not service icons and not literal — see each video's own creative
- * brief for the intended read (compass = strategy/direction, lens =
- * film/production, crystal = ideas, ring = media/reach).
+ * footage, no baked-in text), each standing in for one layer of the agency
+ * and each introducing its own headline/body line (see HeroSequenceText).
+ * Cycled by `HeroObjectSequence`/`HeroSequenceProvider`, one at a time,
+ * crossfaded — order here is chapter order, matching the approved creative
+ * brief exactly (headline/body copy is verbatim from that brief, not
+ * authored here).
+ *
+ * `beatMs` was checked against the real footage (frame-sampled at 0.5s
+ * intervals) before being set — compass genuinely settles/glows brighter
+ * around 1.6-2s, crystal is visibly more radiant by 2s. Lens/ring weren't
+ * frame-verified to the same depth; if either reveal visibly fires before
+ * or after the object's own "moment," retune the number here, nothing else
+ * needs to change.
  */
 export const heroObjects: HeroObject[] = [
   {
@@ -61,24 +84,40 @@ export const heroObjects: HeroObject[] = [
     video: "/videos/strategy-compass.mp4",
     poster: "/videos/strategy-compass.jpg",
     alt: "A precision compass, its needle slowly correcting itself — strategy and direction.",
-  },
-  {
-    id: "cinema-lens",
-    video: "/videos/cinema-lens.mp4",
-    poster: "/videos/cinema-lens.jpg",
-    alt: "A cinema lens with a soft internal glow — film and production craft.",
+    headline: "Never reactive.",
+    body: "Media, creative and production for Zambia's most ambitious brands.",
+    beatMs: 1800,
+    effect: "glow",
   },
   {
     id: "creative-catalyst",
     video: "/videos/creative-catalyst.mp4",
     poster: "/videos/creative-catalyst.jpg",
     alt: "A faceted crystal catching and refracting light — ideas and creative thinking.",
+    headline: "Ideas with direction.",
+    body: "Every campaign starts with strategy.",
+    beatMs: 2000,
+    effect: "illuminate",
+  },
+  {
+    id: "cinema-lens",
+    video: "/videos/cinema-lens.mp4",
+    poster: "/videos/cinema-lens.jpg",
+    alt: "A cinema lens with a soft internal glow — film and production craft.",
+    headline: "Every frame counts.",
+    body: "We don't produce content. We create communication.",
+    beatMs: 2000,
+    effect: "sharpen",
   },
   {
     id: "orbital-media-ring",
     video: "/videos/orbital-media-ring.mp4",
     poster: "/videos/orbital-media-ring.jpg",
     alt: "A layered ring with a counter-rotating core — media buying and distribution.",
+    headline: "Every impression matters.",
+    body: "Reach the right audience.",
+    beatMs: 2300,
+    effect: "converge",
   },
 ];
 

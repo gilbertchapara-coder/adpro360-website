@@ -17,5 +17,6 @@ export {
   type ProofPoint,
   type Client,
   type HeroObject,
+  type HeroObjectEffect,
 } from "./home";
 export { processSteps, type ProcessStep } from "./work";

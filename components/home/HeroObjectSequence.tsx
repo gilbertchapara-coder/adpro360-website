@@ -1,71 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { HeroVideo } from "./HeroVideo";
+import { useHeroSequence, VIDEO_CROSSFADE_MS } from "./hero-sequence-context";
 import { heroObjects } from "@/lib/content";
 
-/** How long each object holds the stage before crossfading to the next —
- * "approximately 5-7 seconds" per brief, one flat value rather than
- * randomising within the range for no real gain. */
-const HOLD_MS = 6000;
-/** --duration-reveal (950ms) — sits inside the requested 700-1200ms
- * crossfade window and is an existing token rather than a new one. */
-const CROSSFADE_S = 0.95;
-/** --ease-signature — Framer Motion transitions can't reference a CSS custom
- * property directly, so this is the same literal array every other
- * Framer-driven transition in the codebase already hardcodes (e.g.
- * TestimonialCarousel's blockquote transition). */
 const EASE_SIGNATURE = [0.16, 1, 0.3, 1] as const;
+/** Hoisted to a stable module-level constant on purpose: HeroObjectSequence
+ * re-renders on every phase change (several times per chapter, since it
+ * reads phase/playbackRate from context), and a fresh object literal here
+ * on each render was resetting Framer Motion's exit-animation tracking for
+ * whichever video happened to be mid-exit at that moment -- the previous
+ * chapter's video never actually finished unmounting, so every chapter's
+ * video accumulated in the DOM instead of being replaced. Confirmed via the
+ * state machine's own debug log (phase transitions fire correctly, exactly
+ * once per chapter) before finding this -- the bug was here, not there. */
+const CROSSFADE_TRANSITION = { duration: VIDEO_CROSSFADE_MS / 1000, ease: EASE_SIGNATURE };
 
 /**
- * The hero's ambient background: 4 textless cinematic loops cycling one at a
- * time, crossfaded, each standing in for one layer of the agency (see
- * `heroObjects` in lib/content/home.ts for the per-object brief). Only the
- * active object ever has a real `<video>` mounted — the other 3 are neither
- * fetched nor decoding, satisfying "never allow four videos to decode
- * simultaneously" without needing a manual pause/play state machine. During
- * the crossfade itself the outgoing object's video is still technically
- * playing for the ~950ms exit animation, same as any crossfade.
+ * The hero's ambient background: the active chapter's video, crossfaded to
+ * the next. Only ever mounts 2 `<video>` elements at once (outgoing +
+ * incoming, during the ~900ms crossfade itself) — every other chapter is
+ * neither fetched nor decoding. A muted, invisible copy of the *next*
+ * chapter's video pre-mounts as soon as this one enters "transition" phase,
+ * giving it a head start on buffering before it needs to be seen ("preload
+ * the next hero" per the brief) without keeping all 4 warm at once.
  *
- * `prefers-reduced-motion`: no timer, no video, no animation — renders the
- * first object's poster as a plain static image and stops there.
+ * `prefers-reduced-motion`: HeroSequenceProvider locks phase at "reading"
+ * on chapter 0 and never advances, so this only ever renders chapter 0's
+ * poster as a plain static image, no video, no crossfade timer.
  */
 export function HeroObjectSequence() {
-  const [index, setIndex] = useState(0);
-  const prefersReducedMotion = useReducedMotion();
+  const { active, index, phase, playbackRate, reducedMotion } = useHeroSequence();
 
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    const id = setInterval(() => setIndex((i) => (i + 1) % heroObjects.length), HOLD_MS);
-    return () => clearInterval(id);
-  }, [prefersReducedMotion]);
-
-  if (prefersReducedMotion) {
-    const first = heroObjects[0];
-    // eslint-disable-next-line @next/next/no-img-element -- static fallback, no next/image `fill` parent sizing needed here
-    return <img src={first.poster} alt={first.alt} className="size-full object-cover" />;
+  if (reducedMotion) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- static fallback, no next/image `fill` parent sizing needed here
+      <img src={active.poster} alt={active.alt} className="size-full object-cover" />
+    );
   }
 
-  const active = heroObjects[index];
+  const next = heroObjects[(index + 1) % heroObjects.length];
 
   return (
-    <AnimatePresence>
-      <motion.div
-        key={active.id}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: CROSSFADE_S, ease: EASE_SIGNATURE }}
-        className="absolute inset-0"
-      >
-        <HeroVideo
-          video={active.video}
-          poster={active.poster}
-          alt={active.alt}
-          priority={index === 0}
-        />
-      </motion.div>
-    </AnimatePresence>
+    <>
+      <AnimatePresence>
+        <motion.div
+          key={active.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={CROSSFADE_TRANSITION}
+          className="absolute inset-0"
+        >
+          <HeroVideo
+            video={active.video}
+            poster={active.poster}
+            alt={active.alt}
+            priority={index === 0}
+            playbackRate={playbackRate}
+          />
+        </motion.div>
+      </AnimatePresence>
+
+      {phase === "transition" && (
+        <div className="absolute inset-0 opacity-0" aria-hidden="true">
+          <HeroVideo video={next.video} poster={next.poster} alt="" preload="auto" loop={false} />
+        </div>
+      )}
+    </>
   );
 }

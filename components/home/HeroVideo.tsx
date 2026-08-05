@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils/cn";
 
 type HeroVideoProps = {
@@ -12,6 +13,11 @@ type HeroVideoProps = {
   /** The one instance visible on first paint — fetches eagerly (`preload="auto"`)
    * instead of waiting. Every other instance should omit this. */
   priority?: boolean;
+  /** Imperative `video.playbackRate` — 1 for normal playback, throttled during
+   * the "reading" phase so the object goes "almost still" without a jarring
+   * hard pause/freeze-frame. Native `<video>` has no declarative prop for
+   * this, hence the ref + effect. */
+  playbackRate?: number;
   className?: string;
 };
 
@@ -30,10 +36,20 @@ export function HeroVideo({
   loop = true,
   preload,
   priority = false,
+  playbackRate,
   className,
 }: HeroVideoProps) {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (ref.current && playbackRate !== undefined) {
+      ref.current.playbackRate = playbackRate;
+    }
+  }, [playbackRate]);
+
   return (
     <video
+      ref={ref}
       aria-label={alt}
       poster={poster}
       autoPlay
