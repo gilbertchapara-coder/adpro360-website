@@ -442,6 +442,8 @@ export function ServiceOrbit() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { setActiveServiceId, forcedServiceId } = useActiveService();
   const forcedActive = useRef(false);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
 
   // Seed ClientWall with the initial featured service (index 0) — the
   // change-detection below only fires once the orbit actually *moves* to a
@@ -451,8 +453,23 @@ export function ServiceOrbit() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /** OrbitBridge sits well below the fold (after Hero + ClientWall) — the
+   * rAF loop below was previously running from the moment this component
+   * mounted regardless of scroll position, burning main-thread work during
+   * the page's critical initial-load window for a rotation nobody could
+   * see yet. Gated to only spin once actually scrolled into view. */
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
+      rootMargin: "200px",
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   useAnimationFrame((_, delta) => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !inView) return;
     angle.set(angle.get() + (speed.get() * delta) / 1000);
   });
 
@@ -549,6 +566,7 @@ export function ServiceOrbit() {
       />
       <Reveal>
         <motion.div
+          ref={trackRef}
           onHoverStart={slowDown}
           onHoverEnd={speedUp}
           onPanStart={handlePanStart}
