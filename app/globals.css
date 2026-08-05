@@ -1107,10 +1107,17 @@
      Tailwind arbitrary value — `bg-[image:linear-gradient(...),linear-gradient(...)]`
      silently compiled to no rule at all (Tailwind's bracket parser doesn't
      survive the nested comma between two gradient layers), so this lives
-     here instead, same as glare/sheen below it. */
+     here instead, same as glare/sheen below it.
+
+     The rest-state hairline uses `currentColor` (via `color-mix`), not a
+     hardcoded ink rgba — the old hardcoded value was invisible on dark
+     backgrounds since it assumed a light surface. `currentColor` tracks
+     whatever text color the caller sets via className (the same
+     composition pattern the rest of Link uses), so the same variant works
+     on both light and dark sections. */
   .link-underline {
     background-image:
-      linear-gradient(rgba(12, 17, 25, 0.25), rgba(12, 17, 25, 0.25)),
+      linear-gradient(color-mix(in srgb, currentColor 25%, transparent), color-mix(in srgb, currentColor 25%, transparent)),
       linear-gradient(var(--color-teal), var(--color-teal));
     background-repeat: no-repeat;
     background-position: left bottom;
