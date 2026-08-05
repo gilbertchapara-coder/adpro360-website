@@ -31,8 +31,7 @@ export const insights: Insight[] = [
     read: "5 min",
     date: "2026-07-14",
     title: "Impressions are not attention. Buy dwell time instead.",
-    excerpt:
-      "Why the cheapest reach in Lusaka is often the most expensive line on a media plan — and how we rebuild plans around the seconds an audience actually gives you.",
+    excerpt: "Why the cheapest reach in Lusaka is often the most expensive line on a media plan.",
     body: [
       "The cheapest reach in Lusaka is almost always the most expensive line on a media plan, once you measure it against attention rather than impressions. A billboard seen by ten thousand commuters stopped for four seconds at a junction is not the same inventory as one seen by the same ten thousand people at sixty kilometres an hour.",
       "We rebuild media plans around dwell time: how long a format actually holds a person’s eyes, not how many eyes technically passed it. In practice that means fewer sites, chosen for commuter behaviour rather than raw traffic counts, and creative built to be read in the window the format genuinely offers.",
