@@ -4,24 +4,24 @@ export type Testimonial = {
   role: string;
 };
 
-/** Placeholder attribution ("Client name") per HANDOFF.md §7 — needs real sign-off before launch. */
+/**
+ * Real client testimonials were never supplied. The previous state here
+ * attributed 3 invented quotes to "Client name" — a fabricated testimonial
+ * presented as a real client's words is a false claim on a live commercial
+ * site (worse than the case-study placeholder problem it mirrors, since
+ * this one puts words in an unnamed real person's mouth), not a design
+ * placeholder. Reduced to one honest, clearly-a-placeholder entry instead
+ * of 3 near-identical "pending" quotes rotating every 7s, which would just
+ * look broken. TestimonialCarousel's avatar slot was already correctly
+ * left unwired (MediaSlot with no `src` renders its labelled placeholder).
+ * Replace with a real quote/name/role/headshot the moment a client signs
+ * off — no component change needed.
+ */
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "They arrived with a plan we had not thought to ask for, and the numbers moved in the first quarter. That is the whole review.",
-    name: "Client name",
-    role: "Marketing Director, Client organisation",
-  },
-  {
-    quote:
-      "Every other agency pitched us a deliverable. AdPro 360 pitched us an argument, then built the plan to prove it. That is the difference.",
-    name: "Client name",
-    role: "Head of Communications, Client organisation",
-  },
-  {
-    quote:
-      "Senior people stayed on the account from the first call to the final report. Nothing was handed down to a junior team halfway through.",
-    name: "Client name",
-    role: "Chief Executive Officer, Client organisation",
+      "Real client testimonials are on their way — we would rather wait for their words than write our own.",
+    name: "AdPro 360",
+    role: "A note from us, while we wait on client sign-off",
   },
 ];
