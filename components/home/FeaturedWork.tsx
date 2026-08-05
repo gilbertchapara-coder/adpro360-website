@@ -1,7 +1,6 @@
 "use client";
 
 import NextLink from "next/link";
-import { cn } from "@/lib/utils/cn";
 import { Container, Section } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionIntro } from "@/components/shared/SectionIntro";
@@ -17,7 +16,7 @@ function FeaturedCard({
   featured?: boolean;
 }) {
   return (
-    <Reveal as="div" className={cn(featured && "sm:col-span-2")}>
+    <Reveal as="div">
       <NextLink
         href={`/work#${project.id}`}
         data-cursor="View case study"
@@ -50,8 +49,17 @@ export function FeaturedWork() {
           Campaigns that moved something measurable.
         </SectionIntro>
 
-        <div className="gap-block-md grid grid-cols-[repeat(auto-fit,minmax(min(340px,100%),1fr))]">
+        {/* Lead card gets its own full-width row instead of living inside the
+            rest-cards grid (col-span-2 inside an auto-fit grid leaves an
+            orphaned empty track whenever the container is wide enough to fit
+            3 auto-fit columns — the trailing 2nd rest card ends up alone in
+            row 2 with 2 empty cells beside it). Same fix pattern already
+            used for the Insights featured-post layout, see its own
+            docstring. */}
+        <div className="mb-block-md">
           <FeaturedCard project={lead} featured />
+        </div>
+        <div className="gap-block-md grid grid-cols-1 min-[680px]:grid-cols-2">
           {rest.map((project) => (
             <FeaturedCard key={project.id} project={project} />
           ))}
