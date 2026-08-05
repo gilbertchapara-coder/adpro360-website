@@ -143,7 +143,7 @@ export function Hero() {
         ref={glareRef}
         role="button"
         tabIndex={0}
-        aria-label={playing ? "Pause the AdPro 360 showreel" : "Play the AdPro 360 showreel"}
+        aria-labelledby="showreel-state showreel-eyebrow showreel-desc"
         onClick={toggleShowreel}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === " ") {
@@ -155,6 +155,18 @@ export function Hero() {
         data-cursor={playing ? "Pause" : "Watch"}
         className="ease-signature z-card-accent border-ivory/18 bg-ivory/7 p-s17 text-ivory hover:-translate-y-s03 active:scale-[0.98] hover:border-teal/60 relative order-3 mx-auto mt-s20 w-full max-w-[380px] cursor-pointer rounded-2xl border backdrop-blur-xl backdrop-saturate-[var(--saturate-glass)] transition-transform duration-[var(--duration-slower)] focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-teal nav:absolute nav:top-[22vh] nav:right-gutter-x nav:mx-0 nav:mt-0 nav:w-[268px] nav:max-w-none"
       >
+        {/* Accessible name built from aria-labelledby (below), not
+            aria-label -- this control's visible content is a whole card
+            (eyebrow + description), not a short label, and an aria-label
+            that doesn't literally contain that visible text fails WCAG
+            2.5.3 Label in Name (a voice-control user saying what they see
+            can't activate it). aria-labelledby concatenates the referenced
+            nodes' own text, so the accessible name is guaranteed to
+            contain what's visibly shown -- this state prefix is the only
+            part that isn't already visible on the card. */}
+        <span id="showreel-state" className="sr-only">
+          {playing ? "Pause" : "Play"}
+        </span>
         <div className="glare-layer" />
         <div className="mb-s15 bg-surface-dark relative aspect-[16/10] overflow-hidden rounded-sm">
           <div className="sheen-layer" />
@@ -184,10 +196,13 @@ export function Hero() {
             </span>
           </span>
         </div>
-        <div className="mb-s05 text-3xs tracking-eyebrow-4 text-teal font-bold uppercase">
+        <div
+          id="showreel-eyebrow"
+          className="mb-s05 text-3xs tracking-eyebrow-4 text-teal font-bold uppercase"
+        >
           Showreel · 30 sec
         </div>
-        <div className="text-md-plus leading-relaxed-4 tracking-tight-2">
+        <div id="showreel-desc" className="text-md-plus leading-relaxed-4 tracking-tight-2">
           Thirty seconds of proof, {rotatorWord}.
         </div>
       </div>

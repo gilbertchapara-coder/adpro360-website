@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { HeroVideo } from "./HeroVideo";
 import { useHeroSequence, VIDEO_CROSSFADE_MS } from "./hero-sequence-context";
 import { heroObjects } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
-const EASE_SIGNATURE = [0.16, 1, 0.3, 1] as const;
 /** Hoisted to a stable module-level constant on purpose: HeroObjectSequence
  * re-renders on every phase change (several times per chapter, since it
  * reads phase/playbackRate from context), and a fresh object literal here

@@ -7,6 +7,7 @@ import { MediaSlot } from "@/components/shared/MediaSlot";
 import { FeatureChip } from "./FeatureChip";
 import { cn } from "@/lib/utils/cn";
 import type { Service } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 type ServiceAccordionRowProps = {
   service: Service;
@@ -34,10 +35,10 @@ export function ServiceAccordionRow({
   const prefersReducedMotion = useReducedMotion();
   const panelTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const };
+    : { duration: 0.4, ease: EASE_SIGNATURE };
   const imageTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] as const };
+    : { duration: 0.5, delay: 0.15, ease: EASE_SIGNATURE };
 
   return (
     <div className="bg-card group relative">
@@ -85,7 +86,7 @@ export function ServiceAccordionRow({
               animate={{ opacity: 1, rotate: 0 }}
               exit={{ opacity: 0, rotate: 90 }}
               transition={
-                prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: [0.16, 1, 0.3, 1] }
+                prefersReducedMotion ? { duration: 0 } : { duration: 0.3, ease: EASE_SIGNATURE }
               }
               className="inline-block"
             >

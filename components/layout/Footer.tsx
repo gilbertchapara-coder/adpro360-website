@@ -46,10 +46,16 @@ export function Footer() {
             Contact
           </div>
           <div className="gap-s07 text-ink/72 grid text-base">
-            <a href={site.emailHref} className="-my-[10px] block py-[10px]">
+            {/* text-ink/72 set explicitly, not just inherited from the parent
+                div — the sitewide `a { color: var(--color-link) }` base rule
+                (globals.css) has higher specificity than inherited color and
+                was rendering these as link-blue on ivory at 3.99:1 contrast,
+                under the 4.5:1 AA minimum. Matches the Navigate column's
+                links, which already set this explicitly for the same reason. */}
+            <a href={site.emailHref} className="text-ink/72 -my-[10px] block py-[10px]">
               {site.email}
             </a>
-            <a href={site.phoneHref} className="-my-[10px] block py-[10px]">
+            <a href={site.phoneHref} className="text-ink/72 -my-[10px] block py-[10px]">
               {site.phone}
             </a>
             <span className="leading-snug-4">
@@ -71,7 +77,7 @@ export function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="-my-[10px] block py-[10px]"
+                className="text-ink/72 -my-[10px] block py-[10px]"
               >
                 {link.label}
               </a>
@@ -85,7 +91,11 @@ export function Footer() {
           actually processes personal data server-side (app/api/contact),
           a real privacy policy is a genuine outstanding requirement, not
           just a nice-to-have — add both back here once real pages exist. */}
-      <div className="mt-footer-mt max-w-content gap-s13 border-ink/10 pt-s17 text-sm-minus text-ink/45 mx-auto flex flex-wrap justify-between border-t">
+      {/* text-ink/45 measured at 2.98:1 on ivory, under the 4.5:1 AA
+          minimum for this size. Bumped to /62 -- the same "muted label"
+          opacity already used by the eyebrows above (Navigate/Contact/
+          Message us), not a new value invented for this one line. */}
+      <div className="mt-footer-mt max-w-content gap-s13 border-ink/10 pt-s17 text-sm-minus text-ink/62 mx-auto flex flex-wrap justify-between border-t">
         <span>© {new Date().getFullYear()} AdPro 360. All rights reserved.</span>
       </div>
     </footer>

@@ -8,6 +8,7 @@ import { CaseStudyPanel } from "@/components/work/CaseStudyPanel";
 import { Caption } from "@/components/shared/Caption";
 import { cn } from "@/lib/utils/cn";
 import type { Project } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 type ProjectRowProps = {
   project: Project;
@@ -29,7 +30,7 @@ export function ProjectRow({ project, index, isOpen, onToggle }: ProjectRowProps
   const prefersReducedMotion = useReducedMotion();
   const panelTransition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const };
+    : { duration: 0.4, ease: EASE_SIGNATURE };
   /* CD review: "portfolio is the strongest asset but under-scaled — make the
      lead case study large and cinematic" + "commit to a deliberate grid or
      a considered asymmetric layout". Whichever row sorts first (in the

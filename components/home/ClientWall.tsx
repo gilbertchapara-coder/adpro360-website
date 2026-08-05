@@ -133,7 +133,7 @@ function MarqueeTrack({
   reverse?: boolean;
 }) {
   return (
-    <div className="relative overflow-hidden py-[56px] [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+    <div className="relative overflow-hidden py-s27 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
       <div
         className="group-hover/marquee:[animation-play-state:paused] flex w-max items-center gap-x-s29"
         style={{

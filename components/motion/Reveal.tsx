@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants, type HTMLMotionProps } from "framer-motion";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 /**
  * The 0.985→1 scale is the "settle" — barely perceptible on its own, but
@@ -44,7 +45,7 @@ export function Reveal({ as = "div", delay = 0, transition, ...props }: RevealPr
     variants,
     transition: {
       duration: 0.95,
-      ease: [0.16, 1, 0.3, 1] as const,
+      ease: EASE_SIGNATURE,
       delay: delay / 1000,
       ...transition,
     },

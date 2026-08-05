@@ -3,10 +3,10 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Logo } from "./Logo";
+import { EASE_SIGNATURE as EASE } from "@/lib/motion/easing";
 
 const SESSION_KEY = "adpro360:preloader-seen";
 const DISPLAY_MS = 1500;
-const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * One-time brand moment before the homepage reveals. The mark carries a

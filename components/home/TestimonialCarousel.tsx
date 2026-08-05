@@ -6,6 +6,7 @@ import { Heading, Container, Section } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
 import { MediaSlot } from "@/components/shared/MediaSlot";
 import { testimonials, proofPoints } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 export function TestimonialCarousel() {
   const [index, setIndex] = useState(0);
@@ -36,7 +37,7 @@ export function TestimonialCarousel() {
                   initial={{ opacity: 0, y: 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.5, ease: EASE_SIGNATURE }}
                   className="text-fluid-06 leading-relaxed-1 tracking-tighter-3 m-0 font-light text-pretty"
                 >
                   “{active.quote}”

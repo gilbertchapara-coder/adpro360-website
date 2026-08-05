@@ -24,6 +24,7 @@ import {
   BulbIcon,
 } from "./orbit-icons";
 import { SERVICE_ENVIRONMENTS } from "./orbit-environment-icons";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 const ICON_BY_SERVICE: Record<string, (props: { className?: string }) => React.JSX.Element> = {
   strategy: TargetIcon,
@@ -363,7 +364,7 @@ function AmbientParticles() {
  * TestimonialCarousel's quote does (AnimatePresence mode="wait", same
  * signature ease). */
 function CentreStage({ service }: { service: Service }) {
-  const EASE = [0.16, 1, 0.3, 1] as const;
+  const EASE = EASE_SIGNATURE;
 
   return (
     <div className="pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px] xl:w-[480px]">

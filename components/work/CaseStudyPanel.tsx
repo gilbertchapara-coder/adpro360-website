@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Card } from "@/components/primitives";
 import type { Project } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 const NARRATIVE_FIELDS = [
   { key: "challenge", label: "Challenge" },
@@ -21,7 +22,7 @@ export function CaseStudyPanel({ project }: { project: Project }) {
   const fieldTransition = (i: number) =>
     prefersReducedMotion
       ? { duration: 0 }
-      : { duration: 0.5, delay: 0.06 * i, ease: [0.16, 1, 0.3, 1] as const };
+      : { duration: 0.5, delay: 0.06 * i, ease: EASE_SIGNATURE };
 
   return (
     <div className="gap-block-lg grid grid-cols-1">

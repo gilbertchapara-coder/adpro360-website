@@ -5,6 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import NextLink from "next/link";
 import { Logo } from "./Logo";
 import { fullNav } from "@/lib/content";
+import { EASE_SIGNATURE } from "@/lib/motion/easing";
 
 type MobileMenuProps = {
   isOpen: boolean;
@@ -86,7 +87,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
   const transition = prefersReducedMotion
     ? { duration: 0 }
-    : { duration: 0.25, ease: [0.16, 1, 0.3, 1] as const };
+    : { duration: 0.25, ease: EASE_SIGNATURE };
 
   return (
     <AnimatePresence>
