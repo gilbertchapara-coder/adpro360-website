@@ -195,8 +195,8 @@
   --spacing-footer-gap: clamp(28px, 4vw, 56px);
   --spacing-footer-mt: clamp(36px, 4vw, 56px);
   --spacing-hero-pt: 140px; /* fixed top padding under the hero's own content, above the fold */
-  --spacing-hero-content-gap: clamp(24px, 5vw, 80px);
-  --spacing-hero-content-mt: clamp(36px, 5vw, 64px);
+  --spacing-hero-content-gap: clamp(48px, 6vw, 96px); /* stats -> CTA row rhythm, a deliberate pause between proof and the ask */
+  --spacing-hero-content-mt: clamp(44px, 5.5vw, 76px); /* lede -> stats rhythm, a deliberate pause between claim and proof */
   --spacing-testimonial-band-y: clamp(40px, 6vw, 80px);
   --spacing-testimonial-gap: clamp(32px, 5vw, 72px);
   --spacing-services-pt: clamp(40px, 6vw, 90px); /* services accordion section top padding */

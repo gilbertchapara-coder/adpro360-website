@@ -259,7 +259,7 @@ export function Hero() {
           </div>
         </Reveal>
 
-        <div className="mt-s28 gap-s18 pb-s25 flex flex-wrap items-center justify-between">
+        <div className="mt-hero-content-gap gap-s18 pb-s25 flex flex-wrap items-center justify-between">
           <div className="gap-s11 flex flex-wrap items-center">
             <NextLink
               ref={magnetic.ref}
