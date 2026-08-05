@@ -47,6 +47,20 @@ const TAGLINE_BY_SERVICE: Record<string, string> = {
   comms: "Messages that build trust.",
 };
 
+/** One word per node — replaces the full `service.title` (e.g. "Corporate
+ * Communications") that used to be sr-only-only here. Same shorthand
+ * pattern as TAGLINE_BY_SERVICE above: orbit-specific display copy, kept
+ * separate from the real service content in lib/content/services.ts rather
+ * than adding a field there for something only this component needs. */
+const SHORT_LABEL_BY_SERVICE: Record<string, string> = {
+  strategy: "Strategy",
+  creative: "Creative",
+  production: "Production",
+  media: "Media",
+  digital: "Digital",
+  comms: "Comms",
+};
+
 /** Degrees/second at rest. Slow — this is a gallery piece, not a ticker. */
 const BASE_SPEED = 6;
 /** Degrees/second while a visitor is hovering/dragging. */
@@ -90,6 +104,13 @@ function nearestServiceIndex(orbitAngle: number, count: number) {
   return best;
 }
 
+/** Shortest signed step (deg) from `from` to reach an angle equivalent to
+ * `to` (mod 360) — used to snap the orbit to a hover-forced service without
+ * ever spinning the long way around. */
+function shortestAngleStep(from: number, to: number) {
+  return ((((to - from) % 360) + 540) % 360) - 180;
+}
+
 function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number }) {
   const Icon = ICON_BY_SERVICE[service.id] ?? BulbIcon;
 
@@ -97,20 +118,22 @@ function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number
     <NextLink
       href={`/services#${service.id}`}
       data-cursor="Explore"
-      className="orbit-item gap-s09 2xl:w-[18px] flex w-[112px] flex-col items-center text-center sm:w-[144px]"
+      className="orbit-item gap-s09 flex w-[112px] flex-col items-center text-center sm:w-[144px] xl:w-[176px]"
       style={{ ["--item-offset" as string]: offsetDeg }}
     >
       <span className="orbit-icon flex items-center justify-center">
-        <Icon className="2xl:size-[13px] size-[28px] sm:size-[38px]" />
+        <Icon className="size-[28px] sm:size-[38px] xl:size-[46px]" />
       </span>
-      {/* The name lives once, in CentreStage — showing it here too was the
-          exact repetition an earlier brief asked to remove, and tried
-          again showing it here confirmed why: at the compact size this
-          orbit now runs embedded in the hero, longer titles ("Corporate
-          Communications") overflow their own item slot and collide with
-          neighbouring icons/the showreel card. Kept in the DOM as the
-          link's accessible name, visually hidden, same as before. */}
-      <span className="sr-only">{service.title}</span>
+      {/* Now standalone (no longer squeezed into the hero at any
+          breakpoint), so the label doesn't need to hide to avoid
+          overflowing into a neighbouring icon or the showreel card — one
+          word, not the full service.title ("Corporate Communications"),
+          per the brief's "icon, then a single word" hierarchy. Full title
+          + tagline still live once, in CentreStage, for the currently
+          featured item. */}
+      <span className="text-2xs xl:text-xs tracking-eyebrow-2 text-ivory/60 font-bold uppercase">
+        {SHORT_LABEL_BY_SERVICE[service.id] ?? service.title}
+      </span>
     </NextLink>
   );
 }
@@ -136,10 +159,13 @@ function OrbitItem({ service, offsetDeg }: { service: Service; offsetDeg: number
  * every icon regardless of service — adding icons never adds new
  * animation definitions.
  *
- * Gated to `xl:` (1280px+) — the fixed-size constellation box below needs
+ * Gated to `xl:` (1200px+) — the fixed-size constellation box below needs
  * genuine room around the orbit to read as atmosphere rather than
  * clutter; showing it on a cramped viewport would just crowd the orbit
- * it's meant to support.
+ * it's meant to support. Un-scaled now that the orbit is a large
+ * standalone section rather than squeezed beside the hero's text column —
+ * the previous `2xl:scale-[0.15]` existed purely to shrink this box down
+ * to match that compact embedded orbit.
  */
 function OrbitEnvironment() {
   const { activeServiceId } = useActiveService();
@@ -186,7 +212,7 @@ function OrbitEnvironment() {
   return (
     <div
       aria-hidden="true"
-      className="2xl:block pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[1600px] -translate-x-1/2 -translate-y-1/2 2xl:scale-[0.15]"
+      className="xl:block pointer-events-none absolute top-1/2 left-1/2 hidden h-[760px] w-[1600px] -translate-x-1/2 -translate-y-1/2"
     >
       <div
         className="ease-signature absolute inset-0 transition-opacity duration-700"
@@ -340,7 +366,7 @@ function CentreStage({ service }: { service: Service }) {
   const EASE = [0.16, 1, 0.3, 1] as const;
 
   return (
-    <div className="2xl:w-[78px] pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px]">
+    <div className="pointer-events-none absolute top-1/2 left-1/2 w-[260px] -translate-x-1/2 -translate-y-1/2 text-center sm:w-[400px] xl:w-[480px]">
       <AnimatePresence mode="wait">
         <motion.div
           key={service.id}
@@ -351,29 +377,25 @@ function CentreStage({ service }: { service: Service }) {
           <motion.div
             variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.5, ease: EASE }}
-            className="2xl:text-[9px] text-fluid-11 tracking-eyebrow-1 text-ivory/85 leading-none font-semibold uppercase text-balance"
+            className="text-fluid-11 tracking-eyebrow-1 text-ivory/85 leading-none font-semibold uppercase text-balance"
           >
             {service.title}
           </motion.div>
 
           {/* A soft beam, not a rule — grows outward from the centre then
               the same parent exit fades it with everything else, so it
-              recedes before the next service's beam grows in. Extra
-              vertical margin at 2xl (my-s16 -> my-s18 equivalent gap on
-              both the beam and the tagline below it) — the compact orbit
-              size at this breakpoint means title/beam/tagline sat closer
-              together than the "increase spacing" ask wants. */}
+              recedes before the next service's beam grows in. */}
           <motion.div
             variants={{ hidden: { scaleX: 0, opacity: 0 }, visible: { scaleX: 1, opacity: 1 } }}
             transition={{ duration: 0.5, ease: EASE, delay: 0.15 }}
             style={{ transformOrigin: "center" }}
-            className="2xl:my-s18 mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[var(--glow-md)]"
+            className="mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[var(--glow-md)]"
           />
 
           <motion.p
             variants={{ hidden: { opacity: 0, y: 6 }, visible: { opacity: 1, y: 0 } }}
             transition={{ duration: 0.4, ease: EASE, delay: 0.28 }}
-            className="2xl:text-[9px] text-ivory/42 leading-snug font-light text-balance"
+            className="text-ivory/42 leading-snug font-light text-balance"
           >
             {TAGLINE_BY_SERVICE[service.id]}
           </motion.p>
@@ -417,7 +439,8 @@ export function ServiceOrbit() {
   const lastIndex = useRef(0);
   const lastSwitchAt = useRef(0);
   const [activeIndex, setActiveIndex] = useState(0);
-  const { setActiveServiceId } = useActiveService();
+  const { setActiveServiceId, forcedServiceId } = useActiveService();
+  const forcedActive = useRef(false);
 
   // Seed ClientWall with the initial featured service (index 0) — the
   // change-detection below only fires once the orbit actually *moves* to a
@@ -474,15 +497,51 @@ export function ServiceOrbit() {
     angle.set(dragStartAngle.current + info.offset.x * DRAG_SENSITIVITY);
   };
 
+  /** Reads `forcedServiceId` from CapabilityGrid (see active-service-
+   * context.tsx): hovering/focusing a service card there snaps this orbit
+   * to that service's node and holds it — the orbit reading as a real
+   * navigation surface for Services, not just an ambient loop above it.
+   * Reuses the same `interacting` gate hover/drag already use so autoplay
+   * genuinely stays paused, not just slow, while a card is held. */
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+
+    if (forcedServiceId) {
+      const idx = services.findIndex((s) => s.id === forcedServiceId);
+      if (idx === -1) return;
+
+      forcedActive.current = true;
+      interacting.current = true;
+      window.clearTimeout(settleTimer.current);
+
+      const offsetDeg = (360 / services.length) * idx;
+      const target = FEATURED_ANGLE - offsetDeg;
+      const step = shortestAngleStep(angle.get(), target);
+      animate(angle, angle.get() + step, { duration: 0.6, ease: "easeOut" });
+      animate(speed, 0, { duration: 0.3, ease: "easeOut" });
+
+      lastIndex.current = idx;
+      lastSwitchAt.current = performance.now();
+      setActiveIndex(idx);
+      setActiveServiceId(services[idx].id);
+      return;
+    }
+
+    if (forcedActive.current) {
+      forcedActive.current = false;
+      interacting.current = false;
+      animate(speed, BASE_SPEED, { duration: 0.6, ease: "easeOut" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [forcedServiceId, prefersReducedMotion]);
+
   return (
     <>
-      {/* This used to be its own full-width `bg-midnight` section between
-          Hero and ClientWall; it's now embedded directly in the hero
-          viewport (see Hero.tsx) so the two read as one composition
-          instead of two stacked screens. Hero's own section already
-          supplies the dark background — this glow is purely a local
-          accent layered on top of it, positioned relative to whatever
-          wrapper Hero places around this component. */}
+      {/* Standalone again — OrbitBridge.tsx mounts this in its own
+          full-width `bg-midnight` section (between ClientWall and
+          Services), not embedded in the hero viewport. Section already
+          supplies the dark background; this glow is a local accent
+          layered on top of it. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.09] [background:radial-gradient(50%_120%_at_50%_45%,var(--color-teal),transparent_70%)]"
@@ -498,7 +557,12 @@ export function ServiceOrbit() {
             ["--orbit-angle" as string]: angle,
             ["--orbit-featured-angle" as string]: FEATURED_ANGLE,
           }}
-          className="relative mx-auto h-[340px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[480px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] 2xl:h-[64px] 2xl:max-w-[90px] 2xl:[--orbit-rx:24px] 2xl:[--orbit-ry:19px]"
+          /* Sized ~190-215% over the old embedded desktop tier (rx 320/
+             ry 132 at sm) once there's real room to be a "constellation"
+             instead of a widget — mobile/tablet tiers (below sm)
+             untouched, they were already sized for their own viewports,
+             not for fitting beside hero text. */
+          className="relative mx-auto h-[340px] w-full max-w-[440px] touch-pan-y select-none [--orbit-rx:186px] [--orbit-ry:82px] sm:h-[480px] sm:max-w-[980px] sm:[--orbit-rx:320px] sm:[--orbit-ry:132px] xl:h-[860px] xl:max-w-[1860px] xl:[--orbit-rx:608px] xl:[--orbit-ry:251px] 2xl:h-[1000px] 2xl:max-w-[2100px] 2xl:[--orbit-rx:688px] 2xl:[--orbit-ry:284px]"
         >
           <AmbientParticles />
           <OrbitEnvironment />

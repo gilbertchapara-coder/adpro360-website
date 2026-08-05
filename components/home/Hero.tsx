@@ -6,7 +6,6 @@ import NextLink from "next/link";
 import { Heading } from "@/components/primitives";
 import { Reveal } from "@/components/motion/Reveal";
 import { FrameCorners } from "@/components/shared/FrameCorners";
-import { ServiceOrbit } from "./ServiceOrbit";
 import { HeroObjectSequence } from "./HeroObjectSequence";
 import { HeroSequenceProvider } from "./hero-sequence-context";
 import { HeroHeadline, HeroBody } from "./HeroSequenceText";
@@ -14,8 +13,6 @@ import { useMagnetic } from "@/lib/hooks/useMagnetic";
 import { useGlare } from "@/lib/hooks/useGlare";
 import { useCountUp } from "@/lib/hooks/useCountUp";
 import { heroStats, heroRotatorWords } from "@/lib/content";
-
-const HERO_WORD = "Proactive.";
 
 function useRotator(words: string[], intervalMs = 2600) {
   const [index, setIndex] = useState(0);
@@ -97,20 +94,31 @@ export function Hero() {
             footage that's already deliberately, slowly in motion — layering
             an independent zoom/pan on top of it would fight the object's
             own choreography rather than support it. */}
-        <div className="absolute inset-0 opacity-[var(--opacity-hero-ambient)]">
+        <div className="absolute inset-0">
           <HeroObjectSequence />
         </div>
       </motion.div>
-      {/* Lightened from 94/74/97% — that depth was tuned so a bright still
-          photo read as atmosphere/texture, not a competing image. The
-          cinematic loops here are already dark/moody by nature (near-black
-          backdrops, a single glowing accent per object), so the same heavy
-          wash was mostly hiding them rather than protecting legibility —
-          confirmed live, the loop was barely visible. Kept the same
-          heavier-top/bottom, lighter-middle shape (header/CTA zones still
-          get more cover than the headline band) at meaningfully lower
-          opacity throughout. */}
+      {/* Directional, not just vertical: the object is the storyteller and
+          needs to read clearly on its own side, but the headline column
+          (left, in normal document flow below) still needs a dependable
+          contrast floor underneath it regardless of which object/frame is
+          behind it. A second, horizontal wash — heavier stage-left, clear
+          by center — does that without touching the vertical wash's own
+          job (protecting the header/CTA bands top and bottom). */}
       <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-midnight)_75%,transparent)_0%,color-mix(in_srgb,var(--color-midnight)_48%,transparent)_40%,color-mix(in_srgb,var(--color-midnight)_80%,transparent)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-midnight)_62%,transparent)_0%,transparent_58%)]" />
+
+      {/* Atmosphere, replacing the old oversized ghost-text "Proactive." —
+          that word competed with the cinematic objects for focal attention
+          once they existed; this is deliberately not another word or
+          shape, just depth: a faint blueprint-style grid (the kind of
+          precision-instrument texture a compass/lens/orbit already imply)
+          and a soft cyan bloom, both low enough opacity to read as ambient
+          light rather than content. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 opacity-[0.05] [background-image:linear-gradient(color-mix(in_srgb,var(--color-teal)_70%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-teal)_70%,transparent)_1px,transparent_1px)] [background-size:64px_64px] [mask-image:radial-gradient(ellipse_70%_60%_at_50%_40%,black,transparent)]"
+      />
       <div className="rounded-pill absolute -top-[20%] -right-[10%] size-[60vw] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-teal)_28%,transparent),color-mix(in_srgb,var(--color-azure)_6%,transparent)_55%,transparent_70%)] blur-2xl" />
 
       {/* The real showreel, in the slot the card's own design already
@@ -184,48 +192,13 @@ export function Hero() {
         </div>
       </div>
 
-      {/* The orbit used to be its own full-width section between Hero and
-          ClientWall — now embedded directly in the hero viewport so the
-          service network reads as the centre of the same composition
-          instead of a second scroll-stop.
-
-          Floating (a third element beside the text and the showreel card)
-          only from `2xl` (1600px) up, not `nav` (900px) — measured the
-          real horizontal gap between the headline's actual rendered text
-          and the showreel card at every common width: 76px at 1024, 164px
-          at 1280, 191px at 1366, 219px at 1440, 222px at 1600, 275px at
-          1920. A floating orbit with real breathing room on both sides
-          needs on the order of 150-200px of clearance; that genuinely
-          doesn't exist below ~1600px given the current text column and
-          card position, so forcing it to float there was the direct cause
-          of a real text collision that shipped in an earlier pass. Below
-          `2xl`, the orbit stays in normal document flow instead — same
-          safe, already-proven mobile/tablet treatment, just extended
-          further up the breakpoint scale than before.
-
-          Right-anchored off the showreel card (not left-anchored off the
-          headline) — the headline's fluid clamp() text caps out around
-          1783px viewport width and then stops growing, while the card's
-          own right-gutter-anchored position keeps moving outward forever,
-          so a right-anchor's clearance from the (now-fixed-width) headline
-          only ever grows past that point. Sized/offset for the tightest
-          real case in this range, 1600px (2xl's own threshold), and
-          verified empirically across 1600-1920+ against real rendered
-          text — not computed by hand, which produced numbers that didn't
-          hold up against the actual measured layout more than once this
-          session. */}
-      {/* width/offset calibrated against the real worst-case point in this
-          range, which is NEITHER boundary — the headline's fluid text is
-          still growing at 1600 and hasn't caught up to its own clamp()
-          ceiling yet, so the card-to-headline gap actually narrows
-          slightly before widening again: 221px at 1600, dipping to a real
-          measured minimum of 209px at 1783 (where the text finally caps),
-          then opening back up to 279px by 1920. Sized/positioned for the
-          1783 case with real margin to spare, verified against the other
-          five widths in this tier too. */}
-      <div className="relative order-2 mt-s24 w-full 2xl:absolute 2xl:top-1/2 2xl:order-none 2xl:mt-0 2xl:w-[90px] 2xl:-translate-y-1/2 2xl:right-[calc(var(--spacing-gutter-x)+268px+45px)]">
-        <ServiceOrbit />
-      </div>
+      {/* The orbit no longer lives in the hero — it was a floating third
+          element competing with the headline/showreel for attention, and
+          only ever had real breathing room above 1600px anyway (measured
+          extensively in an earlier pass). It's now its own large standalone
+          section between ClientWall and Services (see OrbitBridge.tsx /
+          app/page.tsx), where it can be sized as a genuine "constellation"
+          instead of a compact widget shoehorned beside the text column. */}
 
       <div className="max-w-content pb-s27 relative mx-auto w-full">
         <Reveal className="mb-s25 gap-s09 rounded-pill border-ivory/16 bg-ivory/6 py-s05 pr-s13 pl-s07 tracking-eyebrow-4 text-ivory/78 inline-flex items-center border text-xs font-bold uppercase backdrop-blur-sm">
@@ -233,21 +206,13 @@ export function Hero() {
           Media · Creative · Production
         </Reveal>
 
+        {/* The oversized ghost word "Proactive." used to lead this heading
+            — removed completely (not replaced with another background
+            word) once the cinematic hero objects gave the composition a
+            second focal point of its own; keeping both competed for
+            attention. The atmosphere layer above (blueprint grid + bloom)
+            carries the "premium background" job instead. */}
         <Heading as="h1" variant="display-hero">
-          {/* Deliberately near-invisible (5% opacity) — "Never reactive."
-              below is the one dominant message this hero makes; this line
-              is a lead-in, not competing typography. */}
-          <span aria-hidden="true" className="text-ivory/[0.05]">
-            {HERO_WORD.split("").map((char, i) => (
-              <Reveal key={i} as="span" delay={i * 16} className="inline-block">
-                {char}
-              </Reveal>
-            ))}
-          </span>
-          <span className="absolute h-px w-px overflow-hidden [clip:rect(0,0,0,0)]">
-            Proactive.
-          </span>
-          <br />
           <HeroHeadline className="inline-block" />
         </Heading>
 

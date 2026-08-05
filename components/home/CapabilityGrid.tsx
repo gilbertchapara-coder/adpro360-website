@@ -6,6 +6,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { SectionIntro } from "@/components/shared/SectionIntro";
 import { FeatureChip } from "@/components/services/FeatureChip";
 import { useGlare } from "@/lib/hooks/useGlare";
+import { useActiveService } from "./active-service-context";
 import { services } from "@/lib/content";
 
 export function CapabilityGrid() {
@@ -44,6 +45,7 @@ export function CapabilityGrid() {
  * table-like ground plane readable instead of each cell looking detached. */
 function CapabilityCard({ service }: { service: (typeof services)[number] }) {
   const glareRef = useGlare<HTMLAnchorElement>(3);
+  const { setForcedServiceId } = useActiveService();
 
   return (
     <NextLink
@@ -51,6 +53,16 @@ function CapabilityCard({ service }: { service: (typeof services)[number] }) {
       href={`/services#${service.id}`}
       data-glare=""
       data-cursor="Explore"
+      /* Hovering a card is also how the orbit above (OrbitBridge.tsx)
+       * becomes a real navigation surface for Services — it pauses its
+       * own autoplay and brings this service's node to the featured
+       * angle for as long as the hover lasts. Cleared on unmount too
+       * (not just blur/mouseleave) so a click-through navigation away
+       * from this page can't leave a stale forced id behind. */
+      onMouseEnter={() => setForcedServiceId(service.id)}
+      onMouseLeave={() => setForcedServiceId(null)}
+      onFocus={() => setForcedServiceId(service.id)}
+      onBlur={() => setForcedServiceId(null)}
       className="ease-signature bg-card px-s24 pt-s25 pb-s24 text-ink rotate-x-[var(--rx,0deg)] rotate-y-[var(--ry,0deg)] active:scale-[0.99] relative flex min-h-[300px] flex-col justify-between transition-[transform,background-color] duration-[var(--duration-slow)] hover:bg-white"
     >
       <div className="glare-layer" />

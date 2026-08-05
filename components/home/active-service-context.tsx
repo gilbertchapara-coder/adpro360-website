@@ -5,6 +5,13 @@ import { createContext, useContext, useState, type ReactNode } from "react";
 type ActiveServiceContextValue = {
   activeServiceId: string | null;
   setActiveServiceId: (id: string) => void;
+  /** Set by CapabilityGrid while a visitor hovers a service card —
+   * ServiceOrbit reads this to pause its own autoplay and bring that
+   * service's node to the featured angle, so the orbit reads as a real
+   * navigation surface for Services rather than a purely ambient loop.
+   * `null` means "no override, keep auto-rotating." */
+  forcedServiceId: string | null;
+  setForcedServiceId: (id: string | null) => void;
 };
 
 /** No-op default (not `null`) — ClientWall is also reused standalone on
@@ -16,6 +23,8 @@ type ActiveServiceContextValue = {
 const defaultValue: ActiveServiceContextValue = {
   activeServiceId: null,
   setActiveServiceId: () => {},
+  forcedServiceId: null,
+  setForcedServiceId: () => {},
 };
 
 const ActiveServiceContext = createContext<ActiveServiceContextValue>(defaultValue);
@@ -31,8 +40,11 @@ const ActiveServiceContext = createContext<ActiveServiceContextValue>(defaultVal
  */
 export function ActiveServiceProvider({ children }: { children: ReactNode }) {
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
+  const [forcedServiceId, setForcedServiceId] = useState<string | null>(null);
   return (
-    <ActiveServiceContext.Provider value={{ activeServiceId, setActiveServiceId }}>
+    <ActiveServiceContext.Provider
+      value={{ activeServiceId, setActiveServiceId, forcedServiceId, setForcedServiceId }}
+    >
       {children}
     </ActiveServiceContext.Provider>
   );

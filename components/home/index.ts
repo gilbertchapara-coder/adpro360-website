@@ -1,5 +1,6 @@
 export { Hero } from "./Hero";
 export { ServiceOrbit } from "./ServiceOrbit";
+export { OrbitBridge } from "./OrbitBridge";
 export { ActiveServiceProvider } from "./active-service-context";
 export { WhoWeAre } from "./WhoWeAre";
 export { CapabilityGrid } from "./CapabilityGrid";
