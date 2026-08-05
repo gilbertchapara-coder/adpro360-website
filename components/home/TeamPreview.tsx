@@ -39,7 +39,7 @@ export function TeamPreview() {
                         the portrait treatment (one grade/duotone) for a
                         cohesive, owned look." Applies equally to every
                         portrait regardless of the underlying photo. */}
-                    <div className="team-portrait-grade ease-out absolute inset-0 transition-transform duration-[var(--duration-moderate-plus)] group-hover:scale-[1.03]">
+                    <div className="team-portrait-grade ease-signature absolute inset-0 transition-transform duration-[var(--duration-moderate-plus)] group-hover:scale-[1.03]">
                       <MediaSlot
                         src={member.photo}
                         alt={`${member.name} — ${member.role}`}

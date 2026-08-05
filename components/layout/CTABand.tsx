@@ -17,7 +17,7 @@ export function CTABand() {
       <Reveal>
         <Container className="rounded-5xl bg-midnight px-cta-x py-cta-y text-ivory relative overflow-hidden">
           <div
-            className="rounded-pill pointer-events-none absolute -right-[10%] -bottom-[40%] size-[60vw] bg-[radial-gradient(circle,rgba(35,174,192,.24),transparent_65%)]"
+            className="rounded-pill pointer-events-none absolute -right-[10%] -bottom-[40%] size-[60vw] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-teal)_24%,transparent),transparent_65%)]"
             aria-hidden="true"
           />
           <div className="gap-cta-gap relative grid grid-cols-[repeat(auto-fit,minmax(min(300px,100%),1fr))] items-end">

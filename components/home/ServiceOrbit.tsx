@@ -367,7 +367,7 @@ function CentreStage({ service }: { service: Service }) {
             variants={{ hidden: { scaleX: 0, opacity: 0 }, visible: { scaleX: 1, opacity: 1 } }}
             transition={{ duration: 0.5, ease: EASE, delay: 0.15 }}
             style={{ transformOrigin: "center" }}
-            className="2xl:my-s18 mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[0_0_12px_4px_rgba(35,174,192,0.4)]"
+            className="2xl:my-s18 mx-auto my-s16 h-px w-16 bg-[linear-gradient(90deg,transparent,var(--color-teal-bright)_50%,transparent)] opacity-70 shadow-[var(--glow-md)]"
           />
 
           <motion.p

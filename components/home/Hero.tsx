@@ -33,7 +33,7 @@ function HeroStat({ value, label }: { value: string; label: string }) {
   const display = useCountUp(value);
   return (
     <div>
-      <div className="text-fluid-01 tracking-tighter-2 bg-[image:linear-gradient(120deg,#23AEC0,#2589CE)] bg-clip-text leading-none font-light text-transparent">
+      <div className="text-fluid-01 tracking-tighter-2 bg-[image:linear-gradient(120deg,var(--color-teal),var(--color-azure))] bg-clip-text leading-none font-light text-transparent">
         {display}
       </div>
       <div className="mt-s07 text-eyebrow leading-body-tight tracking-eyebrow-3 text-ivory/50 font-bold uppercase">
@@ -97,8 +97,8 @@ export function Hero() {
       {/* Deepened from .55 mid-stop — the ambient still photo reads as
           atmosphere/texture behind the type and orbit now, not a
           competing image in its own right. */}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,19,31,.94)_0%,rgba(8,19,31,.74)_40%,rgba(8,19,31,.97)_100%)]" />
-      <div className="rounded-pill absolute -top-[20%] -right-[10%] size-[60vw] bg-[radial-gradient(circle,rgba(35,174,192,.28),rgba(37,137,206,.06)_55%,transparent_70%)] blur-2xl" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_srgb,var(--color-midnight)_94%,transparent)_0%,color-mix(in_srgb,var(--color-midnight)_74%,transparent)_40%,color-mix(in_srgb,var(--color-midnight)_97%,transparent)_100%)]" />
+      <div className="rounded-pill absolute -top-[20%] -right-[10%] size-[60vw] bg-[radial-gradient(circle,color-mix(in_srgb,var(--color-teal)_28%,transparent),color-mix(in_srgb,var(--color-azure)_6%,transparent)_55%,transparent_70%)] blur-2xl" />
 
       {/* The real showreel, in the slot the card's own design already
           promised ("Two minutes of proof" + a play button sitting over a
@@ -289,7 +289,7 @@ export function Hero() {
           </div>
           <div className="gap-s09 text-eyebrow tracking-eyebrow-5 text-ivory/38 flex items-center font-bold uppercase">
             Scroll
-            <span className="w-s26 h-px bg-[linear-gradient(90deg,rgba(245,244,241,.5),transparent)]" />
+            <span className="w-s26 h-px bg-[linear-gradient(90deg,color-mix(in_srgb,var(--color-ivory)_50%,transparent),transparent)]" />
           </div>
         </div>
       </div>

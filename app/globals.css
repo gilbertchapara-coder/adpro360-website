@@ -41,6 +41,17 @@
   --color-error: #c44f3f; /* form error state (added in the a11y pass) */
   --color-error-fg: #ffd3cb; /* error banner text on dark form surface */
 
+  /* FeatureChip's own accent family — a distinct electric-blue/navy pairing
+     from the site's one teal accent, deliberate to that component only
+     (see FeatureChip.tsx). Formalised as tokens so the values live in one
+     place instead of four repeated raw hex/rgba literals in the component;
+     not folded into --color-teal since that would be a real hue change,
+     not a consistency fix. */
+  --color-chip-accent: #00aeef; /* chip border/glow base */
+  --color-chip-accent-bright: #66d9ff; /* chip border/glow on hover */
+  --color-chip-icon: #ddf8ff; /* chip icon tint */
+  --gradient-chip: linear-gradient(135deg, #133e8a 0%, #0d2f6b 50%, #081f47 100%);
+
   /* -------------------------------------------------------------------- */
   /* Typography — families                                                */
   /* -------------------------------------------------------------------- */
@@ -265,10 +276,39 @@
   /* -------------------------------------------------------------------- */
   /* Shadow — every distinct value in use                                 */
   /* -------------------------------------------------------------------- */
-  --shadow-lift: 0 30px 60px -34px rgba(12, 17, 25, 0.45); /* the documented --shadow-lift */
-  --shadow-glow: 0 20px 46px -22px rgba(35, 174, 192, 0.9); /* hero CTA at rest */
-  --shadow-glow-hover: 0 26px 56px -20px rgba(35, 174, 192, 1); /* hero CTA on hover */
-  --shadow-pill: 0 20px 44px -20px rgba(8, 19, 31, 0.8); /* booking pill */
+  --shadow-lift: 0 30px 60px -34px color-mix(in srgb, var(--color-ink) 45%, transparent); /* the documented --shadow-lift, ink-based elevation, not an accent glow */
+  --shadow-pill: 0 20px 44px -20px color-mix(in srgb, var(--color-midnight) 80%, transparent); /* booking pill, midnight-based elevation, not an accent glow */
+
+  /* Glow system — a scalable teal-accent glow scale, XS through Hero, so
+     new UI reaches for a tier instead of a hand-tuned one-off rgba(). Each
+     tier's shape (blur/spread/alpha) was calibrated to the closest
+     pre-existing real usage in the codebase, not invented — see the
+     consuming components (Input/Textarea focus ring, ClientWall, ServiceOrbit)
+     for exact provenance. `color-mix()` derives every alpha variant from
+     --color-teal itself rather than duplicating its RGB triplet, per this
+     file's own documented alpha-variant policy above. */
+  --glow-xs: 0 0 0 3px color-mix(in srgb, var(--color-teal) 28%, transparent); /* focus rings */
+  --glow-sm: 0 0 10px color-mix(in srgb, var(--color-teal) 30%, transparent);
+  --glow-md: 0 0 12px 4px color-mix(in srgb, var(--color-teal) 40%, transparent);
+  --glow-lg: 0 0 18px color-mix(in srgb, var(--color-teal) 55%, transparent);
+  /* Hero tier — the CTA's own directional lift-glow, a different shape
+     (offset + negative spread) from the ambient XS–LG tiers above, kept as
+     its own pair rather than forced onto the ambient shape. */
+  --shadow-glow: 0 20px 46px -22px color-mix(in srgb, var(--color-teal) 90%, transparent); /* hero CTA at rest */
+  --shadow-glow-hover: 0 26px 56px -20px var(--color-teal); /* hero CTA on hover, full opacity */
+
+  /* FeatureChip's own 3-layer shadow recipe (ring + directional drop +
+     ambient glow) — structurally distinct from the ambient glow scale
+     above, so kept as its own dedicated tokens rather than forced onto it;
+     derived from --color-chip-accent instead of a raw rgb triplet. */
+  --shadow-chip-rest: 0 0 0 1px color-mix(in srgb, var(--color-chip-accent) 15%, transparent),
+    0 8px 18px color-mix(in srgb, var(--color-chip-accent) 18%, transparent),
+    0 0 18px color-mix(in srgb, var(--color-chip-accent) 15%, transparent);
+  --shadow-chip-hover: 0 0 0 1px color-mix(in srgb, var(--color-chip-accent-bright) 50%, transparent),
+    0 10px 24px color-mix(in srgb, var(--color-chip-accent) 28%, transparent),
+    0 0 26px color-mix(in srgb, var(--color-chip-accent) 30%, transparent);
+  --shadow-chip-active: 0 0 0 1px color-mix(in srgb, var(--color-chip-accent) 20%, transparent),
+    0 2px 6px color-mix(in srgb, var(--color-chip-accent) 15%, transparent);
 
   /* -------------------------------------------------------------------- */
   /* Container widths — maps to max-w-* utilities                         */
@@ -366,7 +406,7 @@
 
   /* The brand gradient — no themeable Tailwind namespace for gradient
      images, consumed as `bg-[image:var(--gradient-brand)]`. */
-  --gradient-brand: linear-gradient(100deg, #23aec0, #2589ce 60%, #22336f);
+  --gradient-brand: linear-gradient(100deg, var(--color-teal), var(--color-azure) 60%, var(--color-navy));
 }
 
 /* ==========================================================================
@@ -721,15 +761,15 @@
   color: color-mix(in srgb, var(--color-teal-bright) 100%, white calc(var(--item-t) * 100%));
   filter: grayscale(calc(1 - var(--item-t)))
     brightness(calc(1 + var(--item-t) * 0.35))
-    drop-shadow(0 0 calc(var(--item-t) * 10px) rgba(35, 174, 192, calc(var(--item-t) * 0.8)))
-    drop-shadow(0 0 calc(var(--item-t) * 34px) rgba(35, 174, 192, calc(var(--item-t) * 0.45)));
+    drop-shadow(0 0 calc(var(--item-t) * 10px) color-mix(in srgb, var(--color-teal) calc(var(--item-t) * 80%), transparent))
+    drop-shadow(0 0 calc(var(--item-t) * 34px) color-mix(in srgb, var(--color-teal) calc(var(--item-t) * 45%), transparent));
 }
 
 .orbit-item:hover .orbit-icon,
 .orbit-item:focus-visible .orbit-icon {
   color: white;
-  filter: grayscale(0) brightness(1.4) drop-shadow(0 0 14px rgba(35, 174, 192, 0.85))
-    drop-shadow(0 0 40px rgba(35, 174, 192, 0.55));
+  filter: grayscale(0) brightness(1.4) drop-shadow(0 0 14px color-mix(in srgb, var(--color-teal) 85%, transparent))
+    drop-shadow(0 0 40px color-mix(in srgb, var(--color-teal) 55%, transparent));
 }
 
 /* OrbitEnvironment (ServiceOrbit.tsx): shared ambient variants reused
@@ -830,21 +870,21 @@
   100% {
     transform: scale(1);
     opacity: var(--env-o);
-    filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.3));
+    filter: drop-shadow(0 0 3.5px color-mix(in srgb, var(--color-teal) 30%, transparent));
   }
   50% {
     transform: scale(1.1);
     opacity: calc(var(--env-o) * 1.35);
-    filter: drop-shadow(0 0 9px rgba(35, 174, 192, 0.8));
+    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--color-teal) 80%, transparent));
   }
   60% {
     transform: scale(1);
     opacity: var(--env-o);
-    filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.3));
+    filter: drop-shadow(0 0 3.5px color-mix(in srgb, var(--color-teal) 30%, transparent));
   }
 }
 .env-icon {
-  filter: drop-shadow(0 0 3.5px rgba(35, 174, 192, 0.28));
+  filter: drop-shadow(0 0 3.5px color-mix(in srgb, var(--color-teal) 28%, transparent));
 }
 
 /* Idle ring: very faint, slow breathing — "8-12% opacity... very faint
@@ -983,7 +1023,7 @@
     top: -60px;
     left: 12px;
     z-index: var(--z-skip-link);
-    transition: top 0.25s ease;
+    transition: top var(--duration-base) var(--ease-signature);
   }
 
   .skip-link:focus {
@@ -1011,7 +1051,11 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(160deg, rgba(34, 51, 111, 0.22), rgba(35, 174, 192, 0.14));
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--color-navy) 22%, transparent),
+      color-mix(in srgb, var(--color-teal) 14%, transparent)
+    );
     mix-blend-mode: multiply;
     pointer-events: none;
   }
@@ -1038,24 +1082,24 @@
     height: 8px;
     background: var(--color-teal);
     transition:
-      opacity 0.2s ease,
-      width 0.3s var(--ease-signature),
-      height 0.3s var(--ease-signature),
-      background 0.3s ease;
+      opacity var(--duration-fast) var(--ease-signature),
+      width var(--duration-base) var(--ease-signature),
+      height var(--duration-base) var(--ease-signature),
+      background var(--duration-base) var(--ease-signature);
   }
 
   .cursor-ring {
     width: 40px;
     height: 40px;
-    border: 1px solid rgba(35, 174, 192, 0.55);
+    border: 1px solid color-mix(in srgb, var(--color-teal) 55%, transparent);
     display: flex;
     align-items: center;
     justify-content: center;
     transition:
-      width 0.35s var(--ease-signature),
-      height 0.35s var(--ease-signature),
-      border-color 0.3s ease,
-      opacity 0.2s ease;
+      width var(--duration-base-plus) var(--ease-signature),
+      height var(--duration-base-plus) var(--ease-signature),
+      border-color var(--duration-base) var(--ease-signature),
+      opacity var(--duration-fast) var(--ease-signature);
   }
 
   .cursor-ring span {
@@ -1065,7 +1109,7 @@
     text-transform: uppercase;
     color: var(--color-ivory);
     opacity: 0;
-    transition: opacity 0.25s ease;
+    transition: opacity var(--duration-fast) var(--ease-signature);
     white-space: nowrap;
   }
 
@@ -1091,7 +1135,7 @@
     pointer-events: none;
     border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity var(--duration-slow) var(--ease-signature);
     background: radial-gradient(
       420px circle at var(--mx, 50%) var(--my, 50%),
       rgba(255, 255, 255, 0.14),
@@ -1123,7 +1167,7 @@
     background-position: left bottom;
     background-size: 100% 1px, 0% 1px;
     transition:
-      background-size 0.35s var(--ease-signature),
+      background-size var(--duration-base-plus) var(--ease-signature),
       color var(--duration-base) var(--ease-signature);
   }
 
@@ -1140,7 +1184,7 @@
     pointer-events: none;
     background: linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.16) 50%, transparent 58%);
     transform: translateX(-45%);
-    transition: transform 0.9s var(--ease-signature);
+    transition: transform var(--duration-reveal) var(--ease-signature);
     mix-blend-mode: soft-light;
   }
 
@@ -1155,7 +1199,7 @@
     position: relative;
     height: 100%;
     width: 100%;
-    transition: transform var(--duration-moderate-plus) ease-out;
+    transition: transform var(--duration-moderate-plus) var(--ease-signature);
   }
 
   [data-glare]:hover .media-zoom {
@@ -1169,7 +1213,7 @@
     background-image: linear-gradient(
       100deg,
       transparent 30%,
-      rgba(12, 17, 25, 0.05) 50%,
+      color-mix(in srgb, var(--color-ink) 5%, transparent) 50%,
       transparent 70%
     );
     background-size: 200% 100%;

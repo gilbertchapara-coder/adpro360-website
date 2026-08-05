@@ -94,10 +94,10 @@ function LogoItem({
           WebkitMaskComposite: "source-in",
         }}
         className={cn(
-          "ease-out relative grayscale opacity-55 transition-[filter,opacity,transform] duration-[var(--duration-moderate-plus)]",
+          "ease-signature relative grayscale opacity-55 transition-[filter,opacity,transform] duration-[var(--duration-moderate-plus)]",
           "hover:z-10 hover:-translate-y-1 hover:scale-[1.18] hover:opacity-100 hover:grayscale-0",
-          "hover:drop-shadow-[0_0_18px_rgba(35,174,192,0.55)]",
-          isRelated && "opacity-85 grayscale-[0.35] drop-shadow-[0_0_10px_rgba(35,174,192,0.3)]",
+          "hover:drop-shadow-[var(--glow-lg)]",
+          isRelated && "opacity-85 grayscale-[0.35] drop-shadow-[var(--glow-sm)]",
           isDimmed && "opacity-30"
         )}
       />

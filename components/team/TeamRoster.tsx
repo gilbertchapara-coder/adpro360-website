@@ -26,7 +26,7 @@ export function TeamRoster() {
               <div className="gap-split-gap grid grid-cols-1 lg:grid-cols-[.85fr_1.15fr]">
                 <Reveal>
                   <div className="bg-card-alt relative aspect-[3/4] overflow-hidden rounded-2xl">
-                    <div className="team-portrait-grade ease-out absolute inset-0 transition-transform duration-[var(--duration-moderate-plus)] hover:scale-[1.03]">
+                    <div className="team-portrait-grade ease-signature absolute inset-0 transition-transform duration-[var(--duration-moderate-plus)] hover:scale-[1.03]">
                       <MediaSlot
                         src={member.photo}
                         alt={`${member.name} — ${member.role}`}

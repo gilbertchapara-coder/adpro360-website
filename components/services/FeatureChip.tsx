@@ -24,19 +24,19 @@ export function FeatureChip({ label, className }: FeatureChipProps) {
     <span
       className={cn(
         "gap-s07 rounded-pill px-s13 py-s07 inline-flex items-center border text-xs font-semibold text-white",
-        "tracking-wide-1 ease-out border-[rgba(0,174,239,0.35)] bg-[linear-gradient(135deg,#133E8A_0%,#0D2F6B_50%,#081F47_100%)]",
-        "shadow-[0_0_0_1px_rgba(0,174,239,0.15),0_8px_18px_rgba(0,174,239,0.18),0_0_18px_rgba(0,174,239,0.15)]",
-        "transition-[transform,filter,border-color,box-shadow] duration-[250ms]",
-        "hover:-translate-y-0.5 hover:scale-[1.03] hover:border-[#66D9FF] hover:brightness-125",
-        "hover:shadow-[0_0_0_1px_rgba(102,217,255,0.5),0_10px_24px_rgba(0,174,239,0.28),0_0_26px_rgba(0,174,239,0.3)]",
+        "tracking-wide-1 ease-signature border-[color-mix(in_srgb,var(--color-chip-accent)_35%,transparent)] bg-[image:var(--gradient-chip)]",
+        "shadow-[var(--shadow-chip-rest)]",
+        "transition-[transform,filter,border-color,box-shadow] duration-[var(--duration-base)]",
+        "hover:-translate-y-0.5 hover:scale-[1.03] hover:border-[var(--color-chip-accent-bright)] hover:brightness-125",
+        "hover:shadow-[var(--shadow-chip-hover)]",
         "active:translate-y-0 active:scale-[0.98] active:brightness-100",
-        "active:shadow-[0_0_0_1px_rgba(0,174,239,0.2),0_2px_6px_rgba(0,174,239,0.15)]",
+        "active:shadow-[var(--shadow-chip-active)]",
         className
       )}
     >
       {Icon && (
         <Icon
-          className="size-[21px] flex-none text-[#DDF8FF]"
+          className="size-[21px] flex-none text-[color:var(--color-chip-icon)]"
           strokeWidth={2}
           aria-hidden="true"
         />

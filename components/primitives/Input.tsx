@@ -13,7 +13,7 @@ export const Input = forwardRef<
         // text-[16px] below `sm` — iOS Safari auto-zooms the viewport on
         // focus for any input under 16px, and this is the contact form.
         "border-ivory/18 bg-midnight/50 px-s15 py-s10 text-[16px] sm:text-md text-ivory ease-signature w-full rounded-sm border font-sans outline-none transition-[border-color,box-shadow] duration-[var(--duration-base)]",
-        "focus:border-teal focus:shadow-[0_0_0_3px_rgba(35,174,192,0.28)]",
+        "focus:border-teal focus:shadow-[var(--glow-xs)]",
         className
       )}
       {...props}
