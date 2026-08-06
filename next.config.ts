@@ -65,12 +65,21 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // No entries yet — this site has never been in production, so there are
-  // no real legacy URLs to redirect from. Add 301s here (source/destination/
-  // permanent: true) the moment a live URL needs to move, rather than
-  // inventing placeholder redirects now.
+  // A production audit found both adpro.co.zm and www.adpro.co.zm attached
+  // to this Vercel project and both serving identical content with no
+  // redirect between them — real duplicate-content exposure, not a
+  // hypothetical one. The bare domain is what's actually used everywhere
+  // else (metadataBase, every real reference to the site), so www redirects
+  // to it, permanently, preserving the path.
   async redirects() {
-    return [];
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.adpro.co.zm" }],
+        destination: "https://adpro.co.zm/:path*",
+        permanent: true,
+      },
+    ];
   },
 };
 

@@ -5,7 +5,7 @@ import { insights } from "@/lib/content";
 // other route instead of computed on every request.
 export const dynamic = "force-static";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adpro.co.zm";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adpro.co.zm";
 
 function escapeXml(value: string): string {
   return value

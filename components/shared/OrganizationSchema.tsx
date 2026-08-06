@@ -1,7 +1,7 @@
 import { site } from "@/lib/content";
 import { safeJsonLd } from "@/lib/utils/safeJsonLd";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adpro.co.zm";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adpro.co.zm";
 
 /**
  * Sitewide LocalBusiness structured data — real facts from lib/content/site.ts

@@ -17,7 +17,7 @@ import { OrganizationSchema } from "@/components/shared/OrganizationSchema";
 // Confirmed production domain. NEXT_PUBLIC_SITE_URL still overrides it (e.g.
 // a staging deploy), but the fallback is now the real launch domain rather
 // than a placeholder.
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adpro.co.zm";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adpro.co.zm";
 
 // next/font self-hosts and inlines the @font-face at build time — no
 // layout shift, no external request. Instrument Serif was retired when the

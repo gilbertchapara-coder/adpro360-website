@@ -1,7 +1,7 @@
 import type { Insight } from "@/lib/content";
 import { safeJsonLd } from "@/lib/utils/safeJsonLd";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adpro.co.zm";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adpro.co.zm";
 
 /**
  * BlogPosting + BreadcrumbList for one article. `datePublished` comes from

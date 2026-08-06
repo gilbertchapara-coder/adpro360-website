@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { insights } from "@/lib/content";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.adpro.co.zm";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://adpro.co.zm";
 
 /**
  * /dev/tokens is deliberately excluded — internal QA reference, already
