@@ -5,9 +5,14 @@ import NextLink from "next/link";
 
 /**
  * Persistent booking CTA, bottom-right, on every route except Contact
- * (redundant there). The source also hid it while the mobile menu was
- * open — unnecessary here since the menu overlay's z-index already sits
- * above this pill, occluding it automatically.
+ * (redundant there) and Home (Hero already has its own "Book a
+ * consultation" CTA in view, and this pill's fixed bottom-right position
+ * collided with Hero's own "Scroll" indicator/showreel card in that same
+ * corner — confirmed live, not just reasoned: only ~19px clear at a
+ * 1920x743 viewport, visually touching at shorter common laptop heights).
+ * The source also hid it while the mobile menu was open — unnecessary
+ * here since the menu overlay's z-index already sits above this pill,
+ * occluding it automatically.
  *
  * Icon-only below `nav` (900px): the pill's own right-inset
  * (--spacing-inset-pill-x, 16-32px) is smaller than the page content's
@@ -23,7 +28,7 @@ import NextLink from "next/link";
  * or resizing every long-form text column across the site. */
 export function BookingPill() {
   const pathname = usePathname();
-  if (pathname === "/contact") return null;
+  if (pathname === "/contact" || pathname === "/") return null;
 
   return (
     <NextLink
