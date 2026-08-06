@@ -47,12 +47,14 @@ const REVEAL_FLASH_TRANSITION = { duration: 0.85, ease: EASE_IN_OUT_CUBIC, times
  * giving it a head start on buffering before it needs to be seen ("preload
  * the next hero" per the brief) without keeping all 4 warm at once.
  *
- * `prefers-reduced-motion`: HeroSequenceProvider locks phase at "reading"
- * on chapter 0 and never advances, so this only ever renders chapter 0's
- * poster as a plain static image, no video, no crossfade timer.
+ * `staticHero` (prefers-reduced-motion, or below the `nav` breakpoint —
+ * see hero-sequence-context.tsx): HeroSequenceProvider locks phase at
+ * "reading" on chapter 0 and never advances, so this only ever renders
+ * chapter 0's poster as a plain static image, no video, no crossfade timer,
+ * no video byte ever fetched.
  */
 export function HeroObjectSequence() {
-  const { active, index, phase, playbackRate, reducedMotion } = useHeroSequence();
+  const { active, index, phase, playbackRate, staticHero } = useHeroSequence();
 
   const intensityAnimate = useMemo(() => {
     if (phase === "reveal") {
@@ -72,7 +74,7 @@ export function HeroObjectSequence() {
     [phase]
   );
 
-  if (reducedMotion) {
+  if (staticHero) {
     return (
       // eslint-disable-next-line @next/next/no-img-element -- static fallback, no next/image `fill` parent sizing needed here
       <img

@@ -6,6 +6,24 @@ import { heroObjects, type HeroObject } from "@/lib/content";
 
 export type HeroPhase = "intro" | "reveal" | "reading" | "transition";
 
+/** Mirrors `--breakpoint-nav` (globals.css) — the one place the video
+ * sequence needs it as a JS boolean rather than a CSS variant, since it's
+ * gating a timer/video-fetch decision, not a class. Listens for resize
+ * across the breakpoint (e.g. rotating a tablet) rather than reading once. */
+function useIsBelowNav() {
+  const [isBelowNav, setIsBelowNav] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 899px)");
+    setIsBelowNav(mq.matches);
+    const handler = (event: MediaQueryListEvent) => setIsBelowNav(event.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
+  return isBelowNav;
+}
+
 type HeroSequenceValue = {
   active: HeroObject;
   index: number;
@@ -15,7 +33,15 @@ type HeroSequenceValue = {
    * HeroObjectSequence to drive `video.playbackRate` directly — Framer
    * Motion has no opinion on media playback rate, so this is plain state. */
   playbackRate: number;
-  reducedMotion: boolean;
+  /** True for prefers-reduced-motion OR below the `nav` breakpoint (900px).
+   * Below `nav` isn't about motion preference — it's the same fix already
+   * applied to CustomCursor (pointer:fine gate) and ServiceOrbit
+   * (visibility gate): real mobile CPU/bandwidth cost (4 autoplaying
+   * videos, a scroll-linked parallax transform, a crossfade timer loop
+   * that used to keep running indefinitely) with no size exception, unlike
+   * the showreel card, which was deliberately made click-to-play for
+   * exactly this reason. */
+  staticHero: boolean;
 };
 
 const HeroSequenceContext = createContext<HeroSequenceValue | null>(null);
@@ -60,20 +86,22 @@ const READING_RATE = 0.3;
  * throttled to READING_RATE, text fully visible and still) -> transition
  * (text exits first, then the video crossfades to the next chapter).
  *
- * `prefers-reduced-motion`: locks on chapter 0, phase "reading" (headline +
- * body fully visible, no animation, no timers) — the same end state
- * reduced-motion users already got before this rewrite, just reached
- * without a timer.
+ * `prefers-reduced-motion` (or below `nav`, see `staticHero` above): locks
+ * on chapter 0, phase "reading" (headline + body fully visible, no
+ * animation, no timers) — the same end state reduced-motion users already
+ * got before this rewrite, just reached without a timer.
  */
 export function HeroSequenceProvider({ children }: { children: React.ReactNode }) {
   const reducedMotion = useReducedMotion();
+  const isMobile = useIsBelowNav();
+  const staticHero = Boolean(reducedMotion) || isMobile;
   const [index, setIndex] = useState(0);
   const [phase, setPhase] = useState<HeroPhase>("intro");
   const [playbackRate, setPlaybackRate] = useState(1);
   const timers = useRef<number[]>([]);
 
   useEffect(() => {
-    if (reducedMotion) {
+    if (staticHero) {
       setPhase("reading");
       setPlaybackRate(1);
       return;
@@ -100,14 +128,14 @@ export function HeroSequenceProvider({ children }: { children: React.ReactNode }
       timers.current.forEach(window.clearTimeout);
       timers.current = [];
     };
-  }, [index, reducedMotion]);
+  }, [index, staticHero]);
 
   const value: HeroSequenceValue = {
     active: heroObjects[index],
     index,
     phase,
     playbackRate,
-    reducedMotion: Boolean(reducedMotion),
+    staticHero,
   };
 
   return (
